@@ -26,7 +26,7 @@ class Game:
 
         # Initialize pygame
         pygame.init()
-
+        pygame.mixer.init()
         # Initialize member variables
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
@@ -38,7 +38,7 @@ class Game:
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Gallaga Clone')
         pygame.mouse.set_visible(0)
-
+        ##self.background_audio = pygame.mixer.Sound('moonlight.wav')
 
     ## Loads and scales object/game image
     #  @author: Kristi
@@ -61,6 +61,15 @@ class Game:
 
         return img.convert()
 
+    ## Load audio:
+    def load_audio(self, filename):
+        #print ('hello\\')
+        #filename = os.path.join('assets', 'audio', filename)
+        sound = pygame.mixer.Sound('assets\\audios\\'+filename)
+        return sound
+    ## play sounds
+    def play_sound(self, sound):
+        sound.play()
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -80,6 +89,9 @@ class Game:
         self.screen.blit(background, (0, 0))
         pygame.display.flip()
 
+        # load audio:
+        background_audio = self.load_audio('moonlight.wav')
+        #background_audio = pygame.mixer.music.load('moonlight.wav')
         # Initialize Starting Actors
         player = Player(player_img)
         enemies = [Enemy(enemy_img)]
@@ -90,6 +102,7 @@ class Game:
         while player.alive and not self.quit:
 
             self.clock.tick(const.FPS)
+            self.play_sound(background_audio)
 
             # Call event queue
             pygame.event.pump()
