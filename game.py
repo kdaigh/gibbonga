@@ -12,6 +12,7 @@ import random
 from player import Player
 from enemy import Enemy
 from shot import Shot
+from health import Health
 from pygame.locals import *
 import constants as const
 
@@ -72,6 +73,10 @@ class Game:
         player_img = self.load_image('player_ship.png', 45, 65)
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
+        health_img_3 = self.load_image('hearts_3.png', 20, 20)
+        health_img_2 = self.load_image('hearts_2.png', 20, 20)
+        health_img_1 = self.load_image('hearts_1.png', 20, 20)
+        health_img_0 = self.load_image('hearts_0.png', 20, 20)
 
         # Load Background
         background = pygame.Surface(const.SCREENRECT.size)
@@ -83,8 +88,10 @@ class Game:
         # Initialize Starting Actors
         player = Player(player_img)
         enemies = [Enemy(enemy_img)]
+        health = [Health(health_img_3, player)]
         shots = []
         actors = []
+
 
         # Game loop
         while player.alive and not self.quit:
@@ -107,7 +114,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + enemies + shots:
+            for actor in [player] + enemies + shots + health:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -127,13 +134,27 @@ class Game:
             player.reloading = shoot
 
             # Create new alien
+
             if not int(random.random() * const.ENEMY_ODDS):
                 enemies.append(Enemy(enemy_img))
 
             # Check for collisions
             for enemy in enemies:
                 if enemy.collision_check(player):
-                    player.alive = False
+###                    ############HEREHERHEHERHERHERHEHR
+                    if (player.health == 0):
+                        player.alive = False
+                    elif (player.health > 0):
+                        enemies.remove(enemy)
+                        player.health = player.health - 1
+                        if(player.health == 3):
+                            health.delete()
+                            health = [Health(health_img_2, player)]
+                        elif(player.health == 2):
+                            health.delete()
+                            health = [Health(health_img_1, player)]
+
+
 
                 for shot in shots:
                     if shot.collision_check(enemy):
