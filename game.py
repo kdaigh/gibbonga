@@ -92,6 +92,7 @@ class Game:
         # load audio:
         shot_audio = self.load_audio('shot.wav')
         explode_audio = self.load_audio('explosion.wav')
+        enemy_audio = self.load_audio('enemy.wav')
         # Should be music not sound
         #main_menu_audio = self.load_audio('main_menu.mp3')
         #game_over_audio = self.load_audio('gameover.wav')
@@ -164,6 +165,7 @@ class Game:
 
                 for shot in shots:
                     if shot.collision_check(enemy):
+                        enemy_audio.play()
                         enemies.remove(enemy)
 
             # Draw actors
