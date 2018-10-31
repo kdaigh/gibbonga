@@ -9,8 +9,8 @@ import pygame
 from actor import Actor
 from player import Player
 
-## @class Shot
-#  @brief Implements Actor base class as Shot object
+## @class Health
+#  @brief Implements Actor base class as Health object
 class Health(Actor):
 
     ## Constructor
