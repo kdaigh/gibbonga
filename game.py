@@ -62,7 +62,6 @@ class Game:
 
         return img.convert()
 
-
     # def update_health(self, player):
     #     if player.health == 0:
     #         player.alive = False
@@ -72,27 +71,6 @@ class Game:
 
 
 
-    ## Load audio:
-    def load_audio(self, filename):
-        #print ('hello\\')
-        #filename = os.path.join('assets', 'audio', filename)
-        sound = pygame.mixer.Sound('assets\\audios\\'+filename)
-        return sound
-    ## play sounds
-    def play_sound(self, sound):
-        sound.play()
-
-    ## Load audio:
-    def load_audio(self, filename):
-        #print ('hello\\')
-        #filename = os.path.join('assets', 'audio', filename)
-        sound = pygame.mixer.Sound('assets\\audios\\'+filename)
-        return sound
-
-
-
-    def stop_sound(self, sound):
-        sound.stop()
     ## Runs the game session
     #  @pre: Game components have been initialized
     #  @post: Game has been exited properly
@@ -115,26 +93,6 @@ class Game:
         self.screen.blit(background, (0, 0))
         pygame.display.flip()
 
-
-        # load audio:
-        background_audio = self.load_audio('moonlight.wav')
-        #background_audio = pygame.mixer.music.load('moonlight.wav')
-
-        # load audio:
-        shot_audio = self.load_audio('shot.wav')
-        explode_audio = self.load_audio('explosion.wav')
-        enemy_audio = self.load_audio('enemy.wav')
-        # Should be music not sound
-        #main_menu_audio = self.load_audio('main_menu.mp3')
-        #game_over_audio = self.load_audio('gameover.wav')
-        hit_audio = self.load_audio('hit.wav')
-
-        # Load and play background music
-        pygame.mixer.music.load('assets\\audios\\background.wav')
-        pygame.mixer.music.play(20)
-
-        #background_audio = pygame.mixer.music.load('moonlight.wav')
-
         # Initialize Starting Actors
         player = Player(player_img)
         health = Health(health_img_3, player)
@@ -147,7 +105,6 @@ class Game:
         while player.alive and not self.quit:
 
             self.clock.tick(const.FPS)
-
 
             # Call event queue
             pygame.event.pump()
@@ -163,7 +120,6 @@ class Game:
             if pygame.event.peek(QUIT) or exit:
                 self.quit = True
                 break
-
 
             # Update actors
             for actor in [player] + [health] + enemies + shots:
@@ -183,9 +139,7 @@ class Game:
             # Create new shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
-                shot_audio.play()
             player.reloading = shoot
-
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
@@ -206,14 +160,12 @@ class Game:
 
                 for shot in shots:
                     if shot.collision_check(enemy):
-                        enemy_audio.play()
                         enemies.remove(enemy)
 
             # Draw actors
             for actor in [player] + [health] + enemies + shots:
                 render = actor.draw(self.screen)
                 actors.append(render)
-
 
             # Update actors
             pygame.display.update(actors)
