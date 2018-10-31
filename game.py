@@ -32,6 +32,7 @@ class Game:
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
+        self.enemy_count = 0
 
         # Setup Game Window
         icon = pygame.image.load('assets/images/player_ship.png')
@@ -143,7 +144,9 @@ class Game:
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
-                enemies.append(Enemy(enemy_img))
+                self.enemy_count += 1
+                if(self.enemy_count < const.MAX_ENEMIES):
+                    enemies.append(Enemy(enemy_img))
 
             # Check for collisions
             for enemy in enemies:
@@ -157,6 +160,9 @@ class Game:
                         health.image = health_img_1
                     elif player.health == 2:
                         health.image = health_img_2
+
+                if enemy.rect.y >= const.SCREENRECT.height - 30:
+                    enemies.remove(enemy)
 
                 for shot in shots:
                     if shot.collision_check(enemy):

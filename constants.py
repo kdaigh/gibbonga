@@ -9,7 +9,7 @@ from pygame.locals import *
 
 
 # Frames Per Second
-FPS = 40
+FPS = 60
 
 # Window Size
 SCREENRECT = Rect(0, 0, 640, 480)
@@ -21,6 +21,7 @@ PLAYER_SPEED = 12
 ENEMY_SPEED = 4
 ENEMY_ODDS = 48 #was 24
 ENEMY_SIZE = (26, 26)
+MAX_ENEMIES = 300
 
 # Shots
 MAX_SHOTS = 5

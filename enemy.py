@@ -23,9 +23,9 @@ class Enemy(Actor):
         self.down = True
         self.rect.y = const.SCREENRECT.top
         self.rect.x = const.SCREENRECT.left
-        self.speed = random.randrange(5, 7)
+        self.speed = random.randrange(2, 4)
         self.ychange = random.randrange(1,4)
-        divide_list = [40, 50, 60]
+        divide_list = [50, 60, 80]
         self.number = random.sample(divide_list, 1)
         self.count = 0
          # For now we are not letting enemies reload
