@@ -144,7 +144,9 @@ class Game:
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
+                #counting the number of enemies that were spawned
                 self.enemy_count += 1
+                #only appends until the number of max is reached
                 if(self.enemy_count < const.MAX_ENEMIES):
                     enemies.append(Enemy(enemy_img))
 
@@ -161,6 +163,7 @@ class Game:
                     elif player.health == 2:
                         health.image = health_img_2
 
+                #enemies go away once they hit the bottom
                 if enemy.rect.y >= const.SCREENRECT.height - 30:
                     enemies.remove(enemy)
 
