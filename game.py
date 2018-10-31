@@ -82,9 +82,9 @@ class Game:
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
         health_img_3 = self.load_image('hearts_3.png', 60, 20)
-        health_img_2 = self.load_image('hearts_2.png', 40, 20)
-        health_img_1 = self.load_image('hearts_1.png', 20, 20)
-        health_img_0 = self.load_image('hearts_0.png', 20, 20)
+        health_img_2 = self.load_image('hearts_2.png', 60, 20)
+        health_img_1 = self.load_image('hearts_1.png', 60, 20)
+        health_img_0 = self.load_image('hearts_0.png', 60, 20)
 
         # Load Background
         background = pygame.Surface(const.SCREENRECT.size)
