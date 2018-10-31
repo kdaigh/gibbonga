@@ -71,7 +71,7 @@ class Game:
     #     elif player.health == 2:
 
 
-||||||| merged common ancestors
+
     ## Load audio:
     def load_audio(self, filename):
         #print ('hello\\')
@@ -81,14 +81,14 @@ class Game:
     ## play sounds
     def play_sound(self, sound):
         sound.play()
-=======
+
     ## Load audio:
     def load_audio(self, filename):
         #print ('hello\\')
         #filename = os.path.join('assets', 'audio', filename)
         sound = pygame.mixer.Sound('assets\\audios\\'+filename)
         return sound
->>>>>>> ayahAudio
+
 
 
     def stop_sound(self, sound):
@@ -115,12 +115,11 @@ class Game:
         self.screen.blit(background, (0, 0))
         pygame.display.flip()
 
-<<<<<<< HEAD
-||||||| merged common ancestors
+
         # load audio:
         background_audio = self.load_audio('moonlight.wav')
         #background_audio = pygame.mixer.music.load('moonlight.wav')
-=======
+
         # load audio:
         shot_audio = self.load_audio('shot.wav')
         explode_audio = self.load_audio('explosion.wav')
@@ -135,7 +134,7 @@ class Game:
         pygame.mixer.music.play(20)
 
         #background_audio = pygame.mixer.music.load('moonlight.wav')
->>>>>>> ayahAudio
+
         # Initialize Starting Actors
         player = Player(player_img)
         health = Health(health_img_3, player)
