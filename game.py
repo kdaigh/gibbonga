@@ -12,7 +12,6 @@ import random
 from player import Player
 from enemy import Enemy
 from shot import Shot
-from health import Health
 from pygame.locals import *
 import constants as const
 
@@ -62,6 +61,14 @@ class Game:
 
         return img.convert()
 
+    # def update_health(self, player):
+    #     if player.health == 0:
+    #         player.alive = False
+    #     elif player.health == 1:
+    #
+    #     elif player.health == 2:
+
+
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -73,10 +80,13 @@ class Game:
         player_img = self.load_image('player_ship.png', 45, 65)
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
-        health_img_3 = self.load_image('hearts_3.png', 20, 20)
-        health_img_2 = self.load_image('hearts_2.png', 20, 20)
+<<<<<<< HEAD
+        health_img_3 = self.load_image('hearts_3.png', 60, 20)
+        health_img_2 = self.load_image('hearts_2.png', 40, 20)
         health_img_1 = self.load_image('hearts_1.png', 20, 20)
         health_img_0 = self.load_image('hearts_0.png', 20, 20)
+=======
+>>>>>>> 5286c1c2e0d2933b8657a1446bbc23dd332b9600
 
         # Load Background
         background = pygame.Surface(const.SCREENRECT.size)
@@ -87,11 +97,10 @@ class Game:
 
         # Initialize Starting Actors
         player = Player(player_img)
+        health = Health(health_img_3, player)
         enemies = [Enemy(enemy_img)]
-        health = [Health(health_img_3, player)]
         shots = []
         actors = []
-
 
         # Game loop
         while player.alive and not self.quit:
@@ -114,7 +123,11 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + enemies + shots + health:
+<<<<<<< HEAD
+            for actor in [player] + [health] + enemies + shots:
+=======
+            for actor in [player] + enemies + shots:
+>>>>>>> 5286c1c2e0d2933b8657a1446bbc23dd332b9600
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -134,34 +147,31 @@ class Game:
             player.reloading = shoot
 
             # Create new alien
-
             if not int(random.random() * const.ENEMY_ODDS):
                 enemies.append(Enemy(enemy_img))
 
             # Check for collisions
             for enemy in enemies:
                 if enemy.collision_check(player):
-###                    ############HEREHERHEHERHERHERHEHR
-                    if (player.health == 0):
+<<<<<<< HEAD
+                    player.health -= 1
+                    if player.health == 0:
+                        health.image = health_img_0
                         player.alive = False
-                    elif (player.health > 0):
-                        enemies.remove(enemy)
-                        player.health = player.health - 1
-                        if(player.health == 3):
-                            health.delete()
-                            health = [Health(health_img_2, player)]
-                        elif(player.health == 2):
-                            health.delete()
-                            health = [Health(health_img_1, player)]
-
-
+                    elif player.health == 1:
+                        health.image = health_img_1
+                    elif player.health == 2:
+                        health.image = health_img_2
+=======
+                    player.alive = False
+>>>>>>> 5286c1c2e0d2933b8657a1446bbc23dd332b9600
 
                 for shot in shots:
                     if shot.collision_check(enemy):
                         enemies.remove(enemy)
 
             # Draw actors
-            for actor in [player] + enemies + shots:
+            for actor in [player] + [health] + enemies + shots:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
