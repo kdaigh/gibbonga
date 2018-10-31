@@ -18,7 +18,10 @@ class Player(Actor):
     def __init__(self, image):
         Actor.__init__(self, image)
         self.alive = True
+<<<<<<< HEAD
         self.health = 3
+=======
+>>>>>>> 5286c1c2e0d2933b8657a1446bbc23dd332b9600
         self.reloading = False
         self.rect.centerx = const.SCREENRECT.centerx
         self.rect.bottom = const.SCREENRECT.bottom
