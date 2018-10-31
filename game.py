@@ -148,6 +148,7 @@ class Game:
             # Check for collisions
             for enemy in enemies:
                 if enemy.collision_check(player):
+                    enemies.remove(enemy)
                     player.health -= 1
                     if player.health == 0:
                         health.image = health_img_0
