@@ -62,7 +62,7 @@ class Game:
 
         return img.convert()
 
-<<<<<<< HEAD
+
     # def update_health(self, player):
     #     if player.health == 0:
     #         player.alive = False
