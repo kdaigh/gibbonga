@@ -109,7 +109,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + enemies + shots:
+            for actor in [player] + enemies + shots + enemy_shots:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
