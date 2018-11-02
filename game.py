@@ -159,6 +159,7 @@ class Game:
             # Create new shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
+                shot_audio.play()
             player.reloading = shoot
 
             # Create new alien
@@ -191,6 +192,7 @@ class Game:
 
                 for shot in shots:
                     if shot.collision_check(enemy):
+                        enemy_audio.play()
                         enemies.remove(enemy)
 
             # Draw actors
