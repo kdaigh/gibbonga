@@ -180,10 +180,11 @@ class Game:
                         player.alive = False
                         self.gameover = True
                     elif player.health == 1:
+                        hit_audio.play()
                         health.image = health_img_1
                     elif player.health == 2:
+                        hit_audio.play()
                         health.image = health_img_2
-                    hit_audio.play()
 
                 #enemies go away once they hit the bottom
                 if enemy.rect.y >= const.SCREENRECT.height - 30:
