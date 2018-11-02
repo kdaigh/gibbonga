@@ -27,12 +27,14 @@ class Game:
 
         # Initialize pygame
         pygame.init()
+        pygame.mixer.init()
 
         # Initialize member variables
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 0
+        self.gameover = False
 
         # Setup Game Window
         icon = pygame.image.load('assets/images/player_ship.png')
@@ -70,7 +72,11 @@ class Game:
     #
     #     elif player.health == 2:
 
+    ## Load audios
+    def load_audio(self, filename):
 
+        sound = pygame.mixer.Sound('assets/audios/'+filename)
+        return sound
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -93,6 +99,19 @@ class Game:
             background.blit(background_img, (x, 0))
         self.screen.blit(background, (0, 0))
         pygame.display.flip()
+
+        # load audio:
+        shot_audio = self.load_audio('shot.wav')
+        explode_audio = self.load_audio('explosion.wav')
+        enemy_audio = self.load_audio('enemy.wav')
+        gameover_audio = self.load_audio('gameover.wav')
+        hit_audio = self.load_audio('hit.wav')
+        # Should be music not sound
+        #main_menu_audio = self.load_audio('main_menu.mp3')
+
+        # Load and play background music
+        pygame.mixer.music.load('assets/audios/background.wav')
+        pygame.mixer.music.play(20)
 
         # Initialize Starting Actors
         player = Player(player_img)
@@ -158,9 +177,12 @@ class Game:
                     if player.health == 0:
                         health.image = health_img_0
                         player.alive = False
+                        self.gameover = True
                     elif player.health == 1:
+                        hit_audio.play()
                         health.image = health_img_1
                     elif player.health == 2:
+                        hit_audio.play()
                         health.image = health_img_2
 
                 #enemies go away once they hit the bottom
@@ -181,6 +203,9 @@ class Game:
             actors = []
 
         # Exit game and system
+        if self.gameover:
+            gameover_audio.play()
+        pygame.time.delay(2000)
         pygame.display.quit()
         pygame.quit()
         sys.exit()
