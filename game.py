@@ -14,6 +14,7 @@ from enemy import Enemy
 from shot import Shot
 from pygame.locals import *
 import constants as const
+from enemy_shot import enemy_shot
 
 
 ## @class Game
@@ -84,6 +85,7 @@ class Game:
         player = Player(player_img)
         enemies = [Enemy(enemy_img)]
         shots = []
+        enemy_shots = []
         actors = []
 
         # Game loop
@@ -117,6 +119,10 @@ class Game:
                 if shot.rect.top <= 0:
                     shots.remove(shot)
 
+            for shot in enemy_shots:
+                if shot.rect.bottom <= 640:
+                    enemy_shots.remove(shot)
+
             # Move the player
             x_dir = right - left
             player.move(x_dir)
@@ -125,6 +131,11 @@ class Game:
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
             player.reloading = shoot
+
+            # Make enemies shoot
+            for x in enemies:
+                if random.randint(1,20) == 3:
+                    enemy_shots.append(enemy_shot(shot_img, x))
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
@@ -139,8 +150,12 @@ class Game:
                     if shot.collision_check(enemy):
                         enemies.remove(enemy)
 
+            for y in enemy_shots:
+                if y.collision_check(player):
+                    player.alive = False
+
             # Draw actors
-            for actor in [player] + enemies + shots:
+            for actor in [player] + enemies + shots + enemy_shots:
                 render = actor.draw(self.screen)
                 actors.append(render)
 

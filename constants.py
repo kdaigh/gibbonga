@@ -9,7 +9,7 @@ from pygame.locals import *
 
 
 # Frames Per Second
-FPS = 40
+FPS = 60
 
 # Window Size
 SCREENRECT = Rect(0, 0, 640, 480)
