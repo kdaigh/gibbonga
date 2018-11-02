@@ -34,6 +34,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 0
+        self.gameover = False
 
         # Setup Game Window
         icon = pygame.image.load('assets/images/player_ship.png')
@@ -103,10 +104,10 @@ class Game:
         shot_audio = self.load_audio('shot.wav')
         explode_audio = self.load_audio('explosion.wav')
         enemy_audio = self.load_audio('enemy.wav')
+        gameover_audio = self.load_audio('gameover.wav')
+        hit_audio = self.load_audio('hit.wav')
         # Should be music not sound
         #main_menu_audio = self.load_audio('main_menu.mp3')
-        #game_over_audio = self.load_audio('gameover.wav')
-        hit_audio = self.load_audio('hit.wav')
 
         # Load and play background music
         pygame.mixer.music.load('assets/audios/background.wav')
@@ -177,10 +178,12 @@ class Game:
                     if player.health == 0:
                         health.image = health_img_0
                         player.alive = False
+                        self.gameover = True
                     elif player.health == 1:
                         health.image = health_img_1
                     elif player.health == 2:
                         health.image = health_img_2
+                    hit_audio.play()
 
                 #enemies go away once they hit the bottom
                 if enemy.rect.y >= const.SCREENRECT.height - 30:
@@ -201,6 +204,9 @@ class Game:
             actors = []
 
         # Exit game and system
+        if self.gameover:
+            gameover_audio.play()
+        pygame.time.delay(2000)
         pygame.display.quit()
         pygame.quit()
         sys.exit()
