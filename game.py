@@ -12,9 +12,9 @@ import random
 from player import Player
 from enemy import Enemy
 from shot import Shot
+from health import Health
 from pygame.locals import *
 import constants as const
-from enemy_shot import Enemy_shot
 
 
 ## @class Game
@@ -27,11 +27,14 @@ class Game:
 
         # Initialize pygame
         pygame.init()
+        pygame.mixer.init()
 
         # Initialize member variables
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
+        self.enemy_count = 0
+        self.gameover = False
 
         # Setup Game Window
         icon = pygame.image.load('assets/images/player_ship.png')
@@ -62,6 +65,18 @@ class Game:
 
         return img.convert()
 
+    # def update_health(self, player):
+    #     if player.health == 0:
+    #         player.alive = False
+    #     elif player.health == 1:
+    #
+    #     elif player.health == 2:
+
+    ## Load audios
+    def load_audio(self, filename):
+
+        sound = pygame.mixer.Sound('assets/audios/'+filename)
+        return sound
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -73,7 +88,10 @@ class Game:
         player_img = self.load_image('player_ship.png', 45, 65)
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
-        enemy_shot_img = self.load_image('missile2.png', 10, 24)
+        health_img_3 = self.load_image('hearts_3.png', 60, 20)
+        health_img_2 = self.load_image('hearts_2.png', 60, 20)
+        health_img_1 = self.load_image('hearts_1.png', 60, 20)
+        health_img_0 = self.load_image('hearts_0.png', 60, 20)
 
         # Load Background
         background = pygame.Surface(const.SCREENRECT.size)
@@ -82,12 +100,26 @@ class Game:
         self.screen.blit(background, (0, 0))
         pygame.display.flip()
 
+        # load audio:
+        shot_audio = self.load_audio('shot.wav')
+        explode_audio = self.load_audio('explosion.wav')
+        enemy_audio = self.load_audio('enemy.wav')
+        gameover_audio = self.load_audio('gameover.wav')
+        hit_audio = self.load_audio('hit.wav')
+        # Should be music not sound
+        #main_menu_audio = self.load_audio('main_menu.mp3')
+
+        # Load and play background music
+        pygame.mixer.music.load('assets/audios/background.wav')
+        pygame.mixer.music.play(20)
+
         # Initialize Starting Actors
         player = Player(player_img)
+        health = Health(health_img_3, player)
         enemies = [Enemy(enemy_img)]
         shots = []
-        enemy_shots = []
         actors = []
+
 
         # Game loop
         while player.alive and not self.quit:
@@ -110,7 +142,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + enemies + shots + enemy_shots:
+            for actor in [player] + [health] + enemies + shots:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -120,10 +152,6 @@ class Game:
                 if shot.rect.top <= 0:
                     shots.remove(shot)
 
-            for shot in enemy_shots:
-                if shot.rect.top <= 480:
-                    enemy_shots.remove(shot)
-
             # Move the player
             x_dir = right - left
             player.move(x_dir)
@@ -131,39 +159,44 @@ class Game:
             # Create new shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
+                shot_audio.play()
             player.reloading = shoot
-
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
-                enemies.append(Enemy(enemy_img))
-
-            # Make enemies shoot
-            #i = 0
-            #for x in enemies:
-                #shooting = False
-                #if not int(random.random() * const.ENEMY_SHOT_ODDS): #and shooting == False:
-                    #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
-                    #shooting = True
-                #i = i + 1
-            enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[0]))
-
+                #counting the number of enemies that were spawned
+                self.enemy_count += 1
+                #only appends until the number of max is reached
+                if(self.enemy_count < const.MAX_ENEMIES):
+                    enemies.append(Enemy(enemy_img))
 
             # Check for collisions
             for enemy in enemies:
                 if enemy.collision_check(player):
-                    player.alive = False
+                    enemies.remove(enemy)
+                    player.health -= 1
+                    if player.health == 0:
+                        health.image = health_img_0
+                        player.alive = False
+                        self.gameover = True
+                    elif player.health == 1:
+                        hit_audio.play()
+                        health.image = health_img_1
+                    elif player.health == 2:
+                        hit_audio.play()
+                        health.image = health_img_2
+
+                #enemies go away once they hit the bottom
+                if enemy.rect.y >= const.SCREENRECT.height - 30:
+                    enemies.remove(enemy)
 
                 for shot in shots:
                     if shot.collision_check(enemy):
+                        enemy_audio.play()
                         enemies.remove(enemy)
 
-            for y in enemy_shots:
-                if y.collision_check(player):
-                    player.alive = False
-
             # Draw actors
-            for actor in [player] + enemies + shots + enemy_shots:
+            for actor in [player] + [health] + enemies + shots:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
@@ -172,6 +205,9 @@ class Game:
             actors = []
 
         # Exit game and system
+        if self.gameover:
+            gameover_audio.play()
+        pygame.time.delay(2000)
         pygame.display.quit()
         pygame.quit()
         sys.exit()
