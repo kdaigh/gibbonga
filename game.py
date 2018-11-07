@@ -14,7 +14,7 @@ from enemy import Enemy
 from shot import Shot
 from pygame.locals import *
 import constants as const
-from enemy_shot import enemy_shot
+from enemy_shot import Enemy_shot
 
 
 ## @class Game
@@ -73,6 +73,7 @@ class Game:
         player_img = self.load_image('player_ship.png', 45, 65)
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
+        enemy_shot_img = self.load_image('missile2.png', 10, 24)
 
         # Load Background
         background = pygame.Surface(const.SCREENRECT.size)
@@ -120,7 +121,7 @@ class Game:
                     shots.remove(shot)
 
             for shot in enemy_shots:
-                if shot.rect.bottom <= 640:
+                if shot.rect.top <= 480:
                     enemy_shots.remove(shot)
 
             # Move the player
@@ -132,14 +133,21 @@ class Game:
                 shots.append(Shot(shot_img, player))
             player.reloading = shoot
 
-            # Make enemies shoot
-            for x in enemies:
-                if random.randint(1,20) == 3:
-                    enemy_shots.append(enemy_shot(shot_img, x))
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
                 enemies.append(Enemy(enemy_img))
+
+            # Make enemies shoot
+            #i = 0
+            #for x in enemies:
+                #shooting = False
+                #if not int(random.random() * const.ENEMY_SHOT_ODDS): #and shooting == False:
+                    #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
+                    #shooting = True
+                #i = i + 1
+            enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[0]))
+
 
             # Check for collisions
             for enemy in enemies:
