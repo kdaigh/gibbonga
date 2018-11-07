@@ -18,20 +18,38 @@ class Enemy(Actor):
     #  @param image, surface object with Enemy image
     def __init__(self, image):
         Actor.__init__(self, image)
-        self.direction = random.randrange(-1, 2) * const.ENEMY_SPEED
-        if self.direction > 0:
-            self.rect.left = const.SCREENRECT.left
-        else:
-            self.rect.right = const.SCREENRECT.right
-        # For now we are not letting enemies reload
+        #this is starting it from the left or from the right
+        self.right = True
+        self.down = True
+        self.rect.y = const.SCREENRECT.top
+        self.rect.x = const.SCREENRECT.left
+        self.speed = random.randrange(2, 4)
+        self.ychange = random.randrange(1,4)
+        divide_list = [50, 60, 80]
+        self.number = random.sample(divide_list, 1)
+        self.count = 0
+         # For now we are not letting enemies reload
 
     ## Function to update the enemy
     def update(self):
-        self.rect[0] = self.rect[0] + self.direction
-        if not const.SCREENRECT.contains(self.rect):
-            self.direction = - self.direction
-            self.rect.top = self.rect.bottom + 10
-            self.rect = self.rect.clamp(const.SCREENRECT)
+        self.count += 1
+        if self.right == True:
+            if(self.rect.x == 614):
+                self.right = False
+            self.rect.x += self.speed
+        elif self.right == False:
+            if(self.rect.x == 0):
+                self.right = True
+            self.rect.x -= self.speed
+        if(self.down == False):
+            self.rect.y -= self.ychange
+            if(self.count%20 == 0):
+                self.down = True
+        elif(self.down == True):
+            self.rect.y += self.ychange
+            if(self.count%self.number[0] == 0):
+                self.down = False
+        self.rect = self.rect.clamp(const.SCREENRECT)
 
     ## Checks for collisions
     #  @param actor, check collisions with this actor
