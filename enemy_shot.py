@@ -28,9 +28,9 @@ class Enemy_shot(Actor):
     # Updates the shot object
     def update(self):
         #self.rect[0] = self.rect[0] + self.rect.bottom
-        while self.rect.bottom < 415:
-            self.rect.bottom= self.rect.bottom + 10
-            print (self.rect)
+        #while self.rect.bottom < 415:
+        self.rect.bottom= self.rect.bottom + 10
+            #print (self.rect)
     ## Checks for collisions
     #  @param actor, check collisions with this actor
     #  @returns bool, True if collision is detected; false, otherwise
