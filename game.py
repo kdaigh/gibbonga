@@ -28,6 +28,7 @@ class Game:
 
         # Initialize pygame
         pygame.init()
+        pygame.mixer.init()
 
         # Initialize member variables
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
@@ -138,7 +139,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + enemies + shots + enemy_shots:
+            for actor in [player] + [health] + enemies + shots + enemy_shots:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -208,7 +209,7 @@ class Game:
             #        player.alive = False
 
             # Draw actors
-            for actor in [player] + enemies + shots + enemy_shots:
+            for actor in [player] + [health] + enemies + shots + enemy_shots:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
