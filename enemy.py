@@ -34,7 +34,8 @@ class Enemy(Actor):
     def update(self):
         self.count += 1
         if self.right == True:
-            if(self.rect.x == 614):
+            #if(self.rect.x == 614):
+            if(self.rect.x == (const.SCREENRECT.right - 26)):
                 self.right = False
             self.rect.x += self.speed
         elif self.right == False:
