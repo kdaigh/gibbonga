@@ -9,11 +9,11 @@ from pygame.locals import *
 
 
 # Frames Per Second
-FPS = 1000
+FPS = 60
 
 # Window Size
 #SCREENRECT = Rect(0, 0, 640, 480)
-SCREENRECT = Rect(0, 0, 1000, 650)
+SCREENRECT = Rect(0, 0, 600, 650)
 
 # Player Speed
 PLAYER_SPEED = 12
