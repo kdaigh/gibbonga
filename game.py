@@ -178,6 +178,21 @@ class Game:
                     enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
                 i = i + 1
 
+            for y in enemy_shots:
+                if y.collision_check(player):
+                    enemy_shots.remove(y)
+                    player.health -= 1
+                    if player.health == 0:
+                        health.image = health_img_0
+                        player.alive = False
+                        self.gameover = True
+                    elif player.health == 1:
+                        hit_audio.play()
+                        health.image = health_img_1
+                    elif player.health == 2:
+                        hit_audio.play()
+                        health.image = health_img_2
+
             # Check for collisions
             for enemy in enemies:
                 if enemy.collision_check(player):
@@ -203,10 +218,6 @@ class Game:
                     if shot.collision_check(enemy):
                         enemy_audio.play()
                         enemies.remove(enemy)
-
-            #for y in enemy_shots:
-            #    if y.collision_check(player):
-            #        player.alive = False
 
             # Draw actors
             for actor in [player] + [health] + enemies + shots + enemy_shots:
