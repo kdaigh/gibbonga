@@ -121,7 +121,7 @@ class Game:
                     shots.remove(shot)
 
             for shot in enemy_shots:
-                if shot.rect.top <= 480:
+                if shot.rect.bottom >= const.SCREENRECT.height:
                     enemy_shots.remove(shot)
 
             # Move the player
@@ -133,21 +133,16 @@ class Game:
                 shots.append(Shot(shot_img, player))
             player.reloading = shoot
 
-
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
                 enemies.append(Enemy(enemy_img))
 
             # Make enemies shoot
-            #i = 0
-            #for x in enemies:
-                #shooting = False
-                #if not int(random.random() * const.ENEMY_SHOT_ODDS): #and shooting == False:
-                    #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
-                    #shooting = True
-                #i = i + 1
-            enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[0]))
-
+            i = 0
+            for x in enemies:
+                if not int(random.random() * const.ENEMY_SHOT_ODDS):
+                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
+                i = i + 1
 
             # Check for collisions
             for enemy in enemies:

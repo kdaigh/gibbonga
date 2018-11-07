@@ -20,17 +20,13 @@ class Enemy_shot(Actor):
     def __init__(self, image, enemy):
         Actor.__init__(self, image)
         self.rect.centerx = enemy.rect.centerx
-        self.rect.bottom = enemy.rect.bottom + 12
-
-        #print (self.rect)
+        self.rect.top = enemy.rect.top - 5
 
 
     # Updates the shot object
     def update(self):
-        #self.rect[0] = self.rect[0] + self.rect.bottom
-        while self.rect.bottom < 415:
-            self.rect.bottom= self.rect.bottom + 10
-            print (self.rect)
+        self.rect.bottom = self.rect.bottom + 10
+
     ## Checks for collisions
     #  @param actor, check collisions with this actor
     #  @returns bool, True if collision is detected; false, otherwise
