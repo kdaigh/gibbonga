@@ -1,4 +1,4 @@
-# Project 3: Gallaga Clone
+# Project 4: Gallaga Clone
 
 Gallaga arcade game clone using Python and Pygame.
 
@@ -38,7 +38,7 @@ See also the list of [contributors](https://github.com/amalkhatib90/Project03/gr
 
 ## Versioning
 
-This is an prototype version that will be further developed in a separate repository.
+This is a final version for a prototype developed in a separate repository.
 
 ## Acknowledgments
 
