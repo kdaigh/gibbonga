@@ -20,7 +20,7 @@ class Enemy_shot(Actor):
     def __init__(self, image, enemy):
         Actor.__init__(self, image)
         self.rect.centerx = enemy.rect.centerx
-        self.rect.top = enemy.rect.top - 5
+        self.rect.bottom = enemy.rect.bottom + 12
 
 
     # Updates the shot object

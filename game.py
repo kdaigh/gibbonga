@@ -35,6 +35,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 0
+        self.enemy_shot_count = 0
         self.gameover = False
 
         # Setup Game Window
@@ -175,7 +176,9 @@ class Game:
             i = 0
             for x in enemies:
                 if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
+                    if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
+                        self.enemy_shot_count += 1
+                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[i]))
                 i = i + 1
 
             for y in enemy_shots:
