@@ -37,6 +37,7 @@ class Game:
         self.enemy_count = 0
         self.enemy_shot_count = 0
         self.gameover = False
+        self.score = 0
 
         # Setup Game Window
         icon = pygame.image.load('assets/images/player_ship.png')
@@ -73,6 +74,15 @@ class Game:
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
 
+    def keep_score(self, surface, text, text_size, x, y):
+        #setting font
+        font = pygame.font.SysFont("arial", text_size)
+        #rendering text
+        score_surface = font.render(text, True, (255, 255, 255))
+        #blitting to screen
+        surface.blit(score_surface, (x, y))
+        #trying to update
+        pygame.display.update()
 
 
     ## Runs the game session
@@ -126,6 +136,9 @@ class Game:
 
             # Call event queue
             pygame.event.pump()
+
+            # calling keep score
+            self.keep_score(self.screen, "Score: " + str(self.score), 20, 20, 20)
 
             # Process input
             key_presses = pygame.key.get_pressed()
@@ -221,6 +234,7 @@ class Game:
                     if shot.collision_check(enemy):
                         enemy_audio.play()
                         enemies.remove(enemy)
+                        self.score += 1
 
             # Draw actors
             for actor in [player] + [health] + enemies + shots + enemy_shots:
