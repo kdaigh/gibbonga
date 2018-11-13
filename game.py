@@ -16,6 +16,7 @@ from health import Health
 from pygame.locals import *
 import constants as const
 from enemy_shot import Enemy_shot
+from recover_health import Recover_health
 
 
 ## @class Game
@@ -37,6 +38,7 @@ class Game:
         self.enemy_count = 0
         self.enemy_shot_count = 0
         self.gameover = False
+        self.score = 0
 
         # Setup Game Window
         icon = pygame.image.load('assets/images/player_ship.png')
@@ -73,6 +75,15 @@ class Game:
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
 
+    def keep_score(self, surface, text, text_size, x, y):
+        #setting font
+        font = pygame.font.SysFont("arial", text_size)
+        #rendering text
+        score_surface = font.render(text, True, (255, 255, 255))
+        #blitting to screen
+        surface.blit(score_surface, (x, y))
+        #trying to update
+        pygame.display.update()
 
 
     ## Runs the game session
@@ -90,6 +101,7 @@ class Game:
         health_img_1 = self.load_image('hearts_1.png', 60, 20)
         health_img_0 = self.load_image('hearts_0.png', 60, 20)
         enemy_shot_img = self.load_image('missile2.png', 10, 24)
+        recover_health_img = self.load_image('hearts_1.png', 60, 20)
 
         # Load Background
         background = pygame.Surface(const.SCREENRECT.size)
@@ -114,6 +126,7 @@ class Game:
         # Initialize Starting Actors
         player = Player(player_img)
         health = Health(health_img_3, player)
+        recover_health = []
         enemies = [Enemy(enemy_img)]
         shots = []
         enemy_shots = []
@@ -126,6 +139,9 @@ class Game:
 
             # Call event queue
             pygame.event.pump()
+
+            # calling keep score
+            self.keep_score(self.screen, "Score: " + str(self.score), 20, 20, 20)
 
             # Process input
             key_presses = pygame.key.get_pressed()
@@ -140,7 +156,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + [health] + enemies + shots + enemy_shots:
+            for actor in [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -171,6 +187,27 @@ class Game:
                 #only appends until the number of max is reached
                 if(self.enemy_count < const.MAX_ENEMIES):
                     enemies.append(Enemy(enemy_img))
+
+            #spawning health recovery objects on screen
+            if player.health < 3:
+                if random.randint(1, 201) == 1:
+                    recover_health.append(Recover_health(recover_health_img))
+
+            #player collision with health recovery objects
+            for z in recover_health:
+                if player.health < 3:
+                    if z.pickup(player):
+                        recover_health.remove(z)
+                        player.health += 1
+                        if player.health == 3:
+                            health.image = health_img_3
+                        elif player.health == 2:
+                            health.image = health_img_2
+
+            #remove health recovery object as it moves off screen
+            for z in recover_health:
+                if z.rect.bottom >= const.SCREENRECT.height:
+                    recover_health.remove(z)
 
             # Make enemies shoot
             i = 0
@@ -221,9 +258,10 @@ class Game:
                     if shot.collision_check(enemy):
                         enemy_audio.play()
                         enemies.remove(enemy)
+                        self.score += 1
 
             # Draw actors
-            for actor in [player] + [health] + enemies + shots + enemy_shots:
+            for actor in [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
