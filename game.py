@@ -190,7 +190,7 @@ class Game:
 
             #spawning health recovery objects on screen
             if player.health < 3:
-                if random.randint(1, 101) == 1:
+                if random.randint(1, 201) == 1:
                     recover_health.append(Recover_health(recover_health_img))
 
             #player collision with health recovery objects
@@ -199,11 +199,15 @@ class Game:
                     if z.pickup(player):
                         recover_health.remove(z)
                         player.health += 1
-                        print(player.health)
                         if player.health == 3:
                             health.image = health_img_3
                         elif player.health == 2:
                             health.image = health_img_2
+
+            #remove health recovery object as it moves off screen
+            for z in recover_health:
+                if z.rect.bottom >= const.SCREENRECT.height:
+                    recover_health.remove(z)
 
             # Make enemies shoot
             i = 0
@@ -218,7 +222,6 @@ class Game:
                 if y.collision_check(player):
                     enemy_shots.remove(y)
                     player.health -= 1
-                    print(player.health)
                     if player.health == 0:
                         health.image = health_img_0
                         player.alive = False
