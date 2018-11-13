@@ -3,7 +3,7 @@ import pygame
 import random
 import constants as const
 
-class Player(Actor):
+class Recover_health(Actor):
 
     ## Constructor
     #  @param image, surface object with Player image
