@@ -195,13 +195,15 @@ class Game:
 
             #player collision with health recovery objects
             for z in recover_health:
-                if z.pickup(player):
-                    recover_health.remove(z)
-                    player.health += 1
-                    if player.health == 2:
-                        health.image = health_img_3
-                    elif player.health == 1:
-                        health.image = health_img_2
+                if player.health < 3:
+                    if z.pickup(player):
+                        recover_health.remove(z)
+                        player.health += 1
+                        print(player.health)
+                        if player.health == 3:
+                            health.image = health_img_3
+                        elif player.health == 2:
+                            health.image = health_img_2
 
             # Make enemies shoot
             i = 0
@@ -216,6 +218,7 @@ class Game:
                 if y.collision_check(player):
                     enemy_shots.remove(y)
                     player.health -= 1
+                    print(player.health)
                     if player.health == 0:
                         health.image = health_img_0
                         player.alive = False
