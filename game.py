@@ -258,6 +258,7 @@ class Game:
                 for shot in shots:
                     if shot.collision_check(enemy):
                         enemy_audio.play()
+                        shots.remove(shot)
                         enemies.remove(enemy)
                         self.score += 1
 
