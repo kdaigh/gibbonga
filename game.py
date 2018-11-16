@@ -215,7 +215,8 @@ class Game:
             if not int(random.random() * const.ENEMY_SHOT_ODDS):
                 self.enemy_shot_count += 1
                 if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                    #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
             #i = i + 1
 
             for y in enemy_shots:
