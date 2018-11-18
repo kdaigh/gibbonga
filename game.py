@@ -9,6 +9,7 @@ import pygame
 import os.path
 import sys
 import random
+from text import Text
 from player import Player
 from enemy import Enemy
 from shot import Shot

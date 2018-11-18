@@ -9,7 +9,7 @@
 
 ## @class Screen
 #  @brief Defines Screen base class
-class Screen():
+class Screen:
 
     ## TBD: Constructor
     def __init__(self):
