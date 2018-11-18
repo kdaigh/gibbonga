@@ -35,7 +35,7 @@ class Game:
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
-        self.enemy_count = 0
+        self.enemy_count = 1
         self.enemy_shot_count = 0
         self.gameover = False
         self.score = 0
@@ -182,10 +182,10 @@ class Game:
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
-                #counting the number of enemies that were spawned
-                self.enemy_count += 1
                 #only appends until the number of max is reached
                 if(self.enemy_count < const.MAX_ENEMIES):
+                    #counting the number of enemies that were spawned
+                    self.enemy_count += 1
                     enemies.append(Enemy(enemy_img))
 
             #spawning health recovery objects on screen
