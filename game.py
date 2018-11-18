@@ -35,7 +35,7 @@ class Game:
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
-        self.enemy_count = 0
+        self.enemy_count = 1
         self.enemy_shot_count = 0
         self.gameover = False
         self.score = 0
@@ -183,10 +183,22 @@ class Game:
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
                 #counting the number of enemies that were spawned
-                self.enemy_count += 1
+                #self.enemy_count += 1
                 #only appends until the number of max is reached
+                ##CHECK
+                ##make sure the enemy array is incrementing
+                check = len(enemies)
                 if(self.enemy_count < const.MAX_ENEMIES):
                     enemies.append(Enemy(enemy_img))
+                    self.enemy_count += 1
+                    ##CHECK
+                    if(len(enemies) == (check+1)):
+                        print("Enemy list increments when enemy spawned: TRUE")
+                    else :
+                        print("Enemy list increments when enemy spawned: FALSE")
+                    #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                    if(self.enemy_count > const.MAX_ENEMIES):
+                        print("Enemies stop spawning when max count reached: FALSE")
 
             #spawning health recovery objects on screen
             if player.health < 3:
@@ -210,14 +222,10 @@ class Game:
                     recover_health.remove(z)
 
             # Make enemies shoot
-            #i = 0
-            #for x in enemies:
             if not int(random.random() * const.ENEMY_SHOT_ODDS):
                 self.enemy_shot_count += 1
                 if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                    #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
                     enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
-            #i = i + 1
 
             for y in enemy_shots:
                 if y.collision_check(player):
@@ -270,6 +278,13 @@ class Game:
             # Update actors
             pygame.display.update(actors)
             actors = []
+
+        #CHECKS
+        ###CHECK TO SEE IF MAX ENEMIES REACHED
+        if(self.enemy_count == 5):
+            print("Enemies stop spawning when max count reached: TRUE")
+        else :
+            print("Enemies stop spawning when max count reached: FALSE")
 
         # Exit game and system
         if self.gameover:
