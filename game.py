@@ -49,6 +49,47 @@ class Game:
         pygame.display.set_caption('Gallaga Clone')
         #pygame.mouse.set_visible(0)
 
+        self.start_menu()
+
+    def start_menu(self):
+        # Load black background
+        self.screen.fill(const.BLACK)
+        pygame.display.update()
+
+        # Load text
+        start_game = Text("START GAME", const.WHITE, (300, 100), self.run)
+        test_game = Text("TEST GAME", const.WHITE, (300, 200), self.dummy_function)
+        quit_game = Text("QUIT GAME", const.WHITE, (300, 300), self.quit_game)
+
+        # Draw text on screen
+        options = []
+        for text in [start_game] + [test_game] + [quit_game]:
+            render = text.draw(self.screen)
+            options.append(render)
+
+        # Draw screen
+        pygame.display.update(options)
+
+        exit_menu = False
+        while not exit_menu:
+            for event in pygame.event.get():
+                if pygame.event.peek(QUIT):
+                    self.quit_game()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    for text in [start_game] + [test_game] + [quit_game]:
+                        if text.rect.collidepoint(pos):
+                            exit_menu = True
+                            text.action()
+
+    def dummy_function(self):
+        pass
+
+    def quit_game(self):
+        pygame.time.delay(2000)
+        pygame.display.quit()
+        pygame.quit()
+        sys.exit()
 
     ## Loads and scales object/game image
     #  @author: Kristi
@@ -71,7 +112,7 @@ class Game:
 
         return img.convert()
 
-        #Load audios
+    #Load audios
     def load_audio(self, filename):
 
         sound = pygame.mixer.Sound('assets/audios/'+filename)
@@ -92,21 +133,6 @@ class Game:
     #  @pre: Game components have been initialized
     #  @post: Game has been exited properly
     def run(self):
-
-        game_screen = Screen()
-        game_screen.load_screen()
-
-        while not game_screen.exit:
-            for event in pygame.event.get():
-                if pygame.event.peek(QUIT):
-                    self.quit = True
-                    quit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    pos = pygame.mouse.get_pos()
-                    for text in game_screen.texts:
-                        if text.rect.collidepoint(pos):
-                            text.action()
-
 
         # Load Images
         background_img = pygame.image.load('assets/images/space.jpg')
@@ -291,7 +317,5 @@ class Game:
         # Exit game and system
         if self.gameover:
             gameover_audio.play()
-        pygame.time.delay(2000)
-        pygame.display.quit()
-        pygame.quit()
-        sys.exit()
+        self.quit_game()
+
