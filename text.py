@@ -14,15 +14,13 @@ import constants as const
 class Text:
 
     ## TBD: Constructor
-    def __init__(self, text, color, action):
+    def __init__(self, text, color, location, action):
         self.text = text
         self.color = color
         self.action = action
         self.font = pygame.font.Font(const.TEXT_FONT, const.TEXT_SIZE)
         self.surface = self.font.render(self.text, True, self.color)
-        self.rect = self.surface.get_rect()
-        self.rect.centerx = const.SCREENRECT.centerx
-        self.rect.top = const.SCREENRECT.top
+        self.rect = self.surface.get_rect(center=location)
 
     def draw(self, screen):
 

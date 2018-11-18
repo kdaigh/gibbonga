@@ -10,6 +10,7 @@ import os.path
 import sys
 import random
 from text import Text
+from screen import Screen
 from player import Player
 from enemy import Enemy
 from shot import Shot
@@ -46,7 +47,7 @@ class Game:
         icon = pygame.transform.scale(icon, (60, 80))
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Gallaga Clone')
-        pygame.mouse.set_visible(0)
+        #pygame.mouse.set_visible(0)
 
 
     ## Loads and scales object/game image
@@ -91,6 +92,21 @@ class Game:
     #  @pre: Game components have been initialized
     #  @post: Game has been exited properly
     def run(self):
+
+        game_screen = Screen()
+        game_screen.load_screen()
+
+        while not game_screen.exit:
+            for event in pygame.event.get():
+                if pygame.event.peek(QUIT):
+                    self.quit = True
+                    quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    for text in game_screen.texts:
+                        if text.rect.collidepoint(pos):
+                            text.action()
+
 
         # Load Images
         background_img = pygame.image.load('assets/images/space.jpg')
