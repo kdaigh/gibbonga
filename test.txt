@@ -1,0 +1,17 @@
+enemy list decrements when enemy:
+  is hit
+  hits bottom of screen
+enemy list increments when enemy spawned
+enemy shot list increments when shot fired
+enemies stop spawning when MAX_ENEMIES is reached
+enemy does not leave boundaries
+
+health list decrements when hit by enemy shot
+health list increments when get power up
+correct heart image is shown when health list changes
+game ends when health = 0
+
+player moves right
+player moves left
+player shoots
+player does not leave boundaries
