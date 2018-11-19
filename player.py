@@ -24,8 +24,8 @@ class Player(Actor):
         self.rect.bottom = const.SCREENRECT.bottom
 
     ## Moves player in a specific direction
-    #  @pre: Player object exists
-    #  @param: direction, coordinates that represent desired move
-    #  @post: Player location has been updated
+    #  @pre Player object exists
+    #  @param direction, coordinates that represent desired move
+    #  @post Player location has been updated
     def move(self, direction):
         self.rect = self.rect.move(direction * const.PLAYER_SPEED, 0).clamp(const.SCREENRECT)

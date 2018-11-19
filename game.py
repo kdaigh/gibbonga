@@ -58,7 +58,7 @@ class Game:
 
         # Load text
         start_game = Text("START GAME", const.WHITE, (300, 100), self.run)
-        test_game = Text("TEST GAME", const.WHITE, (300, 200), self.dummy_function)
+        test_game = Text("TEST GAME", const.WHITE, (300, 200))
         quit_game = Text("QUIT GAME", const.WHITE, (300, 300), self.quit_game)
 
         # Draw text on screen
@@ -81,9 +81,6 @@ class Game:
                         if text.rect.collidepoint(pos):
                             exit_menu = True
                             text.action()
-
-    def dummy_function(self):
-        pass
 
     def quit_game(self):
         pygame.time.delay(2000)
@@ -163,7 +160,7 @@ class Game:
         shots = []
         enemy_shots = []
         actors = []
-        score_text = Text("Score 0", const.WHITE, (50, 25), self.dummy_function)
+        score_text = Text("Score 0", const.WHITE, (50, 25))
 
         # Game loop
         while player.alive and not self.quit:
