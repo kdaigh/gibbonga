@@ -162,7 +162,7 @@ class Game:
         shots = []
         enemy_shots = []
         actors = []
-        score_text = Text("Score 0", const.WHITE, (50, 25), self.dummy_function)
+        score_text = Text("Score 0", const.WHITE, (50, 25))
 
         # Game loop
         while player.alive and not self.quit:
