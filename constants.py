@@ -7,9 +7,16 @@
 
 from pygame.locals import *
 
-
 # Frames Per Second
 FPS = 60
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+
+# Game Menu
+TEXT_FONT = "assets/fonts/arcadeclassic.ttf"
+TEXT_SIZE = 20
 
 # Window Size
 #SCREENRECT = Rect(0, 0, 640, 480)
