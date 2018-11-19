@@ -259,11 +259,12 @@ class Game:
             # Make enemies shoot
             #i = 0
             #for x in enemies:
-            if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                    self.enemy_shot_count += 1
-                    #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
-                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
+            if(len(enemies) > 0):
+                if not int(random.random() * const.ENEMY_SHOT_ODDS):
+                    if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
+                        self.enemy_shot_count += 1
+                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
             #i = i + 1
 
             for y in enemy_shots:
