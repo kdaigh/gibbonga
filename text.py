@@ -8,10 +8,11 @@
 # TBD: Import statements
 import pygame
 import constants as const
+from actor import Actor
 
 ## @class Text
 #  @brief Defines Text base class
-class Text:
+class Text(Actor):
 
     ## TBD: Constructor
     def __init__(self, text, color, location, action):
@@ -20,25 +21,19 @@ class Text:
         self.action = action
         self.font = pygame.font.Font(const.TEXT_FONT, const.TEXT_SIZE)
         self.surface = self.font.render(self.text, True, self.color)
+        Actor.__init__(self, self.surface)
         self.rect = self.surface.get_rect(center=location)
 
+    def update_text(self, text):
+        self.text = text
+
+    def update(self):
+        self.surface = self.font.render(self.text, True, self.color)
+        Actor.image = self.surface
+
     def draw(self, screen):
-
-        # TBD: Initiate hover function
-        # self.hover()
-
         render = screen.blit(self.surface, self.rect)
         return render;
 
-    ## TBD hover functionality
-    def hover(self):
-        pass
-
-    # Add in game
-    # def click():
-    #     pos = pygame.mouse.get_pos()
-    #     for button in buttons:
-    #         if buton.rect.collidepoint(pos):
-    #             button.on_click()
     def on_click(self):
         self.action()
