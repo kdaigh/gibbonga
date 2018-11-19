@@ -38,7 +38,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 1
-        self.enemy_shot_count = 0
+        self.enemy_shot_count = 1
         self.gameover = False
         self.score = 0
 
@@ -114,23 +114,8 @@ class Game:
 
     #Load audios
     def load_audio(self, filename):
-
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
-
-    #load and update score
-    def keep_score(self, bg, text, text_size, x, y):
-        #setting font
-        font = pygame.font.SysFont("arial", text_size)
-        #rendering text
-        score_surface = font.render(text, True, (255, 255, 255))
-        #blitting to screen
-        self.screen.blit(score_surface, (x, y))
-        #trying to update
-        pygame.display.update()
-        #blit the background to update score correctly
-        self.screen.blit(bg, (0, 0))
-
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -178,6 +163,7 @@ class Game:
         shots = []
         enemy_shots = []
         actors = []
+        score_text = Text("Score 0", const.WHITE, (50, 25), self.dummy_function)
 
         # Game loop
         while player.alive and not self.quit:
@@ -186,9 +172,6 @@ class Game:
 
             # Call event queue
             pygame.event.pump()
-
-            # calling keep score
-            self.keep_score(background, "Score: " + str(self.score), 20, 20, 20)
 
             # Process input
             key_presses = pygame.key.get_pressed()
@@ -203,7 +186,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + [health] + enemies + shots + enemy_shots + recover_health:
+            for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -220,6 +203,9 @@ class Game:
             # Move the player
             x_dir = right - left
             player.move(x_dir)
+
+            # Update text
+            score_text.update_text("Score " + str(self.score))
 
             # Create new shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
@@ -272,10 +258,15 @@ class Game:
                     recover_health.remove(z)
 
             # Make enemies shoot
-            if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                self.enemy_shot_count += 1
-                if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
+            #i = 0
+            #for x in enemies:
+            if(len(enemies) > 0):
+                if not int(random.random() * const.ENEMY_SHOT_ODDS):
+                    if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
+                        self.enemy_shot_count += 1
+                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
+            #i = i + 1
 
             for y in enemy_shots:
                 if y.collision_check(player):
@@ -321,7 +312,7 @@ class Game:
                         self.score += 1
 
             # Draw actors
-            for actor in [player] + [health] + enemies + shots + enemy_shots + recover_health:
+            for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
