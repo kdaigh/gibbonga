@@ -18,22 +18,22 @@ class Text(Actor):
     def __init__(self, text, color, location, action):
         self.text = text
         self.color = color
+        self.location = location
         self.action = action
         self.font = pygame.font.Font(const.TEXT_FONT, const.TEXT_SIZE)
-        self.surface = self.font.render(self.text, True, self.color)
-        Actor.__init__(self, self.surface)
-        self.rect = self.surface.get_rect(center=location)
+        image = self.font.render(self.text, True, self.color)
+        Actor.__init__(self, image)
+        self.rect = self.image.get_rect(center=self.location)
 
     def update_text(self, text):
         self.text = text
+        self.image = self.font.render(self.text, True, self.color)
+        self.rect = self.image.get_rect(center=self.location)
 
-    def update(self):
-        self.surface = self.font.render(self.text, True, self.color)
-        Actor.image = self.surface
-
-    def draw(self, screen):
-        render = screen.blit(self.surface, self.rect)
-        return render;
+    # def draw(self, screen):
+    #     self.surface = self.font.render(self.text, True, self.color)
+    #     render = screen.blit(self.surface, self.rect)
+    #     return render;
 
     def on_click(self):
         self.action()
