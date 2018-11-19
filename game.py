@@ -18,6 +18,7 @@ from pygame.locals import *
 import constants as const
 from enemy_shot import Enemy_shot
 from recover_health import Recover_health
+import setup
 
 
 ## @class Game
@@ -108,7 +109,8 @@ class Game:
     def run(self):
 
         # Load Images
-        background_img = pygame.image.load('assets/images/space.jpg')
+        # background_img = pygame.image.load('assets/images/space.jpg')
+        background_img = setup.IMAGES['space']
         player_img = self.load_image('player_ship.png', 45, 65)
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
