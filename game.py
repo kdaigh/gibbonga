@@ -51,6 +51,8 @@ class Game:
 
         self.start_menu()
 
+    ## Loads a start screen with clickable options
+    #  @pre Game components have been initialized
     def start_menu(self):
         # Load black background
         self.screen.fill(const.BLACK)
@@ -82,34 +84,21 @@ class Game:
                             exit_menu = True
                             text.action()
 
-    def quit_game(self):
-        pygame.time.delay(2000)
-        pygame.display.quit()
-        pygame.quit()
-        sys.exit()
-
     ## Loads and scales object/game image
-    #  @author: Kristi
     #  @pre: image exists
     #  @param: filename, name of image to be loaded
     #  @param: width, desired width of image
     #  @param: height, desired height of image
     #  @returns: Surface object
     def load_image(self, filename, file_width, file_height):
-
-        # Load image
         filename = os.path.join('assets/images', filename)
         img = pygame.image.load(filename)
-
-        # Scale image
         img = pygame.transform.scale(img, (file_width, file_height))
-
-        # Make transparent
-        img.set_colorkey(img.get_at((0,0)), RLEACCEL)
-
+        img.set_colorkey(img.get_at((0, 0)), RLEACCEL)
         return img.convert()
 
-    #Load audios
+    ## Loads audio
+    #  @param filename, name of audio to be loaded
     def load_audio(self, filename):
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
@@ -336,3 +325,12 @@ class Game:
         if self.gameover:
             gameover_audio.play()
         self.quit_game()
+
+    ## Quits the game
+    #  @pre A game session is running
+    #  @post All components have been properly suspended
+    def quit_game(self):
+        pygame.time.delay(2000)
+        pygame.display.quit()
+        pygame.quit()
+        sys.exit()
