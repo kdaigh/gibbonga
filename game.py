@@ -132,6 +132,11 @@ class Game:
         enemy_shots = []
         actors = []
 
+        #Moved the initial starting postion out of the loop and controlling back and forth
+        x_dir = const.SCREENRECT.centerx
+        hit_right = True
+        hit_left = False
+
         # Game loop
         while player.alive and not self.quit:
 
@@ -170,12 +175,25 @@ class Game:
                 if shot.rect.bottom >= const.SCREENRECT.height:
                     enemy_shots.remove(shot)
 
-            # Move the player
-            x_dir = right - left
-            player.move(x_dir)
+            # Move the player, x_dir initialization moved outside while loop with a starting value of the center.
+            #Uses hit_right and hit_left to tell if the edges have been hit.
+            if(player.rect.x < 50):
+                hit_left = True
+                hit_right = False
+            if(player.rect.x > 500):
+                hit_left = False
+                hit_right = True
+
+            if(hit_right):
+                x_dir = - 1
+                player.move(x_dir)
+            elif(hit_left):
+                x_dir = + 1
+                player.move(x_dir)
+
 
             # Create new shots
-            if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
+            if not player.reloading and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
                 shot_audio.play()
             player.reloading = shoot
@@ -222,10 +240,11 @@ class Game:
                     recover_health.remove(z)
 
             # Make enemies shoot
-            if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                self.enemy_shot_count += 1
-                if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                    enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
+            if len(enemies) > 0:
+                if not int(random.random() * const.ENEMY_SHOT_ODDS):
+                    self.enemy_shot_count += 1
+                    if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
+                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies) - 1)]))
 
             for y in enemy_shots:
                 if y.collision_check(player):
