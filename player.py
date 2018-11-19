@@ -7,6 +7,7 @@
 
 from actor import Actor
 import constants as const
+import setup
 
 
 ## @class Player
@@ -15,8 +16,8 @@ class Player(Actor):
 
     ## Constructor
     #  @param image, surface object with Player image
-    def __init__(self, image):
-        Actor.__init__(self, image)
+    def __init__(self):
+        Actor.__init__(self, setup.IMAGES['player_ship'])
         self.alive = True
         self.health = 3
         self.reloading = False

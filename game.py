@@ -111,7 +111,7 @@ class Game:
         # Load Images
         # background_img = pygame.image.load('assets/images/space.jpg')
         background_img = setup.IMAGES['space']
-        player_img = self.load_image('player_ship.png', 45, 65)
+        #player_img = self.load_image('player_ship.png', 45, 65)
         enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
         shot_img = self.load_image('missile1.png', 10, 24)
         health_img_3 = self.load_image('hearts_3.png', 60, 20)
@@ -143,7 +143,7 @@ class Game:
         pygame.mixer.music.play(20)
 
         # Initialize Starting Actors
-        player = Player(player_img)
+        player = Player()
         health = Health(health_img_3, player)
         recover_health = []
         enemies = [Enemy(enemy_img)]
