@@ -116,6 +116,7 @@ class Game:
         enemy_audio = self.load_audio('enemy.wav')
         gameover_audio = self.load_audio('gameover.wav')
         hit_audio = self.load_audio('hit.wav')
+        power_up_audio = self.load_audio('power_up2.wav')
         # Should be music not sound
         #main_menu_audio = self.load_audio('main_menu.mp3')
 
@@ -199,6 +200,7 @@ class Game:
                     if z.pickup(player):
                         recover_health.remove(z)
                         player.health += 1
+                        power_up_audio.play()
                         if player.health == 3:
                             health.image = health_img_3
                         elif player.health == 2:
