@@ -36,7 +36,7 @@ class Game:
         self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
-        self.enemy_count = 0
+        self.enemy_count = 1
         self.enemy_shot_count = 0
         self.gameover = False
         self.score = 0
@@ -117,15 +117,18 @@ class Game:
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
 
-    def keep_score(self, surface, text, text_size, x, y):
+    #load and update score
+    def keep_score(self, bg, text, text_size, x, y):
         #setting font
         font = pygame.font.SysFont("arial", text_size)
         #rendering text
         score_surface = font.render(text, True, (255, 255, 255))
         #blitting to screen
-        surface.blit(score_surface, (x, y))
+        self.screen.blit(score_surface, (x, y))
         #trying to update
         pygame.display.update()
+        #blit the background to update score correctly
+        self.screen.blit(bg, (0, 0))
 
 
     ## Runs the game session
@@ -158,6 +161,7 @@ class Game:
         enemy_audio = self.load_audio('enemy.wav')
         gameover_audio = self.load_audio('gameover.wav')
         hit_audio = self.load_audio('hit.wav')
+        power_up_audio = self.load_audio('power_up2.wav')
         # Should be music not sound
         #main_menu_audio = self.load_audio('main_menu.mp3')
 
@@ -183,7 +187,7 @@ class Game:
             pygame.event.pump()
 
             # calling keep score
-            self.keep_score(self.screen, "Score: " + str(self.score), 20, 20, 20)
+            self.keep_score(background, "Score: " + str(self.score), 20, 20, 20)
 
             # Process input
             key_presses = pygame.key.get_pressed()
@@ -224,10 +228,10 @@ class Game:
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
-                #counting the number of enemies that were spawned
-                self.enemy_count += 1
                 #only appends until the number of max is reached
                 if(self.enemy_count < const.MAX_ENEMIES):
+                    #counting the number of enemies that were spawned
+                    self.enemy_count += 1
                     enemies.append(Enemy(enemy_img))
 
             #spawning health recovery objects on screen
@@ -241,6 +245,7 @@ class Game:
                     if z.pickup(player):
                         recover_health.remove(z)
                         player.health += 1
+                        power_up_audio.play()
                         if player.health == 3:
                             health.image = health_img_3
                         elif player.health == 2:
