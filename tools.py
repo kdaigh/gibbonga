@@ -8,7 +8,6 @@ def load_all_images(directory):
     for file in os.listdir(directory):
         if not file.startswith('.'):
             name = file.split('.')[0]
-            print(name)
             surface = pygame.image.load(os.path.join(directory, file))
             if surface.get_alpha():
                 surface.convert_alpha()

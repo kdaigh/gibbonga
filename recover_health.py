@@ -1,5 +1,5 @@
 from actor import Actor
-import pygame
+import setup
 import random
 import constants as const
 
@@ -7,8 +7,8 @@ class Recover_health(Actor):
 
     ## Constructor
     #  @param image, surface object with Player image
-    def __init__(self, image):
-        Actor.__init__(self, image)
+    def __init__(self):
+        Actor.__init__(self, setup.IMAGES['hearts_1'])
         self.rect.x = random.randrange(15, 585)
         self.rect.y = const.SCREENRECT.top
 

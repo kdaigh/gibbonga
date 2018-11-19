@@ -8,6 +8,7 @@
 from actor import Actor
 import random
 import constants as const
+import setup
 
 
 ## @class Enemy
@@ -16,8 +17,8 @@ class Enemy(Actor):
 
     ## Constructor
     #  @param image, surface object with Enemy image
-    def __init__(self, image):
-        Actor.__init__(self, image)
+    def __init__(self):
+        Actor.__init__(self, setup.IMAGES['enemy_spaceship'])
         #this is starting it from the left or from the right
         self.right = True
         self.down = True
@@ -35,7 +36,7 @@ class Enemy(Actor):
         self.count += 1
         if self.right == True:
             #if(self.rect.x == 614):
-            if(self.rect.x == (const.SCREENRECT.right - 26)):
+            if(self.rect.x == (const.SCREENRECT.right - 30)):
                 self.right = False
             self.rect.x += self.speed
         elif self.right == False:

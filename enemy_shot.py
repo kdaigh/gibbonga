@@ -5,9 +5,8 @@
 #  Author: Py Five
 #  Created: 10/17/19
 
-import pygame
 from actor import Actor
-import constants as const
+import setup
 
 
 ## @class Shot
@@ -17,8 +16,8 @@ class Enemy_shot(Actor):
     ## Constructor
     #  @param image, surface object with Shot image
     #  @param player, Player object that fired the shot
-    def __init__(self, image, enemy):
-        Actor.__init__(self, image)
+    def __init__(self, enemy):
+        Actor.__init__(self, setup.IMAGES['missile2'])
         self.rect.centerx = enemy.rect.centerx
         self.rect.bottom = enemy.rect.bottom + 12
 

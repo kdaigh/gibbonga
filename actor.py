@@ -5,9 +5,6 @@
 #  Author: Py Five
 #  Created: 10/17/19
 
-import pygame
-from pygame.locals import *
-
 
 ## @class Actor
 #  @brief Abstract base class for game actors

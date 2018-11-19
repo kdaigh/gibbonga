@@ -5,8 +5,8 @@
 #  Author: Py Five
 #  Created: 10/17/19
 
-import pygame
 from actor import Actor
+import setup
 
 
 ## @class Shot
@@ -16,8 +16,8 @@ class Shot(Actor):
     ## Constructor
     #  @param image, surface object with Shot image
     #  @param player, Player object that fired the shot
-    def __init__(self, image, player):
-        Actor.__init__(self, image)
+    def __init__(self, player):
+        Actor.__init__(self, setup.IMAGES['missile1'])
         self.rect.centerx = player.rect.centerx
         self.rect.top = player.rect.top - 5
 

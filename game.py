@@ -108,20 +108,8 @@ class Game:
     #  @post: Game has been exited properly
     def run(self):
 
-        # Load Images
-        # background_img = pygame.image.load('assets/images/space.jpg')
-        background_img = setup.IMAGES['space']
-        #player_img = self.load_image('player_ship.png', 45, 65)
-        enemy_img = self.load_image('enemy_spaceship.png', 26, 26)
-        shot_img = self.load_image('missile1.png', 10, 24)
-        health_img_3 = self.load_image('hearts_3.png', 60, 20)
-        health_img_2 = self.load_image('hearts_2.png', 60, 20)
-        health_img_1 = self.load_image('hearts_1.png', 60, 20)
-        health_img_0 = self.load_image('hearts_0.png', 60, 20)
-        enemy_shot_img = self.load_image('missile2.png', 10, 24)
-        recover_health_img = self.load_image('hearts_1.png', 60, 20)
-
         # Load Background
+        background_img = setup.IMAGES['space']
         background = pygame.Surface(const.SCREENRECT.size)
         for x in range(0, const.SCREENRECT.width, background_img.get_width()):
             background.blit(background_img, (x, 0))
@@ -144,9 +132,9 @@ class Game:
 
         # Initialize Starting Actors
         player = Player()
-        health = Health(health_img_3, player)
+        health = Health(player)
         recover_health = []
-        enemies = [Enemy(enemy_img)]
+        enemies = [Enemy()]
         shots = []
         enemy_shots = []
         actors = []
@@ -196,7 +184,7 @@ class Game:
 
             # Create new shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
-                shots.append(Shot(shot_img, player))
+                shots.append(Shot(player))
                 shot_audio.play()
             player.reloading = shoot
 
@@ -206,12 +194,12 @@ class Game:
                 if(self.enemy_count < const.MAX_ENEMIES):
                     #counting the number of enemies that were spawned
                     self.enemy_count += 1
-                    enemies.append(Enemy(enemy_img))
+                    enemies.append(Enemy())
 
             #spawning health recovery objects on screen
             if player.health < 3:
                 if random.randint(1, 201) == 1:
-                    recover_health.append(Recover_health(recover_health_img))
+                    recover_health.append(Recover_health())
 
             #player collision with health recovery objects
             for z in recover_health:
@@ -221,9 +209,9 @@ class Game:
                         player.health += 1
                         power_up_audio.play()
                         if player.health == 3:
-                            health.image = health_img_3
+                            health.image = setup.IMAGES['hearts_3']
                         elif player.health == 2:
-                            health.image = health_img_2
+                            health.image = setup.IMAGES['hearts_2']
 
             #remove health recovery object as it moves off screen
             for z in recover_health:
@@ -238,7 +226,7 @@ class Game:
                     if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
                         self.enemy_shot_count += 1
                         #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
-                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
+                        enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies)-1)]))
             #i = i + 1
 
             for y in enemy_shots:
@@ -246,15 +234,15 @@ class Game:
                     enemy_shots.remove(y)
                     player.health -= 1
                     if player.health == 0:
-                        health.image = health_img_0
+                        health.image = setup.IMAGES['hearts_0']
                         player.alive = False
                         self.gameover = True
                     elif player.health == 1:
                         hit_audio.play()
-                        health.image = health_img_1
+                        health.image = setup.IMAGES['hearts_1']
                     elif player.health == 2:
                         hit_audio.play()
-                        health.image = health_img_2
+                        health.image = setup.IMAGES['hearts_2']
 
             # Check for collisions
             for enemy in enemies:
@@ -262,15 +250,15 @@ class Game:
                     enemies.remove(enemy)
                     player.health -= 1
                     if player.health == 0:
-                        health.image = health_img_0
+                        health.image = setup.IMAGES['hearts_0']
                         player.alive = False
                         self.gameover = True
                     elif player.health == 1:
                         hit_audio.play()
-                        health.image = health_img_1
+                        health.image = setup.IMAGES['hearts_1']
                     elif player.health == 2:
                         hit_audio.play()
-                        health.image = health_img_2
+                        health.image = setup.IMAGES['hearts_2']
 
                 #enemies go away once they hit the bottom
                 if enemy.rect.y >= const.SCREENRECT.height - 30:
