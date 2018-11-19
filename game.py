@@ -10,7 +10,6 @@ import os.path
 import sys
 import random
 from text import Text
-from screen import Screen
 from player import Player
 from enemy import Enemy
 from shot import Shot
