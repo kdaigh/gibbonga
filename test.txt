@@ -4,12 +4,17 @@
 enemy list decrements when enemy:
   is hit
   hits bottom of screen
+
 enemy list increments when enemy spawned
   -implemented on line 190, returns true when length of the list goes up by one, may want to go back and change it so that it doesn't have to print out four true statements, but since there is only 5 enemies I left it like this
+
 enemy shot list increments when shot fired
+  -implemented the same way as the enemy list
+
 enemies stop spawning when MAX_ENEMIES is reached
   -on line 199 put check to see if over the max but not sure where to put check if its 5
   -did a check after while loop to  make sure the enemy count = the max enemies
+
 enemy does not leave boundaries
 
 health list decrements when hit by enemy shot

@@ -221,7 +221,7 @@ class Game:
                 check = len(enemies)
                 if(self.enemy_count < const.MAX_ENEMIES):
                     #counting the number of enemies that were spawned
-                    self.enemy_count += 1
+                    #self.enemy_count += 1
                     enemies.append(Enemy(enemy_img))
                     self.enemy_count += 1
                     ##CHECK
@@ -258,15 +258,25 @@ class Game:
                     recover_health.remove(z)
 
             # Make enemies shoot
-            #i = 0
-            #for x in enemies:
             if(len(enemies) > 0):
+                ##CHECK
+                ##make sure the enemy_shot array is incrementing
+                check = len(enemy_shots)
                 if not int(random.random() * const.ENEMY_SHOT_ODDS):
                     if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
                         self.enemy_shot_count += 1
                         #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
                         enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
-            #i = i + 1
+                        ##CHECK
+                        if(len(enemy_shots) == (check+1)):
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = True
+                        else :
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = False
+                            print("Enemy_shot list increments when enemy shoots: FALSE")
+                        #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                        if(self.enemy_shot_count > const.MAX_ENEMY_SHOT):
+                            checks.LESS_MAX_ENEMY_SHOT = False
+                            print("Enemies stop shooting when max count reached: FALSE")
 
             for y in enemy_shots:
                 if y.collision_check(player):
@@ -321,12 +331,10 @@ class Game:
             actors = []
 
         #CHECKS
-        ###CHECK TO SEE IF MAX ENEMIES REACHED
-        if(self.enemy_count == 5):
-            checks.LESS_MAX_ENEMIES = True
-
-        print("Does not go over max enemy: " + checks.LESS_MAX_ENEMIES)
-        print("List increments when enemy added: " + checks.ENEMY_LIST_INCREMENTS)
+        print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
+        print("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
+        print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
         # Exit game and system
         if self.gameover:
             gameover_audio.play()
