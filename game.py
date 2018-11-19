@@ -69,21 +69,24 @@ class Game:
 
         return img.convert()
 
-        #Load audios
+    #Load audios
     def load_audio(self, filename):
 
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
 
-    def keep_score(self, surface, text, text_size, x, y):
+    #load and update score
+    def keep_score(self, bg, text, text_size, x, y):
         #setting font
         font = pygame.font.SysFont("arial", text_size)
         #rendering text
         score_surface = font.render(text, True, (255, 255, 255))
         #blitting to screen
-        surface.blit(score_surface, (x, y))
+        self.screen.blit(score_surface, (x, y))
         #trying to update
         pygame.display.update()
+        #blit the background to update score correctly
+        self.screen.blit(bg, (0, 0))
 
 
     ## Runs the game session
@@ -142,7 +145,7 @@ class Game:
             pygame.event.pump()
 
             # calling keep score
-            self.keep_score(self.screen, "Score: " + str(self.score), 20, 20, 20)
+            self.keep_score(background, "Score: " + str(self.score), 20, 20, 20)
 
             # Process input
             key_presses = pygame.key.get_pressed()
