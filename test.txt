@@ -15,6 +15,9 @@ enemies stop spawning when MAX_ENEMIES is reached
   -on line 199 put check to see if over the max but not sure where to put check if its 5
   -did a check after while loop to  make sure the enemy count = the max enemies
 
+enemy stops shooting when MAX_ENEMY_SHOT is reached
+  -implemented the same way as check was for MAX_ENEMIES
+
 enemy does not leave boundaries
 
 health list decrements when hit by enemy shot
