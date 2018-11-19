@@ -37,7 +37,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 1
-        self.enemy_shot_count = 0
+        self.enemy_shot_count = 1
         self.gameover = False
         self.score = 0
 
@@ -260,8 +260,8 @@ class Game:
             #i = 0
             #for x in enemies:
             if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                self.enemy_shot_count += 1
                 if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
+                    self.enemy_shot_count += 1
                     #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
                     enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
             #i = i + 1
@@ -322,4 +322,3 @@ class Game:
         if self.gameover:
             gameover_audio.play()
         self.quit_game()
-
