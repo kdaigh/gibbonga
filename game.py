@@ -18,6 +18,7 @@ from pygame.locals import *
 import constants as const
 from enemy_shot import Enemy_shot
 from recover_health import Recover_health
+import check_constants as checks
 
 
 ## @class Game
@@ -239,11 +240,13 @@ class Game:
                     self.enemy_count += 1
                     ##CHECK
                     if(len(enemies) == (check+1)):
-                        print("Enemy list increments when enemy spawned: TRUE")
+                        checks.ENEMY_LIST_INCREMENTS = True
                     else :
+                        checks.ENEMY_LIST_INCREMENTS = False
                         print("Enemy list increments when enemy spawned: FALSE")
                     #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
                     if(self.enemy_count > const.MAX_ENEMIES):
+                        checks.LESS_MAX_ENEMIES = False
                         print("Enemies stop spawning when max count reached: FALSE")
 
             #spawning health recovery objects on screen
@@ -329,10 +332,10 @@ class Game:
         #CHECKS
         ###CHECK TO SEE IF MAX ENEMIES REACHED
         if(self.enemy_count == 5):
-            print("Enemies stop spawning when max count reached: TRUE")
-        else :
-            print("Enemies stop spawning when max count reached: FALSE")
+            checks.LESS_MAX_ENEMIES = True
 
+        print("Does not go over max enemy: " + checks.LESS_MAX_ENEMIES)
+        print("List increments when enemy added: " + checks.ENEMY_LIST_INCREMENTS)
         # Exit game and system
         if self.gameover:
             gameover_audio.play()

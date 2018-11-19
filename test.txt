@@ -1,3 +1,6 @@
+*****don't change anything except for in game and check_constants
+*****every check you make needs to have a constant in check_constants
+
 enemy list decrements when enemy:
   is hit
   hits bottom of screen
