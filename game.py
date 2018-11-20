@@ -84,25 +84,6 @@ class Game:
                             exit_menu = True
                             text.action()
 
-    ## Loads and scales object/game image
-    #  @pre: image exists
-    #  @param: filename, name of image to be loaded
-    #  @param: width, desired width of image
-    #  @param: height, desired height of image
-    #  @returns: Surface object
-    def load_image(self, filename, file_width, file_height):
-        filename = os.path.join('assets/images', filename)
-        img = pygame.image.load(filename)
-        img = pygame.transform.scale(img, (file_width, file_height))
-        img.set_colorkey(img.get_at((0, 0)), RLEACCEL)
-        return img.convert()
-
-    ## Loads audio
-    #  @param filename, name of audio to be loaded
-    def load_audio(self, filename):
-        sound = pygame.mixer.Sound('assets/audios/'+filename)
-        return sound
-
     ## Runs the game session
     #  @pre: Game components have been initialized
     #  @post: Game has been exited properly
@@ -115,16 +96,6 @@ class Game:
             background.blit(background_img, (x, 0))
         self.screen.blit(background, (0, 0))
         pygame.display.flip()
-
-        # load audio:
-        shot_audio = self.load_audio('shot.wav')
-        explode_audio = self.load_audio('explosion.wav')
-        enemy_audio = self.load_audio('enemy.wav')
-        gameover_audio = self.load_audio('gameover.wav')
-        hit_audio = self.load_audio('hit.wav')
-        power_up_audio = self.load_audio('power_up2.wav')
-        # Should be music not sound
-        #main_menu_audio = self.load_audio('main_menu.mp3')
 
         # Load and play background music
         pygame.mixer.music.load('assets/audios/background.wav')
@@ -185,7 +156,7 @@ class Game:
             # Create new shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(player))
-                shot_audio.play()
+                setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
             # Create new alien
@@ -207,7 +178,7 @@ class Game:
                     if z.pickup(player):
                         recover_health.remove(z)
                         player.health += 1
-                        power_up_audio.play()
+                        setup.SOUNDS['power_up2'].play()
                         if player.health == 3:
                             health.image = setup.IMAGES['hearts_3']
                         elif player.health == 2:
@@ -238,10 +209,10 @@ class Game:
                         player.alive = False
                         self.gameover = True
                     elif player.health == 1:
-                        hit_audio.play()
+                        setup.SOUNDS['hit'].play()
                         health.image = setup.IMAGES['hearts_1']
                     elif player.health == 2:
-                        hit_audio.play()
+                        setup.SOUNDS['hit'].play()
                         health.image = setup.IMAGES['hearts_2']
 
             # Check for collisions
@@ -254,10 +225,10 @@ class Game:
                         player.alive = False
                         self.gameover = True
                     elif player.health == 1:
-                        hit_audio.play()
+                        setup.SOUNDS['hit'].play()
                         health.image = setup.IMAGES['hearts_1']
                     elif player.health == 2:
-                        hit_audio.play()
+                        setup.SOUNDS['hit'].play()
                         health.image = setup.IMAGES['hearts_2']
 
                 #enemies go away once they hit the bottom
@@ -267,7 +238,7 @@ class Game:
 
                 for shot in shots:
                     if shot.collision_check(enemy):
-                        enemy_audio.play()
+                        setup.SOUNDS['enemy'].play()
                         shots.remove(shot)
                         enemies.remove(enemy)
                         self.score += 1
@@ -283,7 +254,7 @@ class Game:
 
         # Exit game and system
         if self.gameover:
-            gameover_audio.play()
+            setup.SOUNDS['gameover'].play()
         self.quit_game()
 
     ## Quits the game
