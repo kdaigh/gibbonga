@@ -19,21 +19,11 @@ def load_all_images(directory):
     return images
 
 
-#  @pre Image file name has no periods in it
-# def load_all_sounds(directory):
-#     sounds = {}
-#     for file in os.listdir(directory):
-#         if not file.startswith('.'):
-#             name = file.split('.')[0]
-#             sounds[name] = pygame.mixer.Sound(os.path.join(directory, file))
-#     return sounds
-
-
-def load_all_sounds(directory, accept=('.wav','.mpe','.ogg','.mdi')):
+## @pre Image file name has no periods in it
+def load_all_sounds(directory):
     sounds = {}
     for file in os.listdir(directory):
-        print(file)
-        name, ext = os.path.splitext(file)
-        if ext.lower() in accept:
+        if not file.startswith('.'):
+            name = file.split('.')[0]
             sounds[name] = pygame.mixer.Sound(os.path.join(directory, file))
     return sounds
