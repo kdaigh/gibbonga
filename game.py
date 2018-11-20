@@ -48,11 +48,11 @@ class Game:
         pygame.display.set_caption('Gallaga Clone')
         #pygame.mouse.set_visible(0)
 
-        self.start_menu()
+        self.menu()
 
     ## Loads a start screen with clickable options
     #  @pre Game components have been initialized
-    def start_menu(self):
+    def menu(self):
         # Load black background
         self.screen.fill(const.BLACK)
         pygame.display.update()
@@ -141,7 +141,7 @@ class Game:
                 self.quit = True
                 break
 
-            # Update actors
+            # Clear screen and update actors
             for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
@@ -159,7 +159,7 @@ class Game:
             # Update text
             score_text.update_text("Score " + str(self.score))
 
-            # Create new shots
+            # Spawn player shots
             if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(player))
                 setup.SOUNDS['shot'].play()
@@ -191,23 +191,6 @@ class Game:
             for health in recover_health:
                 if health.collide_with(player):
                     player.recover()
-
-            # # player collision with health recovery objects
-            # for health in recover_health:
-            #     if health.collide_with(player):
-            #         recover_health.remove(health)
-            #         player.recover()
-            #
-            # # Collision check: enemies and enemy shots with player
-            # for enemy_shot in enemy_shots:
-            #     if enemy_shot.collide_with(player):
-            #         enemy_shots.remove(enemy_shot)
-            #         player.hit()
-            #
-            # for enemy in enemies:
-            #     if enemy.collide_with(player):
-            #         enemies.remove(enemy)
-            #         player.hit()
 
             # Check for player kills
             for enemy in enemies:
