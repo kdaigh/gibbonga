@@ -32,9 +32,11 @@ class Player(Actor):
         self.rect = self.rect.move(direction * const.PLAYER_SPEED, 0).clamp(const.SCREENRECT)
 
     def hit(self):
+        setup.SOUNDS['hit'].play()
         self.health -= 1
         if self.health == 0:
             self.alive = False
 
     def recover(self):
+        setup.SOUNDS['power_up2'].play()
         self.health += 1

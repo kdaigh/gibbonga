@@ -21,13 +21,8 @@ class Enemy_shot(Actor):
         self.rect.centerx = enemy.rect.centerx
         self.rect.bottom = enemy.rect.bottom + 12
 
-
     # Updates the shot object
     def update(self):
         self.rect.bottom = self.rect.bottom + 10
 
-    ## Checks for collisions
-    #  @param actor, check collisions with this actor
-    #  @returns bool, True if collision is detected; false, otherwise
-    def collision_check(self, actor):
-        return self.rect.colliderect(actor.rect)
+

@@ -18,9 +18,3 @@ class Recover_health(Actor):
     #  @post: icon location has been updated
     def update(self):
         self.rect.bottom = self.rect.bottom + 10
-
-    ## Checks for player collecting a powerup
-    #  @param actor, check collisions with this actor
-    #  @returns bool, True if collision is detected; false, otherwise
-    def pickup(self, actor):
-        return self.rect.colliderect(actor.rect)

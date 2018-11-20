@@ -23,11 +23,11 @@ class Health(Actor):
         self.rect.bottom = const.SCREENRECT.bottom
 
     def update(self):
-        if self.player.health == 0:
+        if self.player.health <= 0:
             self.image = setup.IMAGES['hearts_0']
         elif self.player.health == 1:
             self.image = setup.IMAGES['hearts_1']
         elif self.player.health == 2:
             self.image = setup.IMAGES['hearts_2']
-        elif self.player.health == 3:
+        elif self.player.health >= 3:
             self.image = setup.IMAGES['hearts_3']

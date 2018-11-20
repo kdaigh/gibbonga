@@ -83,17 +83,28 @@ class Game:
                             exit_menu = True
                             text.action()
 
-    ## Runs the game session
-    #  @pre: Game components have been initialized
-    #  @post: Game has been exited properly
-    def run(self):
-
-        # Load Background
+    def load_background(self):
         background_img = setup.IMAGES['space']
         background = pygame.Surface(const.SCREENRECT.size)
         for x in range(0, const.SCREENRECT.width, background_img.get_width()):
             background.blit(background_img, (x, 0))
         self.screen.blit(background, (0, 0))
+        return background
+
+    def clean(self, actors):
+        for actor in actors:
+            if actor.rect.top <= 0 or actor.rect.bottom >= const.SCREENRECT.height or not actor.alive:
+                actors.remove(actor)
+        return actors
+
+
+    ## Runs the game session
+    #  @pre: Game components have been initialized
+    #  @post: Game has been exited properly
+    def run(self):
+
+        # Load background
+        background = self.load_background()
         pygame.display.flip()
 
         # Load and play background music
@@ -137,22 +148,9 @@ class Game:
                 actor.update()
 
             # Remove out-of-frame objects
-            for shot in shots:
-                if shot.rect.top <= 0:
-                    shots.remove(shot)
-
-            for shot in enemy_shots:
-                if shot.rect.bottom >= const.SCREENRECT.height:
-                    enemy_shots.remove(shot)
-
-            for enemy in enemies:
-                if enemy.rect.y >= const.SCREENRECT.height - 30:
-                    enemies.remove(enemy)
-
-            #remove health recovery object as it moves off screen
-            for z in recover_health:
-                if z.rect.bottom >= const.SCREENRECT.height:
-                    recover_health.remove(z)
+            # Testing code -- If this breaks, use "self.clean_objects(...) for each
+            for dead_actors in [shots] + [enemy_shots] + [enemies] + [recover_health]:
+                self.clean(dead_actors)
 
             # Move the player
             x_dir = right - left
@@ -167,52 +165,55 @@ class Game:
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
-            # Create new enemy shot
-            if len(enemies) > 0 and len(enemy_shots) < const.MAX_ENEMY_SHOT:
-                if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                    self.enemy_shot_count += 1
-                    enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies) - 1)]))
-
-            # Create new enemy
+            # Spawn enemy
             if not int(random.random() * const.ENEMY_ODDS):
                 if self.enemy_count < const.MAX_ENEMIES:
                     self.enemy_count += 1
                     enemies.append(Enemy())
 
-            #spawning health recovery objects on screen
+            # Spawn enemy shot
+            if not int(random.random() * const.ENEMY_SHOT_ODDS):
+                if len(enemies) > 0 and self.enemy_shot_count < const.MAX_ENEMY_SHOT:
+                    self.enemy_shot_count += 1
+                    enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies) - 1)]))
+
+            # Spawn recovery health objects
             if player.health < 3:
                 if random.randint(1, 201) == 1:
                     recover_health.append(Recover_health())
 
-            # player collision with health recovery objects
+            # Check for player hits
+            for threat in enemies + enemy_shots:
+                if threat.collide_with(player):
+                    player.hit()
+
+            # Check for player power ups
             for health in recover_health:
-                if player.health < 3 and health.pickup(player):
-                    recover_health.remove(z)
-                    setup.SOUNDS['power_up2'].play()
+                if health.collide_with(player):
                     player.recover()
-                    health.update()
 
-            # Collision check: enemy shot with player
-            for enemy_shot in enemy_shots:
-                if enemy_shot.collision_check(player):
-                    enemy_shots.remove(enemy_shot)
-                    setup.SOUNDS['hit'].play()
-                    player.hit()
-                    health.update()
+            # # player collision with health recovery objects
+            # for health in recover_health:
+            #     if health.collide_with(player):
+            #         recover_health.remove(health)
+            #         player.recover()
+            #
+            # # Collision check: enemies and enemy shots with player
+            # for enemy_shot in enemy_shots:
+            #     if enemy_shot.collide_with(player):
+            #         enemy_shots.remove(enemy_shot)
+            #         player.hit()
+            #
+            # for enemy in enemies:
+            #     if enemy.collide_with(player):
+            #         enemies.remove(enemy)
+            #         player.hit()
 
-            # Collision check: enemy with player
+            # Check for player kills
             for enemy in enemies:
-                if enemy.collision_check(player):
-                    enemies.remove(enemy)
-                    setup.SOUNDS['hit'].play()
-                    player.hit()
-                    health.update()
-
-                # Collision check: player shot with enemy
                 for shot in shots:
-                    if shot.collision_check(enemy):
+                    if shot.collide_with(enemy):
                         setup.SOUNDS['enemy'].play()
-                        shots.remove(shot)
                         enemies.remove(enemy)
                         self.score += 1
 
