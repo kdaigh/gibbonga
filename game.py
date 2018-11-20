@@ -9,6 +9,7 @@ import pygame
 import os.path
 import sys
 import random
+from text import Text
 from player import Player
 from enemy import Enemy
 from shot import Shot
@@ -17,6 +18,7 @@ from pygame.locals import *
 import constants as const
 from enemy_shot import Enemy_shot
 from recover_health import Recover_health
+import check_constants as checks
 
 
 ## @class Game
@@ -36,7 +38,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 1
-        self.enemy_shot_count = 0
+        self.enemy_shot_count = 1
         self.gameover = False
         self.score = 0
 
@@ -45,46 +47,61 @@ class Game:
         icon = pygame.transform.scale(icon, (60, 80))
         pygame.display.set_icon(icon)
         pygame.display.set_caption('Gallaga Clone')
-        pygame.mouse.set_visible(0)
+        #pygame.mouse.set_visible(0)
 
+        self.start_menu()
+
+    ## Loads a start screen with clickable options
+    #  @pre Game components have been initialized
+    def start_menu(self):
+        # Load black background
+        self.screen.fill(const.BLACK)
+        pygame.display.update()
+
+        # Load text
+        start_game = Text("START GAME", const.WHITE, (300, 100), self.run)
+        test_game = Text("TEST GAME", const.WHITE, (300, 200))
+        quit_game = Text("QUIT GAME", const.WHITE, (300, 300), self.quit_game)
+
+        # Draw text on screen
+        options = []
+        for text in [start_game] + [test_game] + [quit_game]:
+            render = text.draw(self.screen)
+            options.append(render)
+
+        # Draw screen
+        pygame.display.update(options)
+
+        exit_menu = False
+        while not exit_menu:
+            for event in pygame.event.get():
+                if pygame.event.peek(QUIT):
+                    self.quit_game()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    for text in [start_game] + [test_game] + [quit_game]:
+                        if text.rect.collidepoint(pos):
+                            exit_menu = True
+                            text.action()
 
     ## Loads and scales object/game image
-    #  @author: Kristi
     #  @pre: image exists
     #  @param: filename, name of image to be loaded
     #  @param: width, desired width of image
     #  @param: height, desired height of image
     #  @returns: Surface object
     def load_image(self, filename, file_width, file_height):
-
-        # Load image
         filename = os.path.join('assets/images', filename)
         img = pygame.image.load(filename)
-
-        # Scale image
         img = pygame.transform.scale(img, (file_width, file_height))
-
-        # Make transparent
-        img.set_colorkey(img.get_at((0,0)), RLEACCEL)
-
+        img.set_colorkey(img.get_at((0, 0)), RLEACCEL)
         return img.convert()
 
-        #Load audios
+    ## Loads audio
+    #  @param filename, name of audio to be loaded
     def load_audio(self, filename):
-
         sound = pygame.mixer.Sound('assets/audios/'+filename)
         return sound
-
-    def keep_score(self, surface, text, text_size, x, y):
-        #setting font
-        font = pygame.font.SysFont("arial", text_size)
-        #rendering text
-        score_surface = font.render(text, True, (255, 255, 255))
-        #blitting to screen
-        surface.blit(score_surface, (x, y))
-        #trying to update
-        pygame.display.update()
-
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -116,6 +133,7 @@ class Game:
         enemy_audio = self.load_audio('enemy.wav')
         gameover_audio = self.load_audio('gameover.wav')
         hit_audio = self.load_audio('hit.wav')
+        power_up_audio = self.load_audio('power_up2.wav')
         # Should be music not sound
         #main_menu_audio = self.load_audio('main_menu.mp3')
 
@@ -131,6 +149,7 @@ class Game:
         shots = []
         enemy_shots = []
         actors = []
+        score_text = Text("Score 0", const.WHITE, (50, 25))
 
         #Moved the initial starting postion out of the loop and controlling back and forth
         x_dir = const.SCREENRECT.centerx
@@ -145,9 +164,6 @@ class Game:
             # Call event queue
             pygame.event.pump()
 
-            # calling keep score
-            self.keep_score(self.screen, "Score: " + str(self.score), 20, 20, 20)
-
             # Process input
             key_presses = pygame.key.get_pressed()
             right = key_presses[pygame.K_RIGHT]
@@ -161,7 +177,7 @@ class Game:
                 break
 
             # Update actors
-            for actor in [player] + [health] + enemies + shots + enemy_shots + recover_health:
+            for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -192,6 +208,9 @@ class Game:
                 player.move(x_dir)
 
 
+            # Update text
+            score_text.update_text("Score " + str(self.score))
+
             # Create new shots
             if not player.reloading and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
@@ -200,22 +219,24 @@ class Game:
 
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
-                #counting the number of enemies that were spawned
-                #self.enemy_count += 1
                 #only appends until the number of max is reached
                 ##CHECK
                 ##make sure the enemy array is incrementing
                 check = len(enemies)
                 if(self.enemy_count < const.MAX_ENEMIES):
+                    #counting the number of enemies that were spawned
+                    #self.enemy_count += 1
                     enemies.append(Enemy(enemy_img))
                     self.enemy_count += 1
                     ##CHECK
                     if(len(enemies) == (check+1)):
-                        print("Enemy list increments when enemy spawned: TRUE")
+                        checks.ENEMY_LIST_INCREMENTS = True
                     else :
+                        checks.ENEMY_LIST_INCREMENTS = False
                         print("Enemy list increments when enemy spawned: FALSE")
                     #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
                     if(self.enemy_count > const.MAX_ENEMIES):
+                        checks.LESS_MAX_ENEMIES = False
                         print("Enemies stop spawning when max count reached: FALSE")
 
             #spawning health recovery objects on screen
@@ -229,6 +250,7 @@ class Game:
                     if z.pickup(player):
                         recover_health.remove(z)
                         player.health += 1
+                        power_up_audio.play()
                         if player.health == 3:
                             health.image = health_img_3
                         elif player.health == 2:
@@ -240,11 +262,25 @@ class Game:
                     recover_health.remove(z)
 
             # Make enemies shoot
-            if len(enemies) > 0:
+            if(len(enemies) > 0):
+                ##CHECK
+                ##make sure the enemy_shot array is incrementing
+                check = len(enemy_shots)
                 if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                    self.enemy_shot_count += 1
                     if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies) - 1)]))
+                        self.enemy_shot_count += 1
+                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                        enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
+                        ##CHECK
+                        if(len(enemy_shots) == (check+1)):
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = True
+                        else :
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = False
+                            print("Enemy_shot list increments when enemy shoots: FALSE")
+                        #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                        if(self.enemy_shot_count > const.MAX_ENEMY_SHOT):
+                            checks.LESS_MAX_ENEMY_SHOT = False
+                            print("Enemies stop shooting when max count reached: FALSE")
 
             for y in enemy_shots:
                 if y.collision_check(player):
@@ -290,7 +326,7 @@ class Game:
                         self.score += 1
 
             # Draw actors
-            for actor in [player] + [health] + enemies + shots + enemy_shots + recover_health:
+            for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
@@ -299,15 +335,19 @@ class Game:
             actors = []
 
         #CHECKS
-        ###CHECK TO SEE IF MAX ENEMIES REACHED
-        if(self.enemy_count == 5):
-            print("Enemies stop spawning when max count reached: TRUE")
-        else :
-            print("Enemies stop spawning when max count reached: FALSE")
-
+        print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
+        print("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
+        print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
         # Exit game and system
         if self.gameover:
             gameover_audio.play()
+        self.quit_game()
+
+    ## Quits the game
+    #  @pre A game session is running
+    #  @post All components have been properly suspended
+    def quit_game(self):
         pygame.time.delay(2000)
         pygame.display.quit()
         pygame.quit()
