@@ -1,7 +1,7 @@
 ## @file actor.py
 #  Source file for actor base class
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
 #  Created: 10/17/18
 

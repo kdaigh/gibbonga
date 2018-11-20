@@ -1,9 +1,9 @@
 ## @file setup.py
 #  Setup file containing game asset dictionaries
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 11/19/19
+#  Created: 11/19/18
 
 import os.path
 import pygame

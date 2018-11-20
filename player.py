@@ -1,9 +1,9 @@
 ## @file player.py
 #  Source file for player object
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 10/17/19
+#  Created: 10/17/18
 
 from actor import Actor
 import constants as const

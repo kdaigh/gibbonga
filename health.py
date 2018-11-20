@@ -1,9 +1,9 @@
 ## @file health.py
 #  Source file for health object
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 10/24/19
+#  Created: 10/24/18
 
 from actor import Actor
 import constants as const

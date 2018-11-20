@@ -1,9 +1,9 @@
 ## @file game.py
 #  Source file for game class
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 10/14/19
+#  Created: 10/14/18
 
 import pygame
 import sys
@@ -192,7 +192,7 @@ class Game:
                 if health.collide_with(player):
                     player.recover()
 
-            # Check for player kills
+            # Check for enemy kills
             for enemy in enemies:
                 for shot in shots:
                     if shot.collide_with(enemy):

@@ -1,8 +1,18 @@
+## @file recover_health.py
+#  Source file for health power-up
+#
+#  Project: Galaga Clone
+#  Author: Py Five
+#  Created: 11/05/18
+
 from actor import Actor
 import setup
 import random
 import constants as const
 
+
+## @class Recover_health
+#  @brief Implements Actor base class as a health power-up
 class Recover_health(Actor):
 
     ## Constructor
