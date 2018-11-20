@@ -42,10 +42,9 @@ class Game:
         self.score = 0
 
         # Setup Game Window
-        icon = pygame.image.load('assets/images/player_ship.png')
-        icon = pygame.transform.scale(icon, (60, 80))
+        icon = setup.IMAGES['starship']
         pygame.display.set_icon(icon)
-        pygame.display.set_caption('Gallaga Clone')
+        pygame.display.set_caption('Gibbonga')
         #pygame.mouse.set_visible(0)
 
         self.menu()
@@ -53,14 +52,20 @@ class Game:
     ## Loads a start screen with clickable options
     #  @pre Game components have been initialized
     def menu(self):
-        # Load black background
-        self.screen.fill(const.BLACK)
-        pygame.display.update()
+
+        # Load background
+        background = self.load_background()
+        pygame.display.flip()
+
+        # Load image
+        game_logo = setup.IMAGES['gibbonga2']
+        self.screen.blit(game_logo, (50, 75))
+        #game_logo.rect = game_logo.get_rect(center=(300, 200))
 
         # Load text
-        start_game = Text("START GAME", const.WHITE, (300, 100), self.run)
-        test_game = Text("TEST GAME", const.WHITE, (300, 200))
-        quit_game = Text("QUIT GAME", const.WHITE, (300, 300), self.quit_game)
+        start_game = Text("START GAME", const.WHITE, (300, 350), self.run)
+        test_game = Text("TEST GAME", const.WHITE, (300, 400))
+        quit_game = Text("QUIT GAME", const.WHITE, (300, 450), self.quit_game)
 
         # Draw text on screen
         options = []
@@ -119,7 +124,7 @@ class Game:
         shots = []
         enemy_shots = []
         actors = []
-        score_text = Text("Score 0", const.WHITE, (50, 25))
+        score_text = Text("Score 0", const.WHITE, (75, 25))
 
         # Game loop
         while player.alive and not self.quit:
@@ -186,11 +191,13 @@ class Game:
             for health in recover_health:
                 if health.collide_with(player):
                     player.recover()
+                    health.update()
 
             # Check for player hits
             for threat in enemies + enemy_shots:
                 if threat.collide_with(player):
                     player.hit()
+                    health.update()
 
             # Check for enemy kills
                 for enemy in enemies:

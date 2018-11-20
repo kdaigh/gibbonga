@@ -36,11 +36,12 @@ class Player(Actor):
     def hit(self):
         setup.SOUNDS['hit'].play()
         self.health -= 1
-        if self.health == 0:
+        if self.health <= 0:
             self.alive = False
 
     ## Reacts to player picking up recovery health
     #  @post Power-up sound played and health incremented
     def recover(self):
         setup.SOUNDS['power_up2'].play()
-        self.health += 1
+        if self.health < 3:
+            self.health += 1
