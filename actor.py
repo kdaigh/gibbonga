@@ -3,7 +3,7 @@
 #
 #  Project: Gallaga Clone
 #  Author: Py Five
-#  Created: 10/17/19
+#  Created: 10/17/18
 
 
 ## @class Actor
@@ -38,10 +38,6 @@ class Actor:
             return True
         else:
             return False
-
-    # ## Marks an object as dead once hit
-    # def hit(self):
-    #     self.alive = False
 
     ## Removes the actor from the screen
     #  @param screen, screen which actor will be erased from
