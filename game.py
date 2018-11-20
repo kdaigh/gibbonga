@@ -18,6 +18,7 @@ from pygame.locals import *
 import constants as const
 from enemy_shot import Enemy_shot
 from recover_health import Recover_health
+import check_constants as checks
 
 
 ## @class Game
@@ -150,6 +151,11 @@ class Game:
         actors = []
         score_text = Text("Score 0", const.WHITE, (50, 25))
 
+        #Moved the initial starting postion out of the loop and controlling back and forth
+        x_dir = const.SCREENRECT.centerx
+        hit_right = True
+        hit_left = False
+
         # Game loop
         while player.alive and not self.quit:
 
@@ -185,15 +191,28 @@ class Game:
                 if shot.rect.bottom >= const.SCREENRECT.height:
                     enemy_shots.remove(shot)
 
-            # Move the player
-            x_dir = right - left
-            player.move(x_dir)
+            # Move the player, x_dir initialization moved outside while loop with a starting value of the center.
+            #Uses hit_right and hit_left to tell if the edges have been hit.
+            if(player.rect.x < 50):
+                hit_left = True
+                hit_right = False
+            if(player.rect.x > 500):
+                hit_left = False
+                hit_right = True
+
+            if(hit_right):
+                x_dir = - 1
+                player.move(x_dir)
+            elif(hit_left):
+                x_dir = + 1
+                player.move(x_dir)
+
 
             # Update text
             score_text.update_text("Score " + str(self.score))
 
             # Create new shots
-            if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
+            if not player.reloading and len(shots) < const.MAX_SHOTS:
                 shots.append(Shot(shot_img, player))
                 shot_audio.play()
             player.reloading = shoot
@@ -201,10 +220,24 @@ class Game:
             # Create new alien
             if not int(random.random() * const.ENEMY_ODDS):
                 #only appends until the number of max is reached
+                ##CHECK
+                ##make sure the enemy array is incrementing
+                check = len(enemies)
                 if(self.enemy_count < const.MAX_ENEMIES):
                     #counting the number of enemies that were spawned
-                    self.enemy_count += 1
+                    #self.enemy_count += 1
                     enemies.append(Enemy(enemy_img))
+                    self.enemy_count += 1
+                    ##CHECK
+                    if(len(enemies) == (check+1)):
+                        checks.ENEMY_LIST_INCREMENTS = True
+                    else :
+                        checks.ENEMY_LIST_INCREMENTS = False
+                        print("Enemy list increments when enemy spawned: FALSE")
+                    #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                    if(self.enemy_count > const.MAX_ENEMIES):
+                        checks.LESS_MAX_ENEMIES = False
+                        print("Enemies stop spawning when max count reached: FALSE")
 
             #spawning health recovery objects on screen
             if player.health < 3:
@@ -229,15 +262,25 @@ class Game:
                     recover_health.remove(z)
 
             # Make enemies shoot
-            #i = 0
-            #for x in enemies:
             if(len(enemies) > 0):
+                ##CHECK
+                ##make sure the enemy_shot array is incrementing
+                check = len(enemy_shots)
                 if not int(random.random() * const.ENEMY_SHOT_ODDS):
                     if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
                         self.enemy_shot_count += 1
                         #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
                         enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[random.randint(0, len(enemies)-1)]))
-            #i = i + 1
+                        ##CHECK
+                        if(len(enemy_shots) == (check+1)):
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = True
+                        else :
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = False
+                            print("Enemy_shot list increments when enemy shoots: FALSE")
+                        #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                        if(self.enemy_shot_count > const.MAX_ENEMY_SHOT):
+                            checks.LESS_MAX_ENEMY_SHOT = False
+                            print("Enemies stop shooting when max count reached: FALSE")
 
             for y in enemy_shots:
                 if y.collision_check(player):
@@ -291,6 +334,11 @@ class Game:
             pygame.display.update(actors)
             actors = []
 
+        #CHECKS
+        print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
+        print("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
+        print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
         # Exit game and system
         if self.gameover:
             gameover_audio.play()
