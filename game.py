@@ -6,7 +6,6 @@
 #  Created: 10/14/19
 
 import pygame
-import os.path
 import sys
 import random
 from text import Text
@@ -137,7 +136,7 @@ class Game:
                 actors.append(render)
                 actor.update()
 
-            # Remove out-of-frame shots
+            # Remove out-of-frame objects
             for shot in shots:
                 if shot.rect.top <= 0:
                     shots.remove(shot)
@@ -145,6 +144,15 @@ class Game:
             for shot in enemy_shots:
                 if shot.rect.bottom >= const.SCREENRECT.height:
                     enemy_shots.remove(shot)
+
+            for enemy in enemies:
+                if enemy.rect.y >= const.SCREENRECT.height - 30:
+                    enemies.remove(enemy)
+
+            #remove health recovery object as it moves off screen
+            for z in recover_health:
+                if z.rect.bottom >= const.SCREENRECT.height:
+                    recover_health.remove(z)
 
             # Move the player
             x_dir = right - left
@@ -159,11 +167,15 @@ class Game:
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
-            # Create new alien
+            # Create new enemy shot
+            if len(enemies) > 0 and len(enemy_shots) < const.MAX_ENEMY_SHOT:
+                if not int(random.random() * const.ENEMY_SHOT_ODDS):
+                    self.enemy_shot_count += 1
+                    enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies) - 1)]))
+
+            # Create new enemy
             if not int(random.random() * const.ENEMY_ODDS):
-                #only appends until the number of max is reached
-                if(self.enemy_count < const.MAX_ENEMIES):
-                    #counting the number of enemies that were spawned
+                if self.enemy_count < const.MAX_ENEMIES:
                     self.enemy_count += 1
                     enemies.append(Enemy())
 
@@ -172,70 +184,31 @@ class Game:
                 if random.randint(1, 201) == 1:
                     recover_health.append(Recover_health())
 
-            #player collision with health recovery objects
-            for z in recover_health:
-                if player.health < 3:
-                    if z.pickup(player):
-                        recover_health.remove(z)
-                        player.health += 1
-                        setup.SOUNDS['power_up2'].play()
-                        if player.health == 3:
-                            health.image = setup.IMAGES['hearts_3']
-                        elif player.health == 2:
-                            health.image = setup.IMAGES['hearts_2']
-
-            #remove health recovery object as it moves off screen
-            for z in recover_health:
-                if z.rect.bottom >= const.SCREENRECT.height:
+            # player collision with health recovery objects
+            for health in recover_health:
+                if player.health < 3 and health.pickup(player):
                     recover_health.remove(z)
+                    setup.SOUNDS['power_up2'].play()
+                    player.recover()
+                    health.update()
 
-            # Make enemies shoot
-            #i = 0
-            #for x in enemies:
-            if(len(enemies) > 0):
-                if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                    if (self.enemy_shot_count < const.MAX_ENEMY_SHOT):
-                        self.enemy_shot_count += 1
-                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
-                        enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies)-1)]))
-            #i = i + 1
+            # Collision check: enemy shot with player
+            for enemy_shot in enemy_shots:
+                if enemy_shot.collision_check(player):
+                    enemy_shots.remove(enemy_shot)
+                    setup.SOUNDS['hit'].play()
+                    player.hit()
+                    health.update()
 
-            for y in enemy_shots:
-                if y.collision_check(player):
-                    enemy_shots.remove(y)
-                    player.health -= 1
-                    if player.health == 0:
-                        health.image = setup.IMAGES['hearts_0']
-                        player.alive = False
-                        self.gameover = True
-                    elif player.health == 1:
-                        setup.SOUNDS['hit'].play()
-                        health.image = setup.IMAGES['hearts_1']
-                    elif player.health == 2:
-                        setup.SOUNDS['hit'].play()
-                        health.image = setup.IMAGES['hearts_2']
-
-            # Check for collisions
+            # Collision check: enemy with player
             for enemy in enemies:
                 if enemy.collision_check(player):
                     enemies.remove(enemy)
-                    player.health -= 1
-                    if player.health == 0:
-                        health.image = setup.IMAGES['hearts_0']
-                        player.alive = False
-                        self.gameover = True
-                    elif player.health == 1:
-                        setup.SOUNDS['hit'].play()
-                        health.image = setup.IMAGES['hearts_1']
-                    elif player.health == 2:
-                        setup.SOUNDS['hit'].play()
-                        health.image = setup.IMAGES['hearts_2']
+                    setup.SOUNDS['hit'].play()
+                    player.hit()
+                    health.update()
 
-                #enemies go away once they hit the bottom
-                if enemy.rect.y >= const.SCREENRECT.height - 30:
-                    enemies.remove(enemy)
-
-
+                # Collision check: player shot with enemy
                 for shot in shots:
                     if shot.collision_check(enemy):
                         setup.SOUNDS['enemy'].play()
@@ -253,7 +226,7 @@ class Game:
             actors = []
 
         # Exit game and system
-        if self.gameover:
+        if not player.alive:
             setup.SOUNDS['gameover'].play()
         self.quit_game()
 

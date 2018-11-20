@@ -30,3 +30,11 @@ class Player(Actor):
     #  @post Player location has been updated
     def move(self, direction):
         self.rect = self.rect.move(direction * const.PLAYER_SPEED, 0).clamp(const.SCREENRECT)
+
+    def hit(self):
+        self.health -= 1
+        if self.health == 0:
+            self.alive = False
+
+    def recover(self):
+        self.health += 1
