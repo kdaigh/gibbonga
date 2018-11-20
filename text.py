@@ -1,9 +1,9 @@
 ## @file text.py
 #  Source file for Text base class
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 11/18/19
+#  Created: 11/18/18
 
 import pygame
 import constants as const

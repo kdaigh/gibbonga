@@ -1,9 +1,9 @@
 ## @file constants.py
 #  File containing game constants
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 10/18/19
+#  Created: 10/18/18
 
 from pygame.locals import *
 
