@@ -27,4 +27,4 @@ class Recover_health(Actor):
     #  @param: direction, coordinates that represent desired move
     #  @post: icon location has been updated
     def update(self):
-        self.rect.bottom = self.rect.bottom + 10
+        self.rect.bottom = self.rect.bottom + 5

@@ -182,23 +182,23 @@ class Game:
                 if random.randint(1, 201) == 1:
                     recover_health.append(Recover_health())
 
-            # Check for player hits
-            for threat in enemies + enemy_shots:
-                if threat.collide_with(player):
-                    player.hit()
-
             # Check for player power ups
             for health in recover_health:
                 if health.collide_with(player):
                     player.recover()
 
+            # Check for player hits
+            for threat in enemies + enemy_shots:
+                if threat.collide_with(player):
+                    player.hit()
+
             # Check for enemy kills
-            for enemy in enemies:
-                for shot in shots:
-                    if shot.collide_with(enemy):
-                        setup.SOUNDS['enemy'].play()
-                        enemies.remove(enemy)
-                        self.score += 1
+                for enemy in enemies:
+                    for shot in shots:
+                        if shot.collide_with(enemy):
+                            setup.SOUNDS['enemy'].play()
+                            enemies.remove(enemy)
+                            self.score += 1
 
             # Draw actors
             for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:

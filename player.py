@@ -31,12 +31,16 @@ class Player(Actor):
     def move(self, direction):
         self.rect = self.rect.move(direction * const.PLAYER_SPEED, 0).clamp(const.SCREENRECT)
 
+    ## Reacts to player being hit by a threat
+    #  @post Hit sound played and health decremented
     def hit(self):
         setup.SOUNDS['hit'].play()
         self.health -= 1
         if self.health == 0:
             self.alive = False
 
+    ## Reacts to player picking up recovery health
+    #  @post Power-up sound played and health incremented
     def recover(self):
         setup.SOUNDS['power_up2'].play()
         self.health += 1

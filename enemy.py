@@ -19,7 +19,6 @@ class Enemy(Actor):
     #  @param image, surface object with Enemy image
     def __init__(self):
         Actor.__init__(self, setup.IMAGES['enemy_spaceship'])
-        #this is starting it from the left or from the right
         self.right = True
         self.down = True
         self.rect.y = const.SCREENRECT.top
@@ -29,7 +28,6 @@ class Enemy(Actor):
         divide_list = [50, 60, 80]
         self.number = random.sample(divide_list, 1)
         self.count = 0
-         # For now we are not letting enemies reload
 
     ## Function to update the enemy
     def update(self):
