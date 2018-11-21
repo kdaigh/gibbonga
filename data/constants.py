@@ -1,11 +1,12 @@
 ## @file constants.py
 #  File containing game constants
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 10/18/19
+#  Created: 10/18/18
 
 from pygame.locals import *
+
 
 # Frames Per Second
 FPS = 60
@@ -16,7 +17,7 @@ WHITE = (255, 255, 255)
 
 # Game Menu
 TEXT_FONT = "assets/fonts/arcadeclassic.ttf"
-TEXT_SIZE = 20
+TEXT_SIZE = 25
 
 # Window Size
 #SCREENRECT = Rect(0, 0, 640, 480)

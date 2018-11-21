@@ -1,12 +1,9 @@
 ## @file actor.py
 #  Source file for actor base class
 #
-#  Project: Gallaga Clone
+#  Project: Galaga Clone
 #  Author: Py Five
-#  Created: 10/17/19
-
-import pygame
-from pygame.locals import *
+#  Created: 10/17/18
 
 
 ## @class Actor
@@ -18,6 +15,7 @@ class Actor:
     def __init__(self, image):
         self.image = image
         self.rect = image.get_rect()
+        self.alive = True
 
     ## Abstract method; Updates actor in frame
     def update(self):
@@ -29,6 +27,17 @@ class Actor:
     def draw(self, screen):
         render = screen.blit(self.image, self.rect)
         return render;
+
+    ## Checks for collisions and sets "alive" variable if hit
+    #  @param actor, check collisions with this actor
+    #  @post Alive variable has been set accordinly
+    #  @returns bool, True if collision is detected; false, otherwise
+    def collide_with(self, actor):
+        if self.rect.colliderect(actor.rect):
+            self.alive = False
+            return True
+        else:
+            return False
 
     ## Removes the actor from the screen
     #  @param screen, screen which actor will be erased from

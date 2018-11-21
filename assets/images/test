@@ -1,4 +1,0 @@
-import pygame
-
-enemy_shot_img = pygame.image.load('missile2.png')
-print (enemy_shot_img.get_rect())
