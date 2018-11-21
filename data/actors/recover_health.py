@@ -5,22 +5,20 @@
 #  Author: Py Five
 #  Created: 11/05/18
 
-from components.actor import Actor
-import setup
 import random
-import constants as const
+from .. import setup, constants, actor
 
 
 ## @class Recover_health
 #  @brief Implements Actor base class as a health power-up
-class Recover_health(Actor):
+class Recover_health(actor.Actor):
 
     ## Constructor
     #  @param image, surface object with Player image
     def __init__(self):
-        Actor.__init__(self, setup.IMAGES['hearts_1'])
+        actor.Actor.__init__(self, setup.IMAGES['hearts_1'])
         self.rect.x = random.randrange(15, 585)
-        self.rect.y = const.SCREENRECT.top
+        self.rect.y = constants.SCREENRECT.top
 
     ## Moves powerup down the screen
     #  @pre: Player object exists

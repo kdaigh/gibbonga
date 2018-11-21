@@ -7,15 +7,14 @@
 
 import pygame, sys, random
 from pygame.locals import *
-import constants as const
-import setup
-from components.text import Text
-from components.player import Player
-from components.enemy import Enemy
-from components.shot import Shot
-from components.health import Health
-from components.enemy_shot import Enemy_shot
-from components.recover_health import Recover_health
+from . import setup, constants
+from .actors.text import Text
+from .actors.player import Player
+from .actors.enemy import Enemy
+from .actors.shot import Shot
+from .actors.health import Health
+from .actors.enemy_shot import Enemy_shot
+from .actors.recover_health import Recover_health
 
 
 ## @class Game
@@ -31,7 +30,7 @@ class Game:
         pygame.mixer.init()
 
         # Initialize member variables
-        self.screen = pygame.display.set_mode(const.SCREENRECT.size, 0)
+        self.screen = pygame.display.set_mode(constants.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.quit = False
         self.enemy_count = 1
@@ -64,9 +63,9 @@ class Game:
         #game_logo.rect = game_logo.get_rect(center=(300, 200))
 
         # Load text
-        start_game = Text("START GAME", const.WHITE, (300, 350), self.run)
-        test_game = Text("TEST GAME", const.WHITE, (300, 400))
-        quit_game = Text("QUIT GAME", const.WHITE, (300, 450), self.quit_game)
+        start_game = Text("START GAME", constants.WHITE, (300, 350), self.run)
+        test_game = Text("TEST GAME", constants.WHITE, (300, 400))
+        quit_game = Text("QUIT GAME", constants.WHITE, (300, 450), self.quit_game)
 
         # Draw text on screen
         options = []
@@ -92,15 +91,15 @@ class Game:
 
     def load_background(self):
         background_img = setup.IMAGES['space']
-        background = pygame.Surface(const.SCREENRECT.size)
-        for x in range(0, const.SCREENRECT.width, background_img.get_width()):
+        background = pygame.Surface(constants.SCREENRECT.size)
+        for x in range(0, constants.SCREENRECT.width, background_img.get_width()):
             background.blit(background_img, (x, 0))
         self.screen.blit(background, (0, 0))
         return background
 
     def clean(self, actors):
         for actor in actors:
-            if actor.rect.top <= 0 or actor.rect.bottom >= const.SCREENRECT.height or not actor.alive:
+            if actor.rect.top <= 0 or actor.rect.bottom >= constants.SCREENRECT.height or not actor.alive:
                 actors.remove(actor)
         return actors
 
@@ -125,12 +124,12 @@ class Game:
         shots = []
         enemy_shots = []
         actors = []
-        score_text = Text("Score 0", const.WHITE, (75, 25))
+        score_text = Text("Score 0", constants.WHITE, (75, 25))
 
         # Game loop
         while player.alive and not self.quit:
 
-            self.clock.tick(const.FPS)
+            self.clock.tick(constants.FPS)
 
             # Call event queue
             pygame.event.pump()
@@ -165,20 +164,20 @@ class Game:
             score_text.update_text("Score " + str(self.score))
 
             # Spawn player shots
-            if not player.reloading and shoot and len(shots) < const.MAX_SHOTS:
+            if not player.reloading and shoot and len(shots) < constants.MAX_SHOTS:
                 shots.append(Shot(player))
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
             # Spawn enemy
-            if not int(random.random() * const.ENEMY_ODDS):
-                if self.enemy_count < const.MAX_ENEMIES:
+            if not int(random.random() * constants.ENEMY_ODDS):
+                if self.enemy_count < constants.MAX_ENEMIES:
                     enemies.append(Enemy())
                     self.enemy_count += 1
 
             # Spawn enemy shot
-            if not int(random.random() * const.ENEMY_SHOT_ODDS):
-                if len(enemies) > 0 and self.enemy_shot_count < const.MAX_ENEMY_SHOT:
+            if not int(random.random() * constants.ENEMY_SHOT_ODDS):
+                if len(enemies) > 0 and self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
                     self.enemy_shot_count += 1
                     enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies) - 1)]))
 

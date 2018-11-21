@@ -5,31 +5,29 @@
 #  Author: Py Five
 #  Created: 10/17/18
 
-import setup
-import constants as const
-from components.actor import Actor
+from .. import setup, constants, actor
 
 
 ## @class Player
 #  @brief Implements Actor base class as Player object
-class Player(Actor):
+class Player(actor.Actor):
 
     ## Constructor
     #  @param image, surface object with Player image
     def __init__(self):
-        Actor.__init__(self, setup.IMAGES['starship'])
+        actor.Actor.__init__(self, setup.IMAGES['starship'])
         self.alive = True
         self.health = 3
         self.reloading = False
-        self.rect.centerx = const.SCREENRECT.centerx
-        self.rect.bottom = const.SCREENRECT.bottom
+        self.rect.centerx = constants.SCREENRECT.centerx
+        self.rect.bottom = constants.SCREENRECT.bottom
 
     ## Moves player in a specific direction
     #  @pre Player object exists
     #  @param direction, coordinates that represent desired move
     #  @post Player location has been updated
     def move(self, direction):
-        self.rect = self.rect.move(direction * const.PLAYER_SPEED, 0).clamp(const.SCREENRECT)
+        self.rect = self.rect.move(direction * constants.PLAYER_SPEED, 0).clamp(constants.SCREENRECT)
 
     ## Reacts to player being hit by a threat
     #  @post Hit sound played and health decremented

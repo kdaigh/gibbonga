@@ -5,19 +5,18 @@
 #  Author: Py Five
 #  Created: 10/17/18
 
-from components.actor import Actor
-import setup
+from .. import setup, actor
 
 
 ## @class Shot
 #  @brief Implements Actor base class as Shot object
-class Enemy_shot(Actor):
+class Enemy_shot(actor.Actor):
 
     ## Constructor
     #  @param image, surface object with Shot image
     #  @param player, Player object that fired the shot
     def __init__(self, enemy):
-        Actor.__init__(self, setup.IMAGES['missile2'])
+        actor.Actor.__init__(self, setup.IMAGES['missile2'])
         self.rect.centerx = enemy.rect.centerx
         self.rect.bottom = enemy.rect.bottom + 12
 

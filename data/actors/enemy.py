@@ -6,23 +6,21 @@
 #  Created: 10/17/18
 
 import random
-import setup
-import constants as const
-from components.actor import Actor
+from .. import setup, constants, actor
 
 
 ## @class Enemy
 #  @brief Implements Actor base class as Enemy object
-class Enemy(Actor):
+class Enemy(actor.Actor):
 
     ## Constructor
     #  @param image, surface object with Enemy image
     def __init__(self):
-        Actor.__init__(self, setup.IMAGES['enemy_spaceship'])
+        actor.Actor.__init__(self, setup.IMAGES['enemy_spaceship'])
         self.right = True
         self.down = True
-        self.rect.y = const.SCREENRECT.top
-        self.rect.x = const.SCREENRECT.left
+        self.rect.y = constants.SCREENRECT.top
+        self.rect.x = constants.SCREENRECT.left
         self.speed = random.randrange(2, 4)
         self.ychange = random.randrange(1,4)
         divide_list = [50, 60, 80]
@@ -34,7 +32,7 @@ class Enemy(Actor):
         self.count += 1
         if self.right == True:
             #if(self.rect.x == 614):
-            if(self.rect.x == (const.SCREENRECT.right - 30)):
+            if(self.rect.x == (constants.SCREENRECT.right - 30)):
                 self.right = False
             self.rect.x += self.speed
         elif self.right == False:
@@ -49,7 +47,7 @@ class Enemy(Actor):
             self.rect.y += self.ychange
             if(self.count%self.number[0] == 0):
                 self.down = False
-        self.rect = self.rect.clamp(const.SCREENRECT)
+        self.rect = self.rect.clamp(constants.SCREENRECT)
 
     ## Checks for collisions
     #  @param actor, check collisions with this actor

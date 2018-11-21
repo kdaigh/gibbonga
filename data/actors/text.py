@@ -6,12 +6,11 @@
 #  Created: 11/18/18
 
 import pygame
-import constants as const
-from components.actor import Actor
+from .. import constants, actor
 
 ## @class Text
 #  @brief Defines Text base class
-class Text(Actor):
+class Text(actor.Actor):
 
     ## Constructor
     #  @param text, text to be printed on screen
@@ -23,9 +22,9 @@ class Text(Actor):
         self.color = color
         self.location = location
         self.action = action
-        self.font = pygame.font.Font(const.TEXT_FONT, const.TEXT_SIZE)
+        self.font = pygame.font.Font(constants.TEXT_FONT, constants.TEXT_SIZE)
         image = self.font.render(self.text, True, self.color)
-        Actor.__init__(self, image)
+        actor.Actor.__init__(self, image)
         self.rect = self.image.get_rect(center=self.location)
 
     ## Updates the text, image, and coordinates of the text object

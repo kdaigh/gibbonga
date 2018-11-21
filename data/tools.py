@@ -6,7 +6,7 @@
 #  Created: 11/19/18
 
 import pygame, os.path
-import constants as const
+from . import constants
 
 
 ## Loads images for game into dictionary
@@ -23,7 +23,7 @@ def load_all_images(directory):
                 surface.convert_alpha()
             else:
                 surface = surface.convert()
-                surface.set_colorkey(const.WHITE)
+                surface.set_colorkey(constants.WHITE)
             images[name] = surface
     return images
 

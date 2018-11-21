@@ -5,7 +5,7 @@
 #  Author: Py Five
 #  Created: 10/17/18
 
-from game import Game
+from .game import Game
 
-
-new_game = Game()
+def main():
+    new_game = Game()
