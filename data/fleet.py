@@ -6,7 +6,7 @@
 #  Created: 11/21/18
 
 import random
-from . import constants
+from . import constants, setup
 from .actors.enemy import Enemy
 
 ## @class Fleet
@@ -24,6 +24,7 @@ class Fleet:
         for row_number in range(self.rows):
             for enemy_number in range(self.enemies_per_row):
                 enemy = Enemy(row_number, enemy_number)
+                enemy.image = setup.IMAGES['enemy2']
                 fleet.append(enemy)
         return fleet
 

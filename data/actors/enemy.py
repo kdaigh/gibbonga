@@ -16,7 +16,8 @@ class Enemy(actor.Actor):
     ## Constructor
     #  @param image, surface object with Enemy image
     def __init__(self, row, col):
-        actor.Actor.__init__(self, setup.IMAGES['enemy_spaceship'])
+        #actor.Actor.__init__(self, setup.IMAGES['enemy_spaceship'])
+        actor.Actor.__init__(self, setup.IMAGES['enemy2'])
         self.rect.x = constants.ENEMY_WIDTH + (constants.ENEMY_WIDTH * col)
         self.rect.y = 100 + (constants.ENEMY_HEIGHT * row)
         self.x_dir = 1

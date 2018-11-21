@@ -7,7 +7,8 @@
 
 import pygame, sys, random
 from pygame.locals import *
-from . import setup, constants, fleet
+from . import setup, constants
+from .fleet import Fleet
 from .actors.text import Text
 from .actors.player import Player
 from .actors.enemy import Enemy
@@ -129,12 +130,17 @@ class Game:
         player = Player()
         health = Health(player)
         recover_health = []
-        enemy_fleet = fleet.Fleet(constants.ENEMY_ROWS, constants.ENEMIES_PER_ROW)
-        enemies = enemy_fleet.generate_fleet()
         shots = []
         enemy_shots = []
         actors = []
         score_text = Text("Score 0", constants.WHITE, (75, 25))
+
+        # Enemies
+        #enemy_fleet = fleet.Fleet(constants.ENEMY_ROWS, constants.ENEMIES_PER_ROW)
+        #enemies = enemy_fleet.generate_fleet()
+        enemy_fleet = Fleet(constants.ENEMY_ROWS, constants.ENEMIES_PER_ROW)
+        enemies = enemy_fleet.generate_fleet()
+        #enemies = []
 
         # Game loop
         while player.alive and not self.quit:
@@ -179,7 +185,7 @@ class Game:
                 shots.append(Shot(player))
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
-            #
+
             # # Spawn enemy / Set win if max enemies hit
             # if self.enemy_count < constants.MAX_ENEMIES:
             #     if not int(random.random() * constants.ENEMY_ODDS):

@@ -17,7 +17,3 @@ class Level:
     ## Abstract method; Updates constants for level
     def set_constants(self):
         pass
-
-    def level_one(self):
-
-
