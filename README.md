@@ -1,6 +1,6 @@
-# Project 4: Gallaga Clone
+# Project 4: Galaga Clone
 
-Gallaga arcade game clone using Python and Pygame.
+Galaga arcade game clone using Python and Pygame.
 
 ## Getting Started
 
