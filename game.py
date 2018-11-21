@@ -47,15 +47,18 @@ class Game:
         pygame.display.set_caption('Gibbonga')
         #pygame.mouse.set_visible(0)
 
+        # Load background
+        background = self.load_background()
+        pygame.display.flip()
+
         self.menu()
 
     ## Loads a start screen with clickable options
     #  @pre Game components have been initialized
     def menu(self):
 
-        # Load background
-        background = self.load_background()
-        pygame.display.flip()
+        # Start menu music
+        setup.SOUNDS['OutThere'].play(-1)
 
         # Load image
         game_logo = setup.IMAGES['gibbonga2']
@@ -85,6 +88,7 @@ class Game:
                     pos = pygame.mouse.get_pos()
                     for text in [start_game] + [test_game] + [quit_game]:
                         if text.rect.collidepoint(pos):
+                            pygame.mixer.music.stop()
                             exit_menu = True
                             text.action()
 
@@ -108,13 +112,8 @@ class Game:
     #  @post: Game has been exited properly
     def run(self):
 
-        # Load background
-        background = self.load_background()
-        pygame.display.flip()
-
-        # Load and play background music
-        pygame.mixer.music.load('assets/audios/background.wav')
-        pygame.mixer.music.play(20)
+        # Start background music
+        setup.SOUNDS['background'].play(-1)
 
         # Initialize Starting Actors
         player = Player()
@@ -153,7 +152,6 @@ class Game:
                 actor.update()
 
             # Remove out-of-frame objects
-            # Testing code -- If this breaks, use "self.clean_objects(...) for each
             for dead_actors in [shots] + [enemy_shots] + [enemies] + [recover_health]:
                 self.clean(dead_actors)
 
@@ -216,9 +214,10 @@ class Game:
             pygame.display.update(actors)
             actors = []
 
-        # Exit game and system
+        # Exit game, sound, and system
         if not player.alive:
             setup.SOUNDS['gameover'].play()
+        pygame.mixer.music.stop()
         self.quit_game()
 
     ## Quits the game
