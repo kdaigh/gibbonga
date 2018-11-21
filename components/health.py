@@ -5,10 +5,11 @@
 #  Author: Py Five
 #  Created: 10/24/18
 
-from actor import Actor
-import constants as const
 import setup
-from player import Player
+import constants as const
+from components.actor import Actor
+from components.player import Player
+
 
 ## @class Health
 #  @brief Implements Actor base class as Health object

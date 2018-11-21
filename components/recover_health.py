@@ -5,7 +5,7 @@
 #  Author: Py Five
 #  Created: 11/05/18
 
-from actor import Actor
+from components.actor import Actor
 import setup
 import random
 import constants as const

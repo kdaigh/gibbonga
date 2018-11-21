@@ -5,8 +5,7 @@
 #  Author: Py Five
 #  Created: 11/19/18
 
-import os.path
-import pygame
+import pygame, os.path
 import constants as const
 
 

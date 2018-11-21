@@ -7,6 +7,7 @@
 
 from pygame.locals import *
 
+
 # Frames Per Second
 FPS = 60
 

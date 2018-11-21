@@ -5,8 +5,8 @@
 #  Author: Py Five
 #  Created: 10/17/18
 
-from actor import Actor
 import setup
+from components.actor import Actor
 
 
 ## @class Shot

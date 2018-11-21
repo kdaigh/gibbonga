@@ -5,19 +5,17 @@
 #  Author: Py Five
 #  Created: 10/14/18
 
-import pygame
-import sys
-import random
-from text import Text
-from player import Player
-from enemy import Enemy
-from shot import Shot
-from health import Health
+import pygame, sys, random
 from pygame.locals import *
 import constants as const
-from enemy_shot import Enemy_shot
-from recover_health import Recover_health
 import setup
+from components.text import Text
+from components.player import Player
+from components.enemy import Enemy
+from components.shot import Shot
+from components.health import Health
+from components.enemy_shot import Enemy_shot
+from components.recover_health import Recover_health
 
 
 ## @class Game
@@ -47,15 +45,15 @@ class Game:
         pygame.display.set_caption('Gibbonga')
         #pygame.mouse.set_visible(0)
 
-        # Load background
-        background = self.load_background()
-        pygame.display.flip()
-
         self.menu()
 
     ## Loads a start screen with clickable options
     #  @pre Game components have been initialized
     def menu(self):
+
+        # Load background
+        self.load_background()
+        pygame.display.flip()
 
         # Start menu music
         setup.SOUNDS['OutThere'].play(-1)
@@ -111,6 +109,10 @@ class Game:
     #  @pre: Game components have been initialized
     #  @post: Game has been exited properly
     def run(self):
+
+        # Load background
+        background = self.load_background()
+        pygame.display.flip()
 
         # Start background music
         setup.SOUNDS['background'].play(-1)

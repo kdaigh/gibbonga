@@ -7,7 +7,7 @@
 
 import pygame
 import constants as const
-from actor import Actor
+from components.actor import Actor
 
 ## @class Text
 #  @brief Defines Text base class

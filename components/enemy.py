@@ -5,10 +5,10 @@
 #  Author: Py Five
 #  Created: 10/17/18
 
-from actor import Actor
 import random
-import constants as const
 import setup
+import constants as const
+from components.actor import Actor
 
 
 ## @class Enemy
