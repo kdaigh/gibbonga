@@ -173,8 +173,8 @@ class Game:
             # Spawn enemy
             if not int(random.random() * const.ENEMY_ODDS):
                 if self.enemy_count < const.MAX_ENEMIES:
-                    self.enemy_count += 1
                     enemies.append(Enemy())
+                    self.enemy_count += 1
 
             # Spawn enemy shot
             if not int(random.random() * const.ENEMY_SHOT_ODDS):
@@ -188,24 +188,24 @@ class Game:
                     recover_health.append(Recover_health())
 
             # Check for player power ups
-            for health in recover_health:
-                if health.collide_with(player):
+            for powerup in recover_health:
+                if powerup.collide_with(player):
                     player.recover()
-                    health.update()
+                    health.increase()
 
             # Check for player hits
             for threat in enemies + enemy_shots:
                 if threat.collide_with(player):
                     player.hit()
-                    health.update()
+                    health.decrease()
 
             # Check for enemy kills
-                for enemy in enemies:
-                    for shot in shots:
-                        if shot.collide_with(enemy):
-                            setup.SOUNDS['enemy'].play()
-                            enemies.remove(enemy)
-                            self.score += 1
+            for enemy in enemies:
+                for shot in shots:
+                    if shot.collide_with(enemy):
+                        setup.SOUNDS['enemy'].play()
+                        enemies.remove(enemy)
+                        self.score += 1
 
             # Draw actors
             for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
