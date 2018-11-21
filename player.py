@@ -37,7 +37,8 @@ class Player(Actor):
         if self.health > 0:
             setup.SOUNDS['hit'].play()
             self.health -= 1
-        elif self.health == 0:
+            print (self.health)
+        if self.health == 0:
             self.alive = False
 
     ## Reacts to player picking up recovery health
@@ -46,3 +47,4 @@ class Player(Actor):
         if self.health < 3:
             setup.SOUNDS['power_up2'].play()
             self.health += 1
+            print(self.health)

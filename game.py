@@ -191,13 +191,13 @@ class Game:
             for powerup in recover_health:
                 if powerup.collide_with(player):
                     player.recover()
-                    health.increase()
+
 
             # Check for player hits
             for threat in enemies + enemy_shots:
                 if threat.collide_with(player):
                     player.hit()
-                    health.decrease()
+
 
             # Check for enemy kills
             for enemy in enemies:
