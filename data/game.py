@@ -89,7 +89,7 @@ class Game:
         exit_menu = False
         while not exit_menu:
             for event in pygame.event.get():
-                if pygame.event.peek(QUIT):
+                if event.type == pygame.QUIT:
                     self.quit_game()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     pos = pygame.mouse.get_pos()
@@ -150,11 +150,12 @@ class Game:
             left = key_presses[pygame.K_LEFT]
             shoot = key_presses[pygame.K_SPACE]
             exit = key_presses[pygame.K_q]
+            #events = pygame.event.get()
+            #quit = events[pygame.QUIT]
 
             # Check for quit conditions
             if pygame.event.peek(QUIT) or exit:
-                self.quit = True
-                break
+                self.quit_game()
 
             # Clear screen and update actors
             for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
@@ -239,7 +240,7 @@ class Game:
     #  @pre A game session is running
     #  @post All components have been properly suspended
     def quit_game(self):
-        pygame.time.delay(2000)
+        pygame.time.delay(250)
         pygame.display.quit()
         pygame.quit()
         sys.exit()
