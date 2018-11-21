@@ -18,6 +18,7 @@ WHITE = (255, 255, 255)
 # Game Menu
 TEXT_FONT = "assets/fonts/arcadeclassic.ttf"
 TEXT_SIZE = 25
+MESSAGE_SIZE = 50
 
 # Window Size
 #SCREENRECT = Rect(0, 0, 640, 480)

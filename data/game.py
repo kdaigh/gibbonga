@@ -36,6 +36,7 @@ class Game:
         self.enemy_count = 1
         self.enemy_shot_count = 1
         self.gameover = False
+        self.win = False
         self.score = 0
 
         # Setup Game Window
@@ -48,7 +49,9 @@ class Game:
 
     ## Loads a start screen with clickable options
     #  @pre Game components have been initialized
-    def menu(self):
+    #  @param replay, True for replay screen [OPTIONAL]
+    #  @param win, True if user won previous game [OPTIONAL]
+    def menu(self, replay=False, win=False):
 
         # Load background
         self.load_background()
@@ -57,10 +60,17 @@ class Game:
         # Start menu music
         setup.SOUNDS['OutThere'].play(-1)
 
-        # Load image
-        game_logo = setup.IMAGES['gibbonga2']
-        self.screen.blit(game_logo, (50, 75))
-        #game_logo.rect = game_logo.get_rect(center=(300, 200))
+        # Load logo or outcome message
+        if not replay:
+            game_logo = setup.IMAGES['gibbonga2']
+            self.screen.blit(game_logo, (50, 75))
+        else:
+            font = pygame.font.Font(constants.TEXT_FONT, constants.MESSAGE_SIZE)
+            if win:
+                message = font.render("YOU  WON", True, constants.WHITE)
+            else:
+                message = font.render("YOU  LOST", True, constants.WHITE)
+            self.screen.blit(message, (200, 200))
 
         # Load text
         start_game = Text("START GAME", constants.WHITE, (300, 350), self.run)
@@ -68,13 +78,13 @@ class Game:
         quit_game = Text("QUIT GAME", constants.WHITE, (300, 450), self.quit_game)
 
         # Draw text on screen
-        options = []
+        menu_text = []
         for text in [start_game] + [test_game] + [quit_game]:
             render = text.draw(self.screen)
-            options.append(render)
+            menu_text.append(render)
 
         # Draw screen
-        pygame.display.update(options)
+        pygame.display.update(menu_text)
 
         exit_menu = False
         while not exit_menu:
@@ -85,7 +95,7 @@ class Game:
                     pos = pygame.mouse.get_pos()
                     for text in [start_game] + [test_game] + [quit_game]:
                         if text.rect.collidepoint(pos):
-                            pygame.mixer.music.stop()
+                            setup.SOUNDS['OutThere'].stop()
                             exit_menu = True
                             text.action()
 
@@ -169,15 +179,17 @@ class Game:
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
-            # Spawn enemy
-            if not int(random.random() * constants.ENEMY_ODDS):
-                if self.enemy_count < constants.MAX_ENEMIES:
+            # Spawn enemy [or set win if max enemies hit
+            if self.enemy_count < constants.MAX_ENEMIES:
+                if not int(random.random() * constants.ENEMY_ODDS):
                     enemies.append(Enemy())
                     self.enemy_count += 1
+            else:
+                self.win = True
 
             # Spawn enemy shot
-            if not int(random.random() * constants.ENEMY_SHOT_ODDS):
-                if len(enemies) > 0 and self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
+            if len(enemies) > 0 and self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
+                if not int(random.random() * constants.ENEMY_SHOT_ODDS):
                     self.enemy_shot_count += 1
                     enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies) - 1)]))
 
@@ -216,10 +228,12 @@ class Game:
             actors = []
 
         # Exit game, sound, and system
+        setup.SOUNDS['background'].stop()
         if not player.alive:
             setup.SOUNDS['gameover'].play()
-        pygame.mixer.music.stop()
-        self.quit_game()
+            self.menu(True, False)
+        elif self.win:
+            self.menu(True, True)
 
     ## Quits the game
     #  @pre A game session is running
