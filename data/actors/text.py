@@ -22,7 +22,7 @@ class Text(actor.Actor):
         self.color = color
         self.location = location
         self.action = action
-        self.font = pygame.font.Font(constants.TEXT_FONT, constants.TEXT_SIZE)
+        self.font = pygame.font.Font(constants.GAME_FONT, constants.TEXT_SIZE)
         image = self.font.render(self.text, True, self.color)
         actor.Actor.__init__(self, image)
         self.rect = self.image.get_rect(center=self.location)

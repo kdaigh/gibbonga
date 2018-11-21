@@ -15,9 +15,11 @@ FPS = 60
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-# Game Menu
-TEXT_FONT = "assets/fonts/arcadeclassic.ttf"
+# Game Font
+GAME_FONT = "assets/fonts/arcadeclassic.ttf"
 TEXT_SIZE = 25
+
+# Game Menu
 MESSAGE_SIZE = 50
 
 # Window Size
@@ -29,8 +31,9 @@ PLAYER_SPEED = 12
 
 # Enemy
 ENEMY_SPEED = 4
-ENEMY_ODDS = 48 #was 24
-ENEMY_SIZE = (26, 26)
+ENEMY_DROP = 10
+ENEMY_ODDS = 48
+ENEMY_SIZE = (26, 24)
 MAX_ENEMY_SHOT = 150
 ENEMY_SHOT_ODDS = 50
 MAX_ENEMIES = 300
@@ -38,3 +41,9 @@ MAX_ENEMIES = 300
 # Shots
 MAX_SHOTS = 5
 SHOT_SPEED = 10
+
+# Levels / Fleet expansion
+ENEMIES_PER_ROW = 6
+ENEMY_ROWS = 2
+ENEMY_WIDTH = 28
+ENEMY_HEIGHT = 26

@@ -7,7 +7,7 @@
 
 import pygame, sys, random
 from pygame.locals import *
-from . import setup, constants
+from . import setup, constants, fleet
 from .actors.text import Text
 from .actors.player import Player
 from .actors.enemy import Enemy
@@ -32,12 +32,11 @@ class Game:
         # Initialize member variables
         self.screen = pygame.display.set_mode(constants.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
-        self.quit = False
         self.enemy_count = 1
         self.enemy_shot_count = 1
-        self.gameover = False
-        self.win = False
         self.score = 0
+        self.win = False
+        self.quit = False
 
         # Setup Game Window
         icon = setup.IMAGES['starship']
@@ -65,7 +64,7 @@ class Game:
             game_logo = setup.IMAGES['gibbonga2']
             self.screen.blit(game_logo, (50, 75))
         else:
-            font = pygame.font.Font(constants.TEXT_FONT, constants.MESSAGE_SIZE)
+            font = pygame.font.Font(constants.GAME_FONT, constants.MESSAGE_SIZE)
             if win:
                 message = font.render("YOU  WON", True, constants.WHITE)
             else:
@@ -130,7 +129,8 @@ class Game:
         player = Player()
         health = Health(player)
         recover_health = []
-        enemies = [Enemy()]
+        enemy_fleet = fleet.Fleet(constants.ENEMY_ROWS, constants.ENEMIES_PER_ROW)
+        enemies = enemy_fleet.generate_fleet()
         shots = []
         enemy_shots = []
         actors = []
@@ -179,14 +179,16 @@ class Game:
                 shots.append(Shot(player))
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
+            #
+            # # Spawn enemy / Set win if max enemies hit
+            # if self.enemy_count < constants.MAX_ENEMIES:
+            #     if not int(random.random() * constants.ENEMY_ODDS):
+            #         enemies.append(Enemy())
+            #         self.enemy_count += 1
+            # else:
+            #     self.win = True
 
-            # Spawn enemy [or set win if max enemies hit
-            if self.enemy_count < constants.MAX_ENEMIES:
-                if not int(random.random() * constants.ENEMY_ODDS):
-                    enemies.append(Enemy())
-                    self.enemy_count += 1
-            else:
-                self.win = True
+            enemy_fleet.move_fleet(enemies)
 
             # Spawn enemy shot
             if len(enemies) > 0 and self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
