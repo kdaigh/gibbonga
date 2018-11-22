@@ -5,7 +5,7 @@
 #  Author: Py Five
 #  Created: 11/21/18
 
-import random
+import pygame, random
 from . import constants, setup
 from .actors.enemy import Enemy
 
@@ -23,9 +23,6 @@ class Level:
         self.ENEMY_DROP_DIST = 0
         self.direction = 1
         self.drop = 0
-
-    def title(self):
-        pass
 
     ## Generates a fleet of enemies for the level
     #  @returns enemies, Enemy array for game
@@ -60,6 +57,9 @@ class Level:
 
     ## Increments level counter and updates game properties for level
     def next_level(self):
+        if self.level > 0:
+            setup.SOUNDS['sfx_coin_cluster3'].play()
+            pygame.time.delay(500)
         self.level += 1
         self.ENEMY_ROWS = constants.ENEMY_ROWS[self.level]
         self.ENEMIES_PER_ROW = constants.ENEMIES_PER_ROW[self.level]
@@ -71,7 +71,7 @@ class Level:
     #  @param score, current score of the game
     #  @returns Bool, True if the level has been won; false, otherwise
     def pass_level(self, score):
-        if score == self.TOTAL_ENEMIES:
+        if score >= self.TOTAL_ENEMIES:
             return True
         return False
 

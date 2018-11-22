@@ -124,9 +124,6 @@ class Game:
         # Start background music
         setup.SOUNDS['background'].play(-1)
 
-        # Initialize on-screen score
-        score_text = Text("Score 0", constants.WHITE, (75, 25))
-
         # Initialize starting actors
         player = Player()
         health = Health(player)
@@ -134,6 +131,15 @@ class Game:
         shots = []
         enemy_shots = []
         enemies = []
+        text = []
+
+        # Initialize on-screen score
+        score_text = Text("Score 0", constants.WHITE, (75, 25))
+        text.append(score_text)
+
+        # Initialize on-screen level counter
+        level_text = Text("", constants.WHITE, (500, 25))
+        text.append(level_text)
 
         # Initialize array for updating actors
         actors = []
@@ -155,8 +161,6 @@ class Game:
             left = key_presses[pygame.K_LEFT]
             shoot = key_presses[pygame.K_SPACE]
             exit = key_presses[pygame.K_q]
-            #events = pygame.event.get()
-            #quit = events[pygame.QUIT]
 
             # Check for quit conditions
             if pygame.event.peek(QUIT) or exit:
@@ -164,7 +168,6 @@ class Game:
 
             # Update level upon pass
             if level.pass_level(self.score):
-                self.boss_count = 0
                 level.next_level()
                 enemies = enemies + level.generate_enemies()
 
@@ -172,7 +175,7 @@ class Game:
             level.update(enemies)
 
             # Clear screen and update actors
-            for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
+            for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
                 render = actor.erase(self.screen, background)
                 actors.append(render)
                 actor.update()
@@ -187,6 +190,7 @@ class Game:
 
             # Update text
             score_text.update_text("Score " + str(self.score))
+            level_text.update_text("Level " + str(level.level))
 
             # Spawn player shots
             if not player.reloading and shoot and len(shots) < constants.MAX_SHOTS:
@@ -224,7 +228,7 @@ class Game:
                         self.score += 1
 
             # Draw actors
-            for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
+            for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
                 render = actor.draw(self.screen)
                 actors.append(render)
 
@@ -237,6 +241,7 @@ class Game:
 
         # Exit game, sound, and system
         setup.SOUNDS['background'].stop()
+        pygame.time.delay(250)
         if not player.alive:
             setup.SOUNDS['gameover'].play()
             self.menu(True, False)
