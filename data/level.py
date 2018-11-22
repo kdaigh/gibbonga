@@ -10,16 +10,11 @@ from . import constants, setup
 from .actors.enemy import Enemy
 
 ## @class Level
-#  @brief TBD
+#  @brief Manages the game levels and corresponding enemies
 class Level:
 
     ## Constructor
     def __init__(self):
-        # Print level message
-        #font = pygame.font.Font(constants.GAME_FONT, constants.TEXT_SIZE)
-        #message = font.render("READY?", True, constants.WHITE)
-        #self.screen.blit(message, (200, 25))
-
         self.level = 0
         self.ENEMY_ROWS = 0
         self.ENEMIES_PER_ROW = 0
