@@ -8,7 +8,7 @@
 import pygame, sys, random
 from pygame.locals import *
 from . import setup, constants
-from .fleet import Fleet
+from .level import Level
 from .actors.text import Text
 from .actors.player import Player
 from .actors.enemy import Enemy
@@ -33,7 +33,6 @@ class Game:
         # Initialize member variables
         self.screen = pygame.display.set_mode(constants.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
-        self.enemy_count = 1
         self.enemy_shot_count = 1
         self.score = 0
         self.win = False
@@ -65,6 +64,7 @@ class Game:
             game_logo = setup.IMAGES['gibbonga2']
             self.screen.blit(game_logo, (50, 75))
         else:
+            self.reset_game()
             font = pygame.font.Font(constants.GAME_FONT, constants.MESSAGE_SIZE)
             if win:
                 message = font.render("YOU  WON", True, constants.WHITE)
@@ -82,8 +82,6 @@ class Game:
         for text in [start_game] + [test_game] + [quit_game]:
             render = text.draw(self.screen)
             menu_text.append(render)
-
-        # Draw screen
         pygame.display.update(menu_text)
 
         exit_menu = False
@@ -126,24 +124,25 @@ class Game:
         # Start background music
         setup.SOUNDS['background'].play(-1)
 
-        # Initialize Starting Actors
+        # Initialize on-screen score
+        score_text = Text("Score 0", constants.WHITE, (75, 25))
+
+        # Initialize starting actors
         player = Player()
         health = Health(player)
         recover_health = []
         shots = []
         enemy_shots = []
-        actors = []
-        score_text = Text("Score 0", constants.WHITE, (75, 25))
+        enemies = []
 
-        # Enemies
-        #enemy_fleet = fleet.Fleet(constants.ENEMY_ROWS, constants.ENEMIES_PER_ROW)
-        #enemies = enemy_fleet.generate_fleet()
-        enemy_fleet = Fleet(constants.ENEMY_ROWS, constants.ENEMIES_PER_ROW)
-        enemies = enemy_fleet.generate_fleet()
-        #enemies = []
+        # Initialize array for updating actors
+        actors = []
+
+        # Initialize level manager
+        level = Level()
 
         # Game loop
-        while player.alive and not self.quit:
+        while player.alive and not self.win and not self.quit:
 
             self.clock.tick(constants.FPS)
 
@@ -162,6 +161,15 @@ class Game:
             # Check for quit conditions
             if pygame.event.peek(QUIT) or exit:
                 self.quit_game()
+
+            # Update level upon pass
+            if level.pass_level(self.score):
+                self.boss_count = 0
+                level.next_level()
+                enemies = enemies + level.generate_enemies()
+
+            # Update enemies
+            level.update(enemies)
 
             # Clear screen and update actors
             for actor in [score_text] + [player] + [health] + enemies + shots + enemy_shots + recover_health:
@@ -186,17 +194,7 @@ class Game:
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
-            # # Spawn enemy / Set win if max enemies hit
-            # if self.enemy_count < constants.MAX_ENEMIES:
-            #     if not int(random.random() * constants.ENEMY_ODDS):
-            #         enemies.append(Enemy())
-            #         self.enemy_count += 1
-            # else:
-            #     self.win = True
-
-            enemy_fleet.move_fleet(enemies)
-
-            # Spawn enemy shot
+            # Spawn enemy shots
             if len(enemies) > 0 and self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
                 if not int(random.random() * constants.ENEMY_SHOT_ODDS):
                     self.enemy_shot_count += 1
@@ -212,19 +210,17 @@ class Game:
                 if powerup.collide_with(player):
                     player.recover()
 
-
             # Check for player hits
             for threat in enemies + enemy_shots:
                 if threat.collide_with(player):
                     player.hit()
-
 
             # Check for enemy kills
             for enemy in enemies:
                 for shot in shots:
                     if shot.collide_with(enemy):
                         setup.SOUNDS['enemy'].play()
-                        enemies.remove(enemy)
+                        enemy.die()
                         self.score += 1
 
             # Draw actors
@@ -236,6 +232,9 @@ class Game:
             pygame.display.update(actors)
             actors = []
 
+            # Check win
+            self.win = level.game_win(self.score)
+
         # Exit game, sound, and system
         setup.SOUNDS['background'].stop()
         if not player.alive:
@@ -243,6 +242,11 @@ class Game:
             self.menu(True, False)
         elif self.win:
             self.menu(True, True)
+
+    def reset_game(self):
+        self.enemy_shot_count = 1
+        self.score = 0
+        self.win = False
 
     ## Quits the game
     #  @pre A game session is running
