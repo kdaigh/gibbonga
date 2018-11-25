@@ -350,6 +350,7 @@ class Game:
         print("Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
 
         print("Enemies go over edges: " + str(checks.ENEMIES_OVER_EDGES))
+        print("Player goes over edges: " + str(checks.PLAYER_OVER_EDGES))
 
         print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
         #print("Does not go over max player shots: " + str(checks.LESS_MAX_PLAYER_SHOT))
