@@ -27,6 +27,7 @@ SCREENRECT = Rect(0, 0, 600, 650)
 
 # Player Speed
 PLAYER_SPEED = 12
+PLAYER_SHOT_ODDS = 25
 
 # Enemy
 ENEMY_WIDTH = 28
