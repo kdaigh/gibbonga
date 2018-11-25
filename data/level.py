@@ -5,9 +5,10 @@
 #  Author: Py Five
 #  Created: 11/21/18
 
-import pygame, random
+import pygame
 from . import constants, setup
 from .actors.enemy import Enemy
+
 
 ## @class Level
 #  @brief Manages the game levels and corresponding enemies
@@ -39,7 +40,6 @@ class Level:
     ## Updates enemy fleet movements
     #  @param enemies, Enemy array from game
     def update(self, enemies):
-        # Calculate enemy moves
         for enemy in enemies:
             if enemy.rect.left <= constants.SCREENRECT.left:
                 self.direction = 1
@@ -50,7 +50,6 @@ class Level:
             else:
                 self.drop = 0
 
-        # Move enemies and bosses
         for enemy in enemies:
             enemy.x_move = self.ENEMY_SPEED * self.direction
             enemy.y_move = self.ENEMY_DROP_DIST * self.drop
