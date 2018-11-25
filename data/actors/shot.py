@@ -16,7 +16,8 @@ class Shot(actor.Actor):
     #  @param image, surface object with Shot image
     #  @param player, Player object that fired the shot
     def __init__(self, player):
-        actor.Actor.__init__(self, setup.IMAGES['missile1'])
+        #actor.Actor.__init__(self, setup.IMAGES['missile1'])
+        actor.Actor.__init__(self, setup.IMAGES['torpedo'])
         self.rect.centerx = player.rect.centerx
         self.rect.top = player.rect.top - 5
 

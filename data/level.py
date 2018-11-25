@@ -33,7 +33,6 @@ class Level:
             for enemy_number in range(self.ENEMIES_PER_ROW):
                 enemy = Enemy()
                 enemy.spawn_at(row_number, enemy_number)
-                enemy.image = setup.IMAGES['enemy2']
                 enemies.append(enemy)
         return enemies
 

@@ -16,7 +16,8 @@ class Enemy_shot(actor.Actor):
     #  @param image, surface object with Shot image
     #  @param player, Player object that fired the shot
     def __init__(self, enemy):
-        actor.Actor.__init__(self, setup.IMAGES['missile2'])
+        #actor.Actor.__init__(self, setup.IMAGES['missile2'])
+        actor.Actor.__init__(self, setup.IMAGES['laserGreen07'])
         self.rect.centerx = enemy.rect.centerx
         self.rect.bottom = enemy.rect.bottom + 12
 
