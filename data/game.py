@@ -101,10 +101,11 @@ class Game:
                             text.action()
 
     def test (self):
+        ##CHECK
+        #checking if the mixier is correctly initialized
         mixer_check = pygame.mixer.get_init()
         if mixer_check == None:
             self.checkeed += 1
-            checks.CHECK_7 = False
             checks.MIXIR_INITIALIZED = False
         else:
             self.checked += 1
@@ -155,9 +156,6 @@ class Game:
 
             # Process input
             key_presses = pygame.key.get_pressed()
-            right = key_presses[pygame.K_RIGHT]
-            left = key_presses[pygame.K_LEFT]
-            shoot = key_presses[pygame.K_SPACE]
             exit = key_presses[pygame.K_q]
 
             # Check for quit conditions
@@ -295,6 +293,36 @@ class Game:
                             if (player.health != checkLen -1):
                                 checks.HEALTH_HIT = False
 
+            ##CHECK
+            #check if enemy go outside the screen edges
+            enemies_over_edges_l = False
+            enemies_over_edges_r = False
+            if checks.CHECK_8 == False:
+                checks.CHECK_8 = True
+                self.checked += 1
+                for enemy in enemies:
+                    if enemy.rect.left <= constants.SCREENRECT.left:
+                        enemies_over_edges_l = True
+                    if enemy.rect.right >= constants.SCREENRECT.right:
+                        enemies_over_edges_r = True
+                if enemies_over_edges_l == True or enemies_over_edges_r == True:
+                    checks.ENEMIES_OVER_EDGES = True
+
+            ##CHECK
+            #check if player go outside the screen edges
+            over_edges_l = False
+            over_edges_r = False
+            if checks.CHECK_9 == False:
+                checks.CHECK_9 = True
+                self.checked += 1
+                if player.rect.left <= constants.SCREENRECT.left:
+                    over_edges_l = True
+                if player.rect.right >= constants.SCREENRECT.right:
+                    over_edges_r = True
+            if over_edges_l == True or over_edges_r == True:
+                checks.PLAYER_OVER_EDGES = True
+
+
             # Check for enemy kills
             for enemy in enemies:
                 for shot in shots:
@@ -320,6 +348,8 @@ class Game:
         print("Number of checks checked: " + str(self.checked))
 
         print("Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
+
+        print("Enemies go over edges: " + str(checks.ENEMIES_OVER_EDGES))
 
         print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
         #print("Does not go over max player shots: " + str(checks.LESS_MAX_PLAYER_SHOT))
