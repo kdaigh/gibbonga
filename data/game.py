@@ -198,11 +198,26 @@ class Game:
                 setup.SOUNDS['shot'].play()
             player.reloading = shoot
 
-            # Spawn enemy shots
-            if len(enemies) > 0 and self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
+            # Make enemies shoot
+            if(len(enemies) > 0):
+                ##CHECK
+                ##make sure the enemy_shot array is incrementing
+                check = len(enemy_shots)
                 if not int(random.random() * constants.ENEMY_SHOT_ODDS):
-                    self.enemy_shot_count += 1
-                    enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies) - 1)]))
+                    if (self.enemy_shot_count < constants.MAX_ENEMY_SHOT):
+                        self.enemy_shot_count += 1
+                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                        enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies)-1)]))
+                        ##CHECK
+                        if(len(enemy_shots) == (check+1)):
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = True
+                        else :
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = False
+                            print("Enemy_shot list increments when enemy shoots: FALSE")
+                        #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                        if(self.enemy_shot_count > constants.MAX_ENEMY_SHOT):
+                            checks.LESS_MAX_ENEMY_SHOT = False
+                            print("Enemies stop shooting when max count reached: FALSE")
 
             # Spawn recovery health objects
             if player.health < 3:
@@ -238,6 +253,12 @@ class Game:
 
             # Check win
             self.win = level.game_win(self.score)
+
+        #CHECKS
+        print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        #print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
+        #rint("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
+        print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
 
         # Exit game, sound, and system
         setup.SOUNDS['background'].stop()
