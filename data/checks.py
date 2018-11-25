@@ -1,0 +1,6 @@
+from pygame.locals import *
+
+ENEMY_LIST_INCREMENTS = False
+ENEMY_SHOT_LIST_INCREMENTS = False
+LESS_MAX_ENEMIES = True
+LESS_MAX_ENEMY_SHOT = True
