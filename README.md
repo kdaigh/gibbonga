@@ -1,3 +1,5 @@
+![gibbonga_readme](https://user-images.githubusercontent.com/42750464/48982003-5b2f6100-f0a2-11e8-932c-466afed6a83e.png)
+
 # Project 4: Galaga Clone
 
 Galaga arcade game clone using Python and Pygame.
