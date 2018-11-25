@@ -1,4 +1,4 @@
-![gibbonga_cropped](https://user-images.githubusercontent.com/42750464/48982091-68991b00-f0a3-11e8-8a1e-5b9e8cdf6fe6.png)
+![gibbonga_cropped](assets/images/gibbonga2.png)
 
 # Project 4: Galaga Clone
 
@@ -36,7 +36,7 @@ See also the list of [contributors](https://github.com/kdaigh/Project04/graphs/c
 
 ## Documentation
 
-[Doxygen](http://www.doxygen.nl/) was used to provide [documentation](https://github.com/kdaigh/Project04/tree/master/documentation/html) for this project.
+[Doxygen](http://www.doxygen.nl/) was used to provide [documentation](documentation/html) for this project.
 
 ## Versioning
 
@@ -44,4 +44,4 @@ This is a final version for a prototype developed in a separate [repository](htt
 
 ## Acknowledgments
 
-Please read [SOURCES.md](https://github.com/kdaigh/Project04/blob/master/documentation/SOURCES.md) for a works cited.
+Please read [SOURCES.md](documentation/SOURCES.md) for a works cited.
