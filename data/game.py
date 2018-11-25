@@ -11,7 +11,6 @@ from . import setup, constants
 from .level import Level
 from .actors.text import Text
 from .actors.player import Player
-from .actors.enemy import Enemy
 from .actors.shot import Shot
 from .actors.health import Health
 from .actors.enemy_shot import Enemy_shot
@@ -53,7 +52,7 @@ class Game:
     def menu(self, replay=False, win=False):
 
         # Load background
-        self.load_background()
+        self.load_background('space')
         pygame.display.flip()
 
         # Start menu music
@@ -97,20 +96,23 @@ class Game:
                             exit_menu = True
                             text.action()
 
-    def load_background(self):
-        background_img = setup.IMAGES['space']
+    ## Loads and blits designated background image to screen
+    #  @param filename, name of background file (without extension)
+    def load_background(self, filename):
+        background_img = setup.IMAGES[filename]
         background = pygame.Surface(constants.SCREENRECT.size)
         for x in range(0, constants.SCREENRECT.width, background_img.get_width()):
             background.blit(background_img, (x, 0))
         self.screen.blit(background, (0, 0))
         return background
 
+    ## Remove dead actors and out-of-frame actors
+    #  @param actors, array with actors to be checked for removal
     def clean(self, actors):
         for actor in actors:
             if actor.rect.top <= 0 or actor.rect.bottom >= constants.SCREENRECT.height or not actor.alive:
                 actors.remove(actor)
         return actors
-
 
     ## Runs the game session
     #  @pre: Game components have been initialized
@@ -118,7 +120,7 @@ class Game:
     def run(self):
 
         # Load background
-        background = self.load_background()
+        background = self.load_background('space')
         pygame.display.flip()
 
         # Start background music
@@ -248,6 +250,8 @@ class Game:
         elif self.win:
             self.menu(True, True)
 
+    ## Resets the game before replay
+    #  @post Set game constants back to original values
     def reset_game(self):
         self.enemy_shot_count = 1
         self.score = 0
