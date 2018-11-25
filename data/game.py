@@ -35,6 +35,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.enemy_shot_count = 1
         self.enemy_count = 1
+        self.player_shot_count = 1
         self.score = 0
         self.win = False
         self.quit = False
@@ -194,10 +195,23 @@ class Game:
             level_text.update_text("Level " + str(level.level))
 
             # Spawn player shots
-            if not player.reloading and shoot and len(shots) < constants.MAX_SHOTS:
-                shots.append(Shot(player))
-                setup.SOUNDS['shot'].play()
-            player.reloading = shoot
+            shots_check = len(shots)
+            if not int(random.random()* constants.PLAYER_SHOT_ODDS):
+                if  len(shots) < constants.MAX_SHOTS:
+                    self.player_shot_count += 1
+                    shots.append(Shot(player))
+                    setup.SOUNDS['shot'].play()
+                    ##CHECK
+                    #increament check count
+                    if checks.CHECK_6 == False:
+                        checks.CHECK_6 = True
+                        self.checked += 1
+                    if len(shots) == (shots_check+1):
+                        checks.PLAYER_SHOT_LIST_INCREAMENTS = True
+                    else:
+                        checks.PLAYER_SHOT_LIST_INCREAMENTS = False
+                        print("Shot list increments when player shoots: FALSE")
+
 
             # Make enemies shoot
             if(len(enemies) > 0):
@@ -297,10 +311,12 @@ class Game:
         print("Number of checks checked: " + str(self.checked))
 
         print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        print("Does not go over max player shots: " + str(checks.LESS_MAX_PLAYER_SHOT))
         #print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
         #rint("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
         print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
 
+        print("List increments when player shoots: " + str(checks.PLAYER_SHOT_LIST_INCREAMENTS))
         print("Player health does not go over three: " + str(checks.MAX_HEALTH))
         print("Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
         print("Player health increments if catches heart: " + str(checks.HEALTH_MORE))
