@@ -23,7 +23,6 @@ TEXT_SIZE = 25
 MESSAGE_SIZE = 50
 
 # Window Size
-#SCREENRECT = Rect(0, 0, 640, 480)
 SCREENRECT = Rect(0, 0, 600, 650)
 
 # Player Speed

@@ -22,14 +22,19 @@ class Health(actor.Actor):
         self.rect.left = constants.SCREENRECT.left
         self.rect.bottom = constants.SCREENRECT.bottom
 
+    ## Increases health of linked player
+    #  @pre Health is currently less than 3
     def increase(self):
         if self.player.health < 3:
             self.player.health += 1
 
+    ## Decreases health of linked player
+    #  @pre Health is currently greater than 0
     def decrease(self):
         if self.player.health > 0:
             self.player.health -= 1
 
+    ## Updates the number of hearts according to player health
     def update(self):
         if self.player.health <= 0:
             self.image = setup.IMAGES['hearts_0']

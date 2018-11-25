@@ -1,5 +1,5 @@
-## @file shot.py
-#  Source file for shot object
+## @file enemy_shot.py
+#  Source file for enemy shot object
 #
 #  Project: Galaga Clone
 #  Author: Py Five

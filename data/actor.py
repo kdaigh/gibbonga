@@ -46,5 +46,3 @@ class Actor:
     def erase(self, screen, background):
         render = screen.blit(background, self.rect, self.rect)
         return render;
-
-

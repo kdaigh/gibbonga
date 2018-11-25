@@ -23,7 +23,6 @@ class Shot(actor.Actor):
     # Updates the shot object
     def update(self):
         self.rect.top = self.rect.top - 10
-        #print (self.rect)
 
     ## Checks for collisions
     #  @param actor, check collisions with this actor
