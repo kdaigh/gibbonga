@@ -101,6 +101,15 @@ class Game:
                             text.action()
 
     def test (self):
+        mixer_check = pygame.mixer.get_init()
+        if mixer_check == None:
+            self.checkeed += 1
+            checks.CHECK_7 = False
+            checks.MIXIR_INITIALIZED = False
+        else:
+            self.checked += 1
+            checks.CHECK_7 = True
+
         # Load background
         background = self.load_background('space')
         pygame.display.flip()
@@ -310,8 +319,10 @@ class Game:
         print("Number of checks: " + str(checks.NUM_CHECKS))
         print("Number of checks checked: " + str(self.checked))
 
+        print("Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
+
         print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
-        print("Does not go over max player shots: " + str(checks.LESS_MAX_PLAYER_SHOT))
+        #print("Does not go over max player shots: " + str(checks.LESS_MAX_PLAYER_SHOT))
         #print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
         #rint("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
         print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
