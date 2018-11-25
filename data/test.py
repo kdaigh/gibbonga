@@ -8,7 +8,6 @@
 import pygame, sys, random
 from pygame.locals import *
 from . import setup, constants
-from .test import Test
 from .level import Level
 from .actors.text import Text
 from .actors.player import Player
@@ -20,7 +19,7 @@ from .actors.recover_health import Recover_health
 
 ## @class Game
 #  @brief Runs the game session and manages all actors
-class Game:
+class Test:
 
     ## Constructor
     #  @post: Game components have been initialized
@@ -44,59 +43,9 @@ class Game:
         pygame.display.set_caption('Gibbonga')
         #pygame.mouse.set_visible(0)
 
-        self.menu()
-        self.test = None
+        #self.menu()
 
-    ## Loads a start screen with clickable options
-    #  @pre Game components have been initialized
-    #  @param replay, True for replay screen [OPTIONAL]
-    #  @param win, True if user won previous game [OPTIONAL]
-    def menu(self, replay=False, win=False):
-
-        # Load background
-        self.load_background('space')
-        pygame.display.flip()
-
-        # Start menu music
-        setup.SOUNDS['OutThere'].play(-1)
-
-        # Load logo or outcome message
-        if not replay:
-            game_logo = setup.IMAGES['gibbonga2']
-            self.screen.blit(game_logo, (50, 75))
-        else:
-            self.reset_game()
-            font = pygame.font.Font(constants.GAME_FONT, constants.MESSAGE_SIZE)
-            if win:
-                message = font.render("YOU  WON", True, constants.WHITE)
-            else:
-                message = font.render("YOU  LOST", True, constants.WHITE)
-            self.screen.blit(message, (200, 200))
-
-        # Load text
-        start_game = Text("START GAME", constants.WHITE, (300, 350), self.run)
-        test_game = Text("TEST GAME", constants.WHITE, (300, 400), self.test = Test())
-        quit_game = Text("QUIT GAME", constants.WHITE, (300, 450), self.quit_game)
-
-        # Draw text on screen
-        menu_text = []
-        for text in [start_game] + [test_game] + [quit_game]:
-            render = text.draw(self.screen)
-            menu_text.append(render)
-        pygame.display.update(menu_text)
-
-        exit_menu = False
-        while not exit_menu:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.quit_game()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    pos = pygame.mouse.get_pos()
-                    for text in [start_game] + [test_game] + [quit_game]:
-                        if text.rect.collidepoint(pos):
-                            setup.SOUNDS['OutThere'].stop()
-                            exit_menu = True
-                            text.action()
+    
 
     ## Loads and blits designated background image to screen
     #  @param filename, name of background file (without extension)
@@ -119,7 +68,7 @@ class Game:
     ## Runs the game session
     #  @pre: Game components have been initialized
     #  @post: Game has been exited properly
-    def run(self):
+    def test_run(self):
 
         # Load background
         background = self.load_background('space')
