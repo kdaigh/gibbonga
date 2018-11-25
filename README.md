@@ -1,4 +1,4 @@
-![gibbonga_readme](https://user-images.githubusercontent.com/42750464/48982003-5b2f6100-f0a2-11e8-932c-466afed6a83e.png)
+![gibbonga_cropped](https://user-images.githubusercontent.com/42750464/48982091-68991b00-f0a3-11e8-8a1e-5b9e8cdf6fe6.png)
 
 # Project 4: Galaga Clone
 
