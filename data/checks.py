@@ -1,6 +1,18 @@
 from pygame.locals import *
 
-ENEMY_LIST_INCREMENTS = False
+NUM_CHECKS = 5
+
+#ENEMY_LIST_INCREMENTS = False
 ENEMY_SHOT_LIST_INCREMENTS = False
 LESS_MAX_ENEMIES = True
-LESS_MAX_ENEMY_SHOT = True
+#LESS_MAX_ENEMY_SHOT = True
+
+MAX_HEALTH = True
+HEALTH_HIT = True
+HEALTH_MORE = True
+
+CHECK_1 = False
+CHECK_2 = False
+CHECK_3 = False
+CHECK_4 = False
+CHECK_5 = False

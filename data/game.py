@@ -38,6 +38,7 @@ class Game:
         self.score = 0
         self.win = False
         self.quit = False
+        self.checked = 0
 
         # Setup Game Window
         icon = setup.IMAGES['starship']
@@ -206,15 +207,22 @@ class Game:
                 if not int(random.random() * constants.ENEMY_SHOT_ODDS):
                     if (self.enemy_shot_count < constants.MAX_ENEMY_SHOT):
                         self.enemy_shot_count += 1
-                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
                         enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies)-1)]))
                         ##CHECK
+                        #increment check count
+                        if(checks.CHECK_1 == False):
+                            checks.CHECK_1 = True
+                            self.checked += 1
                         if(len(enemy_shots) == (check+1)):
                             checks.ENEMY_SHOT_LIST_INCREMENTS = True
                         else :
                             checks.ENEMY_SHOT_LIST_INCREMENTS = False
                             print("Enemy_shot list increments when enemy shoots: FALSE")
                         #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                        #increment check count
+                        if(checks.CHECK_2 == False):
+                            checks.CHECK_2 = True
+                            self.checked += 1
                         if(self.enemy_shot_count > constants.MAX_ENEMY_SHOT):
                             checks.LESS_MAX_ENEMY_SHOT = False
                             print("Enemies stop shooting when max count reached: FALSE")
@@ -223,16 +231,46 @@ class Game:
             if player.health < 3:
                 if random.randint(1, 201) == 1:
                     recover_health.append(Recover_health())
+                    #check that health is not going over 3
+                    #increment check count
+                    if(checks.CHECK_3 == False):
+                        checks.CHECK_3 = True
+                        self.checked += 1
+                    if(player.health > 3):
+                        checks.MAX_HEALTH = False
 
             # Check for player power ups
             for powerup in recover_health:
+                #check to make sure health increments when collides with player
+                checkLen = player.health
                 if powerup.collide_with(player):
                     player.recover()
+                    #increment check count
+                    if(checks.CHECK_4 == False):
+                        checks.CHECK_4 = True
+                        self.checked += 1
+                    if(player.health != checkLen + 1):
+                        checks.HEALTH_MORE = False
+                    #check make sure health does not go over 3
+                    if(player.health > 3):
+                        checks.MAX_HEALTH = False
 
             # Check for player hits
             for threat in enemies + enemy_shots:
                 if threat.collide_with(player):
-                    player.hit()
+                    if(player.health == 1 and self.checked != checks.NUM_CHECKS):
+                        print("Three additional health added to meet all checks")
+                        player.health = 3
+                    else:
+                        #check to make sure health decrements when player is hit
+                        checkLen = player.health
+                        player.hit()
+                        #increment check count
+                        if(checks.CHECK_5 == False):
+                            checks.CHECK_5 = True
+                            self.checked += 1
+                            if (player.health != checkLen -1):
+                                checks.HEALTH_HIT = False
 
             # Check for enemy kills
             for enemy in enemies:
@@ -255,10 +293,17 @@ class Game:
             self.win = level.game_win(self.score)
 
         #CHECKS
+        print("Number of checks: " + str(checks.NUM_CHECKS))
+        print("Number of checks checked: " + str(self.checked))
+
         print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
         #print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
         #rint("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
         print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
+
+        print("Player health does not go over three: " + str(checks.MAX_HEALTH))
+        print("Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
+        print("Player health increments if catches heart: " + str(checks.HEALTH_MORE))
 
         # Exit game, sound, and system
         setup.SOUNDS['background'].stop()
