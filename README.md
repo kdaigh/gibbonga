@@ -40,7 +40,7 @@ See also the list of [contributors](https://github.com/kdaigh/Project04/graphs/c
 
 ## Versioning
 
-This is a final version for a prototype developed in a separate repository.
+This is a final version for a prototype developed in a separate [repository](https://github.com/amalkhatib90/Project03).
 
 ## Acknowledgments
 
