@@ -18,8 +18,8 @@ python3 ./gibbonga.py
 
 ## Built With
 
-* [Python](https://www.python.org/) - Version 3.7.1
-* [Pygame](https://www.pygame.org/news) - Game language library
+* [Python](https://www.python.org/) - Version 3.7.1 - Language
+* [Pygame](https://www.pygame.org/news) - Version 1.9.4 - Game language library
 * [Doxygen](http://www.doxygen.nl/) - Documentation generation
 
 ## Authors
