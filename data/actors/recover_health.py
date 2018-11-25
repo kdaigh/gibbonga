@@ -10,7 +10,7 @@ from .. import setup, constants, actor
 
 
 ## @class Recover_health
-#  @brief Implements Actor base class as a health power-up
+#  @brief Implements Actor base class as a Recover_health object
 class Recover_health(actor.Actor):
 
     ## Constructor

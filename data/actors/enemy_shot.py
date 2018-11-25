@@ -8,8 +8,8 @@
 from .. import setup, actor
 
 
-## @class Shot
-#  @brief Implements Actor base class as Shot object
+## @class Enemy_shot
+#  @brief Implements Actor base class as Enemy_shot object
 class Enemy_shot(actor.Actor):
 
     ## Constructor

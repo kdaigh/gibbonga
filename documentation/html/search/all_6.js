@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['load_5fimage',['load_image',['../classgame_1_1_game.html#ab5a35a1c750d2b77a7779c672f676530',1,'game::Game']]]
+  ['health',['Health',['../classhealth_1_1_health.html',1,'health']]],
+  ['health_2epy',['health.py',['../health_8py.html',1,'']]],
+  ['hit',['hit',['../classplayer_1_1_player.html#aa24fbbed028940e0239caae3182def9c',1,'player::Player']]]
 ];

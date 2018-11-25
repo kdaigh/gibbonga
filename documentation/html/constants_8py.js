@@ -1,0 +1,26 @@
+var constants_8py =
+[
+    [ "BLACK", "constants_8py.html#af9b35fb6a442840bed9d6c164e6e5d4a", null ],
+    [ "ENEMIES_PER_ROW", "constants_8py.html#a94c0e0f44e6197a435712680e9daab0c", null ],
+    [ "ENEMY_DROP_DIST", "constants_8py.html#a3093d6dc79316f7071db59ed4327c1fc", null ],
+    [ "ENEMY_HEIGHT", "constants_8py.html#af74c4477f26759f6ef99c12b4a3e0a1b", null ],
+    [ "ENEMY_ODDS", "constants_8py.html#abfc92ee3d1349c7d681a622c95de2531", null ],
+    [ "ENEMY_ROWS", "constants_8py.html#a8a05e394de8e771d2e2fb73fbbe84996", null ],
+    [ "ENEMY_SHOT_ODDS", "constants_8py.html#ac3cffef41e44c7e7fa60c50a4b88b097", null ],
+    [ "ENEMY_SPEED", "constants_8py.html#a822060a62325cef753df11496277c4ad", null ],
+    [ "ENEMY_WIDTH", "constants_8py.html#ab88770ad881470856121a134ab3167c6", null ],
+    [ "FPS", "constants_8py.html#a3ad89f8fe2b31655c76644b67ce688e9", null ],
+    [ "GAME_FONT", "constants_8py.html#af3ed7b00c3e0b91863318520bddc363a", null ],
+    [ "LEVEL_TITLE", "constants_8py.html#a99f03a5274da75fbbbe9b55b73534900", null ],
+    [ "MAX_ENEMIES", "constants_8py.html#ab2522a622f500515a9e5704674baff0b", null ],
+    [ "MAX_ENEMY_SHOT", "constants_8py.html#a403a2e2f5a84e231a497485874e5d3de", null ],
+    [ "MAX_SHOTS", "constants_8py.html#a4590f839280e07298739071819e16599", null ],
+    [ "MESSAGE_SIZE", "constants_8py.html#aef2ddc8c0eeaad5188c6dc2da6512522", null ],
+    [ "PLAYER_SPEED", "constants_8py.html#a810ad58bc46490ab3dfb1bc87e6d0a37", null ],
+    [ "SCREENRECT", "constants_8py.html#a48b47b9aed99fb1d6af7b6567372f2ae", null ],
+    [ "SHOT_SPEED", "constants_8py.html#afe3afac4ba3f6b978b1f1f3ae82fd96e", null ],
+    [ "TEXT_SIZE", "constants_8py.html#a9e692d2014f993dc975c3b0f5889215d", null ],
+    [ "TOTAL_ENEMIES", "constants_8py.html#ab1a9b7a1ed2de1d529fc65d7f212dc2d", null ],
+    [ "TOTAL_LEVELS", "constants_8py.html#a5126a1d6afcedf16109b2c5d0dcfabe4", null ],
+    [ "WHITE", "constants_8py.html#ab7ba6a498f408091781f6f90a0446bcc", null ]
+];

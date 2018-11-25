@@ -9,7 +9,7 @@ import pygame
 from .. import constants, actor
 
 ## @class Text
-#  @brief Defines Text base class
+#  @brief Implements Actor base class as Text object
 class Text(actor.Actor):
 
     ## Constructor

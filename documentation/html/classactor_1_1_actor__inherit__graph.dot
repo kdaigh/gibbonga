@@ -1,0 +1,21 @@
+digraph "actor.Actor"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="actor.Actor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="enemy.Enemy",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classenemy_1_1_enemy.html",tooltip="Implements Actor base class as Enemy object. "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="enemy_shot.Enemy_shot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classenemy__shot_1_1_enemy__shot.html",tooltip="Implements Actor base class as Enemy Shot object. "];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="health.Health",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classhealth_1_1_health.html",tooltip="Implements Actor base class as Health object. "];
+  Node0 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="player.Player",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classplayer_1_1_player.html",tooltip="Implements Actor base class as Player object. "];
+  Node0 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="recover_health.Recover\l_health",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classrecover__health_1_1_recover__health.html",tooltip="Implements Actor base class as a health power-up. "];
+  Node0 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="shot.Shot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classshot_1_1_shot.html",tooltip="Implements Actor base class as Shot object. "];
+  Node0 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="text.Text",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtext_1_1_text.html",tooltip="Implements Actor base class as Text object. "];
+}

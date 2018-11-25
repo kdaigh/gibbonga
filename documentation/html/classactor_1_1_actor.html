@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Gallaga Clone: actor.Actor Class Reference</title>
+<title>Project 4: actor.Actor Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -18,7 +18,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Gallaga Clone
+   <div id="projectname">Project 4
    </div>
   </td>
  </tr>
@@ -59,9 +59,13 @@ Inheritance diagram for actor.Actor:</div>
  <div class="center">
   <img src="classactor_1_1_actor.png" usemap="#actor.Actor_map" alt=""/>
   <map id="actor.Actor_map" name="actor.Actor_map">
-<area href="classenemy_1_1_enemy.html" title="Implements Actor base class as Enemy object. " alt="enemy.Enemy" shape="rect" coords="0,56,91,80"/>
-<area href="classplayer_1_1_player.html" title="Implements Actor base class as Player object. " alt="player.Player" shape="rect" coords="101,56,192,80"/>
-<area href="classshot_1_1_shot.html" title="Implements Actor base class as Shot object. " alt="shot.Shot" shape="rect" coords="202,56,293,80"/>
+<area href="classenemy_1_1_enemy.html" title="Implements Actor base class as Enemy object. " alt="enemy.Enemy" shape="rect" coords="0,56,191,80"/>
+<area href="classenemy__shot_1_1_enemy__shot.html" title="Implements Actor base class as Enemy_shot object. " alt="enemy_shot.Enemy_shot" shape="rect" coords="201,56,392,80"/>
+<area href="classhealth_1_1_health.html" title="Implements Actor base class as Health object. " alt="health.Health" shape="rect" coords="402,56,593,80"/>
+<area href="classplayer_1_1_player.html" title="Implements Actor base class as Player object. " alt="player.Player" shape="rect" coords="603,56,794,80"/>
+<area href="classrecover__health_1_1_recover__health.html" title="Implements Actor base class as a Recover_health object. " alt="recover_health.Recover_health" shape="rect" coords="804,56,995,80"/>
+<area href="classshot_1_1_shot.html" title="Implements Actor base class as Shot object. " alt="shot.Shot" shape="rect" coords="1005,56,1196,80"/>
+<area href="classtext_1_1_text.html" title="Implements Actor base class as Text object. " alt="text.Text" shape="rect" coords="1206,56,1397,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -77,6 +81,9 @@ def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:ab2a549fa31de3c311263294b0a76738f"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classactor_1_1_actor.html#ab2a549fa31de3c311263294b0a76738f">draw</a> (self, screen)</td></tr>
 <tr class="memdesc:ab2a549fa31de3c311263294b0a76738f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draws the actor into the screen.  <a href="#ab2a549fa31de3c311263294b0a76738f">More...</a><br /></td></tr>
 <tr class="separator:ab2a549fa31de3c311263294b0a76738f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac36ae68cc96d11fcbba73d64fafb5cd4"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classactor_1_1_actor.html#ac36ae68cc96d11fcbba73d64fafb5cd4">collide_with</a> (self, actor)</td></tr>
+<tr class="memdesc:ac36ae68cc96d11fcbba73d64fafb5cd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks for collisions and sets "alive" variable if hit.  <a href="#ac36ae68cc96d11fcbba73d64fafb5cd4">More...</a><br /></td></tr>
+<tr class="separator:ac36ae68cc96d11fcbba73d64fafb5cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a623e54b2ca7f1791ea89372afbe480"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classactor_1_1_actor.html#a6a623e54b2ca7f1791ea89372afbe480">erase</a> (self, screen, background)</td></tr>
 <tr class="memdesc:a6a623e54b2ca7f1791ea89372afbe480"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the actor from the screen.  <a href="#a6a623e54b2ca7f1791ea89372afbe480">More...</a><br /></td></tr>
 <tr class="separator:a6a623e54b2ca7f1791ea89372afbe480"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -89,6 +96,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6420692198e955fb7a3910808c26da68"><td class="memItemLeft" align="right" valign="top"><a id="a6420692198e955fb7a3910808c26da68"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>rect</b></td></tr>
 <tr class="separator:a6420692198e955fb7a3910808c26da68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fc265646d11b0e72f97e78ce9116665"><td class="memItemLeft" align="right" valign="top"><a id="a3fc265646d11b0e72f97e78ce9116665"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>alive</b></td></tr>
+<tr class="separator:a3fc265646d11b0e72f97e78ce9116665"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract base class for game actors. </p>
@@ -130,6 +140,44 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac36ae68cc96d11fcbba73d64fafb5cd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac36ae68cc96d11fcbba73d64fafb5cd4">&#9670;&nbsp;</a></span>collide_with()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def actor.Actor.collide_with </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>actor</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks for collisions and sets "alive" variable if hit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">actor,check</td><td>collisions with this actor </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section post"><dt>Postcondition</dt><dd>Alive variable has been set accordinly </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>bool, True if collision is detected; false, otherwise </dd></dl>
+
+</div>
+</div>
 <a id="ab2a549fa31de3c311263294b0a76738f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2a549fa31de3c311263294b0a76738f">&#9670;&nbsp;</a></span>draw()</h2>
 
@@ -212,7 +260,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="actor_8py.html">actor.py</a></li>
+<li>data/<a class="el" href="actor_8py.html">actor.py</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

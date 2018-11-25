@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['move',['move',['../classplayer_1_1_player.html#afd279e43eb9d940e4132aca7837f09d2',1,'player::Player']]]
+  ['hit',['hit',['../classplayer_1_1_player.html#aa24fbbed028940e0239caae3182def9c',1,'player::Player']]]
 ];
