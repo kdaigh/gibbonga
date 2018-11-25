@@ -36,7 +36,7 @@ See also the list of [contributors](https://github.com/kdaigh/Project04/graphs/c
 
 ## Documentation
 
-[Doxygen](http://www.doxygen.nl/) was used to provide [documentation](documentation/html) for this project.
+[Doxygen](http://www.doxygen.nl/) was used to provide [documentation](https://kdaigh.github.io/Project04/) for this project.
 
 ## Versioning
 
