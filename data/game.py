@@ -7,7 +7,8 @@
 
 import pygame, sys, random
 from pygame.locals import *
-from . import setup, constants
+from . import setup, constants, checks
+#from .test import Test
 from .level import Level
 from .actors.text import Text
 from .actors.player import Player
@@ -33,6 +34,7 @@ class Game:
         self.screen = pygame.display.set_mode(constants.SCREENRECT.size, 0)
         self.clock = pygame.time.Clock()
         self.enemy_shot_count = 1
+        self.enemy_count = 1
         self.score = 0
         self.win = False
         self.quit = False
@@ -73,7 +75,7 @@ class Game:
 
         # Load text
         start_game = Text("START GAME", constants.WHITE, (300, 350), self.run)
-        test_game = Text("TEST GAME", constants.WHITE, (300, 400))
+        test_game = Text("TEST GAME", constants.WHITE, (300, 400), self.test)
         quit_game = Text("QUIT GAME", constants.WHITE, (300, 450), self.quit_game)
 
         # Draw text on screen
@@ -95,6 +97,179 @@ class Game:
                             setup.SOUNDS['OutThere'].stop()
                             exit_menu = True
                             text.action()
+
+    def test (self):
+        # Load background
+        background = self.load_background('space')
+        pygame.display.flip()
+
+        # Start background music
+        setup.SOUNDS['background'].play(-1)
+
+        # Initialize starting actors
+        player = Player()
+        health = Health(player)
+        recover_health = []
+        shots = []
+        enemy_shots = []
+        enemies = []
+        text = []
+
+        # Initialize on-screen score
+        score_text = Text("Score 0", constants.WHITE, (75, 25))
+        text.append(score_text)
+
+        # Initialize on-screen level counter
+        level_text = Text("", constants.WHITE, (500, 25))
+        text.append(level_text)
+
+        # Initialize array for updating actors
+        actors = []
+
+        # Initialize level manager
+        level = Level()
+
+        #Moved the initial starting postion out of the loop and controlling back and forth
+        x_dir = constants.SCREENRECT.centerx
+        hit_right = True
+        hit_left = False
+
+        # Game loop
+        while player.alive and not self.win and not self.quit:
+
+            self.clock.tick(constants.FPS)
+
+            # Call event queue
+            pygame.event.pump()
+
+            # Process input
+            key_presses = pygame.key.get_pressed()
+            right = key_presses[pygame.K_RIGHT]
+            left = key_presses[pygame.K_LEFT]
+            shoot = key_presses[pygame.K_SPACE]
+            exit = key_presses[pygame.K_q]
+
+            # Check for quit conditions
+            if pygame.event.peek(QUIT) or exit:
+                self.quit_game()
+
+            # Update level upon pass
+            if level.pass_level(self.score):
+                level.next_level()
+                enemies = enemies + level.generate_enemies()
+
+            # Update enemies
+            level.update(enemies)
+
+
+            # Clear screen and update actors
+            for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
+                render = actor.erase(self.screen, background)
+                actors.append(render)
+                actor.update()
+
+            # Remove out-of-frame objects
+            for dead_actors in [shots] + [enemy_shots] + [enemies] + [recover_health]:
+                self.clean(dead_actors)
+
+            # Move the player, x_dir initialization moved outside while loop with a starting value of the center.
+            #Uses hit_right and hit_left to tell if the edges have been hit.
+            if(player.rect.x < 50):
+                hit_left = True
+                hit_right = False
+            if(player.rect.x > 500):
+                hit_left = False
+                hit_right = True
+
+            if(hit_right):
+                x_dir = - 1
+                player.move(x_dir)
+            elif(hit_left):
+                x_dir = + 1
+                player.move(x_dir)
+
+            # Update text
+            score_text.update_text("Score " + str(self.score))
+            level_text.update_text("Level " + str(level.level))
+
+            # Spawn player shots
+            if not player.reloading and shoot and len(shots) < constants.MAX_SHOTS:
+                shots.append(Shot(player))
+                setup.SOUNDS['shot'].play()
+            player.reloading = shoot
+
+            # Make enemies shoot
+            if(len(enemies) > 0):
+                ##CHECK
+                ##make sure the enemy_shot array is incrementing
+                check = len(enemy_shots)
+                if not int(random.random() * constants.ENEMY_SHOT_ODDS):
+                    if (self.enemy_shot_count < constants.MAX_ENEMY_SHOT):
+                        self.enemy_shot_count += 1
+                        #enemy_shots.append(Enemy_shot(enemy_shot_img, enemies[int(random.random() * (len(enemies)-1))]))
+                        enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies)-1)]))
+                        ##CHECK
+                        if(len(enemy_shots) == (check+1)):
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = True
+                        else :
+                            checks.ENEMY_SHOT_LIST_INCREMENTS = False
+                            print("Enemy_shot list increments when enemy shoots: FALSE")
+                        #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
+                        if(self.enemy_shot_count > constants.MAX_ENEMY_SHOT):
+                            checks.LESS_MAX_ENEMY_SHOT = False
+                            print("Enemies stop shooting when max count reached: FALSE")
+
+            # Spawn recovery health objects
+            if player.health < 3:
+                if random.randint(1, 201) == 1:
+                    recover_health.append(Recover_health())
+
+            # Check for player power ups
+            for powerup in recover_health:
+                if powerup.collide_with(player):
+                    player.recover()
+
+            # Check for player hits
+            for threat in enemies + enemy_shots:
+                if threat.collide_with(player):
+                    player.hit()
+
+            # Check for enemy kills
+            for enemy in enemies:
+                for shot in shots:
+                    if shot.collide_with(enemy):
+                        setup.SOUNDS['enemy'].play()
+                        enemy.die()
+                        self.score += 1
+
+            # Draw actors
+            for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
+                render = actor.draw(self.screen)
+                actors.append(render)
+
+            # Update actors
+            pygame.display.update(actors)
+            actors = []
+
+            # Check win
+            self.win = level.game_win(self.score)
+
+        #CHECKS
+        print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        #print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
+        #rint("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
+        print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
+
+        # Exit game, sound, and system
+        setup.SOUNDS['background'].stop()
+        pygame.time.delay(250)
+        if not player.alive:
+            setup.SOUNDS['gameover'].play()
+            self.menu(True, False)
+        elif self.win:
+            self.menu(True, True)
+
+
 
     ## Loads and blits designated background image to screen
     #  @param filename, name of background file (without extension)
