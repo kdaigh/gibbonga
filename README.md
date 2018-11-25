@@ -18,8 +18,8 @@ python3 ./gibbonga.py
 
 ## Built With
 
-* [Python](https://www.python.org/) - Version 3.7.1
-* [Pygame](https://www.pygame.org/news) - Game language library
+* [Python](https://www.python.org/) - Version 3.7.1 - Language
+* [Pygame](https://www.pygame.org/news) - Version 1.9.4 - Game language library
 * [Doxygen](http://www.doxygen.nl/) - Documentation generation
 
 ## Authors
@@ -30,11 +30,11 @@ python3 ./gibbonga.py
 * **Ethan Lefert** - [elefert400](https://github.com/elefert400)
 * **Clare Meyer** - [clareMeyer](https://github.com/clareMeyer)
 
-See also the list of [contributors](https://github.com/amalkhatib90/Project04/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/kdaigh/Project04/graphs/contributors) who participated in this project.
 
 ## Documentation
 
-[Doxygen](http://www.doxygen.nl/) was used to provide [documentation](https://github.com/amalkhatib90/Project04/tree/master/documentation/html) for this project.
+[Doxygen](http://www.doxygen.nl/) was used to provide [documentation](https://github.com/kdaigh/Project04/tree/master/documentation/html) for this project.
 
 ## Versioning
 
@@ -42,4 +42,4 @@ This is a final version for a prototype developed in a separate repository.
 
 ## Acknowledgments
 
-Please read [SOURCES.md](https://github.com/amalkhatib90/Project04/blob/master/documentation/SOURCES.md) for a works cited.
+Please read [SOURCES.md](https://github.com/kdaigh/Project04/blob/master/documentation/SOURCES.md) for a works cited.
