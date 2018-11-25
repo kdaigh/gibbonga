@@ -16,7 +16,6 @@ class Enemy(actor.Actor):
     #  @param image, surface object with Enemy image
     def __init__(self):
         actor.Actor.__init__(self, setup.IMAGES['enemy4'])
-        #actor.Actor.__init__(self, setup.IMAGES['enemy2'])
         self.rect.x = constants.SCREENRECT.left
         self.rect.y = constants.SCREENRECT.top
         self.x_dir = 1

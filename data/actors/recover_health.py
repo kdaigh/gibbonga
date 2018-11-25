@@ -16,7 +16,7 @@ class Recover_health(actor.Actor):
     ## Constructor
     #  @param image, surface object with Player image
     def __init__(self):
-        actor.Actor.__init__(self, setup.IMAGES['hearts_1'])
+        actor.Actor.__init__(self, setup.IMAGES['heart_power_up'])
         self.rect.x = random.randrange(15, 585)
         self.rect.y = constants.SCREENRECT.top
 
