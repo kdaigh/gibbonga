@@ -100,13 +100,13 @@ class Game:
                             exit_menu = True
                             text.action()
 
-    def test (self):
+    def test(self):
         ##CHECK
-        #checking if the mixier is correctly initialized
+        #checking if the mixer is correctly initialized
         mixer_check = pygame.mixer.get_init()
         if mixer_check == None:
-            self.checkeed += 1
-            checks.MIXIR_INITIALIZED = False
+            self.checked += 1
+            checks.MIXER_INITIALIZED = False
         else:
             self.checked += 1
             checks.CHECK_7 = True
@@ -170,7 +170,6 @@ class Game:
             # Update enemies
             level.update(enemies)
 
-
             # Clear screen and update actors
             for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
                 render = actor.erase(self.screen, background)
@@ -183,17 +182,17 @@ class Game:
 
             # Move the player, x_dir initialization moved outside while loop with a starting value of the center.
             #Uses hit_right and hit_left to tell if the edges have been hit.
-            if(player.rect.x < 50):
+            if player.rect.x < 50:
                 hit_left = True
                 hit_right = False
-            if(player.rect.x > 500):
+            if player.rect.x > 500:
                 hit_left = False
                 hit_right = True
 
-            if(hit_right):
+            if hit_right:
                 x_dir = - 1
                 player.move(x_dir)
-            elif(hit_left):
+            elif hit_left:
                 x_dir = + 1
                 player.move(x_dir)
 
@@ -204,45 +203,45 @@ class Game:
             # Spawn player shots
             shots_check = len(shots)
             if not int(random.random()* constants.PLAYER_SHOT_ODDS):
-                if  len(shots) < constants.MAX_SHOTS:
+                if len(shots) < constants.MAX_SHOTS:
                     self.player_shot_count += 1
                     shots.append(Shot(player))
                     setup.SOUNDS['shot'].play()
                     ##CHECK
-                    #increament check count
-                    if checks.CHECK_6 == False:
+                    #increment check count
+                    if not checks.CHECK_6:
                         checks.CHECK_6 = True
                         self.checked += 1
                     if len(shots) == (shots_check+1):
-                        checks.PLAYER_SHOT_LIST_INCREAMENTS = True
+                        checks.PLAYER_SHOT_LIST_INCREMENTS = True
                     else:
-                        checks.PLAYER_SHOT_LIST_INCREAMENTS = False
+                        checks.PLAYER_SHOT_LIST_INCREMENTS = False
 
             # Make enemies shoot
-            if(len(enemies) > 0):
+            if len(enemies) > 0:
                 ##CHECK
                 ##make sure the enemy_shot array is incrementing
                 check = len(enemy_shots)
                 if not int(random.random() * constants.ENEMY_SHOT_ODDS):
-                    if (self.enemy_shot_count < constants.MAX_ENEMY_SHOT):
+                    if self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
                         self.enemy_shot_count += 1
                         enemy_shots.append(Enemy_shot(enemies[random.randint(0, len(enemies)-1)]))
                         ##CHECK
                         #increment check count
-                        if(checks.CHECK_1 == False):
+                        if not checks.CHECK_1:
                             checks.CHECK_1 = True
                             self.checked += 1
-                        if(len(enemy_shots) == (check+1)):
+                        if len(enemy_shots) == (check+1):
                             checks.ENEMY_SHOT_LIST_INCREMENTS = True
                         else :
                             checks.ENEMY_SHOT_LIST_INCREMENTS = False
                             print("Enemy_shot list increments when enemy shoots: FALSE")
                         #CHECK to make sure enemies not spawning when MAX_ENEMIES is reached
                         #increment check count
-                        if(checks.CHECK_2 == False):
+                        if not checks.CHECK_2:
                             checks.CHECK_2 = True
                             self.checked += 1
-                        if(self.enemy_shot_count > constants.MAX_ENEMY_SHOT):
+                        if self.enemy_shot_count > constants.MAX_ENEMY_SHOT:
                             checks.LESS_MAX_ENEMY_SHOT = False
                             print("Enemies stop shooting when max count reached: FALSE")
 
@@ -252,10 +251,10 @@ class Game:
                     recover_health.append(Recover_health())
                     #check that health is not going over 3
                     #increment check count
-                    if(checks.CHECK_3 == False):
+                    if not checks.CHECK_3:
                         checks.CHECK_3 = True
                         self.checked += 1
-                    if(player.health > 3):
+                    if player.health > 3:
                         checks.MAX_HEALTH = False
 
             # Check for player power ups
@@ -265,19 +264,19 @@ class Game:
                 if powerup.collide_with(player):
                     player.recover()
                     #increment check count
-                    if(checks.CHECK_4 == False):
+                    if not checks.CHECK_4:
                         checks.CHECK_4 = True
                         self.checked += 1
-                    if(player.health != checkLen + 1):
+                    if player.health != checkLen + 1:
                         checks.HEALTH_MORE = False
                     #check make sure health does not go over 3
-                    if(player.health > 3):
+                    if player.health > 3:
                         checks.MAX_HEALTH = False
 
             # Check for player hits
             for threat in enemies + enemy_shots:
                 if threat.collide_with(player):
-                    if(player.health == 1 and self.checked != checks.NUM_CHECKS):
+                    if player.health == 1 and self.checked != checks.NUM_CHECKS:
                         print("Three additional health added to meet all checks")
                         player.health = 3
                     else:
@@ -285,17 +284,17 @@ class Game:
                         checkLen = player.health
                         player.hit()
                         #increment check count
-                        if(checks.CHECK_5 == False):
+                        if not checks.CHECK_5:
                             checks.CHECK_5 = True
                             self.checked += 1
-                            if (player.health != checkLen -1):
+                            if player.health != checkLen -1:
                                 checks.HEALTH_HIT = False
 
             ##CHECK
             #check if enemy go outside the screen edges
             enemies_over_edges_l = False
             enemies_over_edges_r = False
-            if checks.CHECK_8 == False:
+            if not checks.CHECK_8:
                 checks.CHECK_8 = True
                 self.checked += 1
                 for enemy in enemies:
@@ -303,45 +302,42 @@ class Game:
                         enemies_over_edges_l = True
                     if enemy.rect.right >= constants.SCREENRECT.right:
                         enemies_over_edges_r = True
-                if enemies_over_edges_l == True or enemies_over_edges_r == True:
+                if enemies_over_edges_l or enemies_over_edges_r:
                     checks.ENEMIES_OVER_EDGES = False
 
             ##CHECK
             #check if player go outside the screen edges
             over_edges_l = False
             over_edges_r = False
-            if checks.CHECK_9 == False:
+            if not checks.CHECK_9:
                 checks.CHECK_9 = True
                 self.checked += 1
                 if player.rect.left <= constants.SCREENRECT.left:
                     over_edges_l = True
                 if player.rect.right >= constants.SCREENRECT.right:
                     over_edges_r = True
-            if over_edges_l == True or over_edges_r == True:
+            if over_edges_l or over_edges_r:
                 checks.PLAYER_OVER_EDGES = False
 
-
             # Check for enemy kills
-            enemies_detuction = 0
-            score_increament = 0
+            enemies_detection = 0
+            score_increment = 0
             for enemy in enemies:
                 for shot in shots:
                     if shot.collide_with(enemy):
                         setup.SOUNDS['enemy'].play()
                         enemy.die()
-                        enemies_detuction += 1
-                        score_increament += 1
+                        enemies_detection += 1
+                        score_increment += 1
                         self.score += 1
 
             ##CHECK
             #Check if score increases by one with each enemy killed
-            if checks.CHECK_10 == False:
+            if not checks.CHECK_10:
                 checks.CHECK_10 = True
                 self.checked += 1
-                if enemies_detuction != score_increament:
-                    checks.SCORE_INCREAMENT = False
-
-
+                if enemies_detection != score_increment:
+                    checks.SCORE_INCREMENT = False
 
             # Draw actors
             for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
@@ -360,19 +356,13 @@ class Game:
         print("Number of checks: " + str(checks.NUM_CHECKS))
         print("Number of checks checked: " + str(self.checked))
         print("----------------------------------------------------------------------")
-
-        print("TEST 1:  Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
-
-        print("Test 2:  Score increases correctly: " + str (checks.SCORE_INCREAMENT))
-
+        print("TEST 1:  Mixer is initialized: " + str(checks.MIXER_INITIALIZED))
+        print("Test 2:  Score increases correctly: " + str (checks.SCORE_INCREMENT))
         print("Test 3:  Enemies dont go over edges: " + str(checks.ENEMIES_OVER_EDGES))
         print("Test 4:  Player does not go over edges: " + str(checks.PLAYER_OVER_EDGES))
-
-
         print("Test 5:  Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
         print("Test 6:  List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
-
-        print("Test 7:  List increments when player shoots: " + str(checks.PLAYER_SHOT_LIST_INCREAMENTS))
+        print("Test 7:  List increments when player shoots: " + str(checks.PLAYER_SHOT_LIST_INCREMENTS))
         print("Test 8:  Player health does not go over three: " + str(checks.MAX_HEALTH))
         print("Test 9:  Player health increments if catches heart: " + str(checks.HEALTH_MORE))
         print("Test 10: Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
