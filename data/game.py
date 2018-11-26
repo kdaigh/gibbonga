@@ -361,21 +361,21 @@ class Game:
         print("Number of checks checked: " + str(self.checked))
         print("----------------------------------------------------------------------")
 
-        print("Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
+        print("TEST 1:  Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
 
-        print("Score increases correctly: " + str (checks.SCORE_INCREAMENT))
+        print("Test 2:  Score increases correctly: " + str (checks.SCORE_INCREAMENT))
 
-        print("Enemies dont go over edges: " + str(checks.ENEMIES_OVER_EDGES))
-        print("Player does not go over edges: " + str(checks.PLAYER_OVER_EDGES))
+        print("Test 3:  Enemies dont go over edges: " + str(checks.ENEMIES_OVER_EDGES))
+        print("Test 4:  Player does not go over edges: " + str(checks.PLAYER_OVER_EDGES))
 
 
-        print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
-        print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
+        print("Test 5:  Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
+        print("Test 6:  List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
 
-        print("List increments when player shoots: " + str(checks.PLAYER_SHOT_LIST_INCREAMENTS))
-        print("Player health does not go over three: " + str(checks.MAX_HEALTH))
-        print("Player health increments if catches heart: " + str(checks.HEALTH_MORE))
-        print("Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
+        print("Test 7:  List increments when player shoots: " + str(checks.PLAYER_SHOT_LIST_INCREAMENTS))
+        print("Test 8:  Player health does not go over three: " + str(checks.MAX_HEALTH))
+        print("Test 9:  Player health increments if catches heart: " + str(checks.HEALTH_MORE))
+        print("Test 10: Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
         print("----------------------------------------------------------------------")
 
         # Exit game, sound, and system
