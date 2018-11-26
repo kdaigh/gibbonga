@@ -259,8 +259,7 @@ class Game:
     #  @pre: Game components have been initialized
     #  @post: Test results have been printed to terminal
     def test(self):
-        ##CHECK
-        #checking if the mixer is correctly initialized
+        # CHECK: checking if the mixer is correctly initialized
         mixer_check = pygame.mixer.get_init()
         if mixer_check == None:
             self.checked += 1
@@ -299,7 +298,7 @@ class Game:
         # Initialize level manager
         level = Level()
 
-        #Moved the initial starting postion out of the loop and controlling back and forth
+        #Moved the initial starting position out of the loop and controlling back and forth
         x_dir = constants.SCREENRECT.centerx
         hit_right = True
         hit_left = False
@@ -377,8 +376,7 @@ class Game:
 
             # Make enemies shoot
             if len(enemies) > 0:
-                ##CHECK
-                ##make sure the enemy_shot array is incrementing
+                # CHECK: make sure the enemy_shot array is incrementing
                 check = len(enemy_shots)
                 if not int(random.random() * constants.ENEMY_SHOT_ODDS):
                     if self.enemy_shot_count < constants.MAX_ENEMY_SHOT:
@@ -463,8 +461,7 @@ class Game:
                 if enemies_over_edges_l or enemies_over_edges_r:
                     checks.ENEMIES_OVER_EDGES = False
 
-            ##CHECK
-            #check if player go outside the screen edges
+            # CHECK: check if player go outside the screen edges
             over_edges_l = False
             over_edges_r = False
             if not checks.CHECK_9:
