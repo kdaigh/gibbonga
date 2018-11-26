@@ -217,8 +217,6 @@ class Game:
                         checks.PLAYER_SHOT_LIST_INCREAMENTS = True
                     else:
                         checks.PLAYER_SHOT_LIST_INCREAMENTS = False
-                        print("Shot list increments when player shoots: FALSE")
-
 
             # Make enemies shoot
             if(len(enemies) > 0):
@@ -306,7 +304,7 @@ class Game:
                     if enemy.rect.right >= constants.SCREENRECT.right:
                         enemies_over_edges_r = True
                 if enemies_over_edges_l == True or enemies_over_edges_r == True:
-                    checks.ENEMIES_OVER_EDGES = True
+                    checks.ENEMIES_OVER_EDGES = False
 
             ##CHECK
             #check if player go outside the screen edges
@@ -320,16 +318,30 @@ class Game:
                 if player.rect.right >= constants.SCREENRECT.right:
                     over_edges_r = True
             if over_edges_l == True or over_edges_r == True:
-                checks.PLAYER_OVER_EDGES = True
+                checks.PLAYER_OVER_EDGES = False
 
 
             # Check for enemy kills
+            enemies_detuction = 0
+            score_increament = 0
             for enemy in enemies:
                 for shot in shots:
                     if shot.collide_with(enemy):
                         setup.SOUNDS['enemy'].play()
                         enemy.die()
+                        enemies_detuction += 1
+                        score_increament += 1
                         self.score += 1
+
+            ##CHECK
+            #Check if score increases by one with each enemy killed
+            if checks.CHECK_10 == False:
+                checks.CHECK_10 = True
+                self.checked += 1
+                if enemies_detuction != score_increament:
+                    checks.SCORE_INCREAMENT = False
+
+
 
             # Draw actors
             for actor in [player] + [health] + text + enemies + shots + enemy_shots + recover_health:
@@ -344,24 +356,27 @@ class Game:
             self.win = level.game_win(self.score)
 
         #CHECKS
+        print("----------------------------------------------------------------------")
         print("Number of checks: " + str(checks.NUM_CHECKS))
         print("Number of checks checked: " + str(self.checked))
+        print("----------------------------------------------------------------------")
 
         print("Mixir is initialized: " + str(checks.MIXIR_INITIALIZED))
 
-        print("Enemies go over edges: " + str(checks.ENEMIES_OVER_EDGES))
-        print("Player goes over edges: " + str(checks.PLAYER_OVER_EDGES))
+        print("Score increases correctly: " + str (checks.SCORE_INCREAMENT))
+
+        print("Enemies dont go over edges: " + str(checks.ENEMIES_OVER_EDGES))
+        print("Player does not go over edges: " + str(checks.PLAYER_OVER_EDGES))
+
 
         print("Does not go over max enemy: " + str(checks.LESS_MAX_ENEMIES))
-        #print("Does not go over max player shots: " + str(checks.LESS_MAX_PLAYER_SHOT))
-        #print("Does not go over max enemy shot: " + str(checks.LESS_MAX_ENEMY_SHOT))
-        #rint("List increments when enemy added: " + str(checks.ENEMY_LIST_INCREMENTS))
         print("List increments when enemy shoots: " + str(checks.ENEMY_SHOT_LIST_INCREMENTS))
 
         print("List increments when player shoots: " + str(checks.PLAYER_SHOT_LIST_INCREAMENTS))
         print("Player health does not go over three: " + str(checks.MAX_HEALTH))
-        print("Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
         print("Player health increments if catches heart: " + str(checks.HEALTH_MORE))
+        print("Player health decrements when player is hit: " + str(checks.HEALTH_HIT))
+        print("----------------------------------------------------------------------")
 
         # Exit game, sound, and system
         setup.SOUNDS['background'].stop()
