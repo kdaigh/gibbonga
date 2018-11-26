@@ -1,3 +1,10 @@
+## @file checks.py
+#  File containing game checking constants
+#
+#  Project: Galaga Clone
+#  Author: Py Five
+#  Created: 11/25/18
+
 from pygame.locals import *
 
 NUM_CHECKS = 10

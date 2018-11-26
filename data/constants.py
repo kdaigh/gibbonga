@@ -16,7 +16,6 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 # Game Font
-GAME_FONT = "assets/fonts/arcadeclassic.ttf"
 TEXT_SIZE = 25
 
 # Game Menu
