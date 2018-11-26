@@ -68,7 +68,7 @@ class Game:
             self.screen.blit(game_logo, (50, 75))
         else:
             self.reset_game()
-            font = pygame.font.Font(constants.GAME_FONT, constants.MESSAGE_SIZE)
+            font = pygame.font.Font(setup.FONTS['arcadeclassic'], constants.MESSAGE_SIZE)
             if win:
                 message = font.render("YOU  WON", True, constants.WHITE)
             else:

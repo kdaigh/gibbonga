@@ -38,3 +38,15 @@ def load_all_sounds(directory):
             name = file.split('.')[0]
             sounds[name] = pygame.mixer.Sound(os.path.join(directory, file))
     return sounds
+
+## Loads font files for game into dictionary
+#  @pre File name has no periods in it
+#  @param directory, directory for fonts
+#  @post Sound are loaded in dictionary with [key = name]
+def load_all_fonts(directory):
+    fonts = {}
+    for font in os.listdir(directory):
+        if not font.startswith('.'):
+            name = font.split('.')[0]
+            fonts[name] = os.path.join(directory, font)
+    return fonts

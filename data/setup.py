@@ -14,3 +14,4 @@ screen = pygame.display.set_mode(constants.SCREENRECT.size, 0)
 
 IMAGES = tools.load_all_images(os.path.join("assets", "images"))
 SOUNDS = tools.load_all_sounds(os.path.join("assets", "audios"))
+FONTS = tools.load_all_fonts(os.path.join("assets", "fonts"))
